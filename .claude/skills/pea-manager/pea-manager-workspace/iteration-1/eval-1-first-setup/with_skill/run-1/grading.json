@@ -1,0 +1,13 @@
+{
+  "expectations": [
+    {"text": "Mentions checking for or detecting the absence of TRACKER.md", "passed": true, "evidence": "Response explicitly identifies this as Phase 1 first-time setup, notes TRACKER.md was NOT written to disk, describes the detection flow"},
+    {"text": "Identifies the two stocks: TotalEnergies and STMicroelectronics", "passed": true, "evidence": "Both stocks clearly listed throughout: Step 2 table, portfolio table, thesis section"},
+    {"text": "Correctly maps TotalEnergies to 'long' strategy", "passed": true, "evidence": "Line 22: 'long (dividendes, long terme)'"},
+    {"text": "Correctly maps STMicroelectronics to 'short' strategy", "passed": true, "evidence": "Line 22: 'short (revente rapide des que ca monte)'"},
+    {"text": "Mentions PRU values: 42.50€ and 28.75€", "passed": true, "evidence": "Lines 20-22: 'PRU (cost basis) 42.50 EUR' and '28.75 EUR'"},
+    {"text": "Mentions PEA eligibility or constraint", "passed": true, "evidence": "Step 3 verifies PEA eligibility for both stocks, mentions EU/EEA domicile, French overseas territories"},
+    {"text": "Presents a portfolio table with columns: Name, ISIN, Nb Shares, PRU, Strategy", "passed": true, "evidence": "Lines 64-68: exact template table with all 5 columns"},
+    {"text": "Attempts to look up ISIN or mentions ISIN importance", "passed": true, "evidence": "Step 3 dedicated to ISIN lookup, provides correct ISINs FR0000120271 and NL0000226223"}
+  ],
+  "summary": {"passed": 8, "failed": 0, "total": 8, "pass_rate": 1.0}
+}

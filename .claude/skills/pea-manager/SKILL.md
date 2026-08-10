@@ -1,0 +1,225 @@
+---
+name: pea-manager
+description: Use when the user asks about their PEA portfolio, wants a portfolio review or trade decision, seeks new European stock opportunities, or mentions PEA-eligible French/European stocks. Triggered by phrases like "Fais le point sur mon PEA", "Gérer mon portefeuille PEA", "Dois-je vendre ?", "Des idées d'achat ?".
+allowed-tools: [mcp__yfmcp__yfinance_get_price_history, mcp__yfmcp__yfinance_get_ticker_info, mcp__yfmcp__yfinance_get_financials, mcp__yfmcp__yfinance_get_ticker_news, mcp__yfmcp__yfinance_get_top, mcp__yfmcp__yfinance_screen, mcp__yfmcp__yfinance_search, mcp__eodhd-mcp__get_historical_stock_prices, mcp__eodhd-mcp__get_live_price_data, mcp__eodhd-mcp__get_stocks_from_search, mcp__eodhd-mcp__resolve_ticker, mcp__eodhd-mcp__get_company_news, mcp__eodhd-mcp__get_exchange_tickers, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_close, mcp__plugin_playwright_playwright__browser_wait_for, Read, Edit, Write, Skill, Skill(skill="finance-trading-expert")]
+metadata:
+  author: yannchaput
+  version: "2.0"
+  category: finance
+---
+
+# PEA Manager
+
+You manage a French "Plan d'Épargne en Actions" (PEA) portfolio. Your role: track holdings, analyze positions with technical indicators, make tax-aware sell/hold decisions, and spot new PEA-eligible European stock opportunities.
+
+## PEA Hard Constraints
+
+- **Eligible**: Stocks/ETFs domiciled in EU, EEA, or French overseas territories. ISIN first two chars = country code.
+- **Ineligible**: US, UK (post-Brexit), CH, JP, CN, CA, AU, HK, SG domiciled stocks.
+- **Synthetic swap ETFs** (domiciled IE/LU tracking US indices) are eligible — they use derivatives, not direct holdings.
+- **Tax**: gains tax-free after 5 years (17.2% social charges only). Before 5 years: 30% PFU. Limit: €150,000.
+- Full country table: [`references/pea-eligibility.md`](references/pea-eligibility.md)
+
+## Quick Commands
+
+| User says | Route to |
+|-----------|----------|
+| *"Fais le point sur mon PEA"*, *"Review my portfolio"*, *"Dois-je vendre ?"* | **Phase 3** (full analysis) |
+| *"Des idées d'achat ?"*, *"New opportunities"*, *"Que peux-tu recommander ?"* | **Phase 4.0** (ask short vs long) |
+| *"Des idées court terme ?"*, *"Short-term opportunities"* | **Phase 4-Short** |
+| *"Des idées long terme ?"*, *"Long-term opportunities"*, *"Buy and hold ideas"* | **Phase 4-Long** |
+| *"J'ai acheté/vendu X actions Y"*, *"J'ai renforcé..."* | **Phase 2** (update) → **Phase 3** |
+| *"Je veux vendre [ticker]"*, *"Should I exit [name]?"* | **Phase 2** → **Phase 3** (targeted) |
+| *"Analyse [ticker]"*, *"What do you think of [name]?"* | **Phase 3** (single stock) |
+| *"Analyse [ticker] avant achat"*, *"Due diligence on [name]"* | Dispatch `pea-dd-analyst` → present LL-01 score |
+
+If intent is ambiguous: *"Voulez-vous une revue complète (Phase 3), une recherche d'opportunités (Phase 4), ou une mise à jour des positions (Phase 2) ?"*
+
+## Parallel Execution
+
+**Whenever the portfolio has 2+ positions, dispatch subagents for independent work.** Each subagent works on one position or one data source — they share no state, so they run concurrently without conflicts.
+
+| Phase | What runs in parallel | Agent prompt per |
+|-------|----------------------|------------------|
+| **3.1+3.2** | Price fetch + technical indicators | One `pea-price-analyst` agent per position |
+| **4-Short.1** | `pea-eodhd-exchange-browser` + `pea-eodhd-short-screener` + `pea-french-market-research` | One agent per scan source (3 agents in parallel) |
+| **4-Long.1** | `pea-eodhd-long-screener` + `pea-eodhd-exchange-browser` (optional) + `pea-french-market-research` | One agent per scan source (2-3 agents in parallel) |
+| **Entry checklist** | TradingView news + Investir news + `pea-dd-analyst` | One agent per source, dd-analyst per ticker |
+
+**Each subagent returns structured output** — the main agent synthesizes, never the subagent. Agent definitions live in `.claude/agents/`. See [`references/workflow-phases.md`](references/workflow-phases.md) for dispatch recipes and how to invoke each agent.
+
+**Playwright subagents**: open their own browser tab (`browser_tabs(action="new")`) and close it when done (`browser_close()`) to avoid contention on the shared browser instance.
+
+**What stays in the main agent:**
+- All user interaction (Phase 1, Phase 2)
+- Decision synthesis (Phase 3.3) — needs cross-position context
+- TRACKER.md updates (Phase 3.4) — single writer prevents conflicts
+- Candidate filtering and ranking (Phase 4.2, 4.3) — needs full scan results
+- **Watchlist registration (Phase 4.4) — MANDATORY: every Phase 4 ends with watchlist entries in TRACKER.md**
+
+## State File: TRACKER.md
+
+The portfolio lives in `TRACKER.md` at the project root — single source of truth. Full template and column specs: [`references/tracker-template.md`](references/tracker-template.md).
+
+### Account Information (key fields)
+
+| Field | Source |
+|-------|--------|
+| **Capital deployed** | Broker: `Portfolio market value − Unrealized P&L` |
+| **Available cash** | Ask user — cannot be inferred |
+| **Portfolio market value** | Broker or ∑ (price × shares) |
+| **Unrealized P&L** | Broker figure — most reliable |
+| **Total PEA value** | `Available cash + Portfolio market value` |
+| **PEA opened** | User; drives 5-year tax clock |
+| **PEA > 5 years** | Derived; `Yes` = gains tax-free, `No` = 30% PFU |
+| **Last review** | Updated after each Phase 3 |
+
+### Portfolio Columns
+
+**Name**, **ISIN** (12-char, critical for eligibility), **Nb Shares**, **PRU** (average cost basis in € — mandatory), **Strategy** (`short` = trading weeks-months, `long` = buy-and-hold years).
+
+### Thesis
+
+Every position must have: date entered, thesis (1 sentence), exit conditions (specific), last reviewed date. Long positions require documented thesis.
+
+### Exceptions
+
+Positions in `## Exceptions` are **excluded from Phase 3 and Phase 4 analysis**. They appear in Portfolio Composition for accounting but are skipped entirely:
+
+- **Phase 3**: Do NOT dispatch `pea-price-analyst` agents for exception positions. Exclude from P&L synthesis and decision tables.
+- **Phase 4**: Exclude from diversification analysis. Exception positions do not count toward sector concentration or allocation limits.
+
+Use this for permanent buy-and-hold core holdings that never require active decisions (e.g., passive world ETF).
+
+### Closed Positions
+
+Move fully liquidated positions here. `P&L = (Sell Price − PRU) × Shares Sold`. Partial sales: record sold portion, update Nb Shares. Keep Total row updated.
+
+## Workflow Phases
+
+Detailed step-by-step: [`references/workflow-phases.md`](references/workflow-phases.md).
+
+### Phase 1: First-Time Setup
+Trigger: no `TRACKER.md` exists. Ask for account info (cash, PEA opening date, holdings with ISIN/PRU/strategy), compute totals, present full TRACKER.md for confirmation, save, then proceed to Phase 3.
+
+### Phase 2: Portfolio Update
+Trigger: user wants to modify holdings. Read current TRACKER.md, ask about changes (cash, positions, PRU), apply weighted-average PRU for additional purchases, present updated file for confirmation, then Phase 3.
+
+### Phase 3: Portfolio Analysis (Core)
+
+**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent fetches prices (yfinance → EODHD fallback) and computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
+
+**3.3 Decision by strategy** — always check `PEA > 5 years` first:
+
+| PEA age | Tax on gains | Net formula |
+|---------|-------------|-------------|
+| < 5 years | 30% PFU | `Gross × 0.70` |
+| ≥ 5 years | 17.2% PS only | `Gross × 0.828` |
+
+**Short positions:**
+- Profit target met (default +10-15%) → **SELL**, show gross/net
+- RSI > 70 + near upper Bollinger → strong sell
+- RSI < 30 + near lower Bollinger → hold (unless fundamentals broken)
+- MACD bearish crossover → tighten price alert level
+- Output: **SELL NOW / CONSIDER SELLING / HOLD / ACCUMULATE**
+
+**Long positions:**
+- Focus on trend, not short-term noise
+- RSI < 30 → potential buying opportunity
+- RSI > 80 → flag even for long holds
+- Fundamental deterioration → gradual exit (thirds over weeks) unless thesis clearly broken
+- PEA < 5 years → lean toward holding (tax benefit of waiting)
+- Update Thesis section
+
+**3.4 Update TRACKER.md**: update Last review, ask for broker's current figures, recompute totals, update position review dates. **MANDATORY: review ALL watchlist candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal.
+
+### Phase 4: New Opportunities
+
+**Do NOT use yfinance for Phase 4.** Yahoo Finance screeners and searches are US-centric — they return zero or near-zero European results. Use EODHD + Playwright exclusively.
+
+**Step 4.0 — Strategy routing (MANDATORY):** If the user hasn't specified short or long, ask:
+> *"Quel type d'opportunités recherchez-vous ? Court terme (trading swing, semaines à mois) ou long terme (buy & hold, années) ?"*
+
+If the user already specified, route directly to 4-Short or 4-Long.
+
+#### Phase 4-Short: Short-Term Scan
+
+**Dispatch three subagents in parallel** (step 4-Short.1):
+
+| Agent | File | Role | Budget |
+|-------|------|------|--------|
+| `pea-eodhd-exchange-browser` | `.claude/agents/pea-eodhd-exchange-browser.md` | Browse EU exchanges for PEA-eligible mid-caps | ~8-10 EODHD calls |
+| `pea-eodhd-short-screener` | `.claude/agents/pea-eodhd-short-screener.md` | Screen by momentum + value (2 queries, no dividends) | ~15-18 EODHD calls |
+| `pea-french-market-research` | `.claude/agents/pea-french-market-research.md` | Extract French market themes from Boursier.com via Playwright | 0 API calls |
+
+Main agent merges, deduplicates, filters (PEA eligibility → mid-cap → momentum → diversification). **Exclude positions in `## Exceptions` from the diversification filter** — exception positions do not count toward sector over-concentration checks. Then rank and present (step 4-Short.2-3).
+
+**Step 4-Short.4**: Register surviving candidates in `## Watchlist — Candidats court terme` with LL-01 checklist.
+
+#### Phase 4-Long: Long-Term Scan
+
+**Dispatch up to three subagents in parallel** (step 4-Long.1):
+
+| Agent | File | Role | Budget |
+|-------|------|------|--------|
+| `pea-eodhd-long-screener` | `.claude/agents/pea-eodhd-long-screener.md` | Screen large caps (€10B+) by dividends, growth, value (3 queries) | ~25-31 EODHD calls |
+| `pea-eodhd-exchange-browser` | `.claude/agents/pea-eodhd-exchange-browser.md` | Browse EU exchanges for large-cap opportunities (optional) | ~8-10 EODHD calls |
+| `pea-french-market-research` | `.claude/agents/pea-french-market-research.md` | Extract French market themes from Boursier.com via Playwright | 0 API calls |
+
+**The long-screener alone may exceed the 20-call daily limit.** Decide at dispatch: if budget is tight, run only the long-screener (skip exchange browser) and instruct it to skip `get_company_news` calls.
+
+Main agent filters (PEA eligibility → large cap → moat → dividend consistency → valuation → diversification). **Exclude positions in `## Exceptions` from the diversification filter.** Then rank and present (steps 4-Long.2-3). For each candidate: explicitly state *"Why hold this for 5+ years?"*
+
+**Step 4-Long.4**: Register surviving candidates in `## Watchlist — Candidats long terme`. No LL-01 checklist needed for long-term — instead document: moat, dividend trajectory, valuation vs sector, entry strategy (lump sum / thirds / limit order).
+
+**Full procedures**: [`references/workflow-phases.md`](references/workflow-phases.md).
+
+**For the mandatory entry checklist** (LL-01), dispatch TradingView and Investir checks as parallel subagents for the target ticker before the main agent synthesizes the buy/skip decision.
+
+## Mandatory Entry Checklist (LL-01)
+
+**Before recommending ANY `short` strategy buy, verify ALL of:**
+
+- [ ] **Diagnose the drop**: Why is it falling? Check both TradingView AND Investir Les Echos for profit warnings, guidance cuts, management departures, or sector shocks. If structural → NOT a buying opportunity.
+- [ ] **≥2 technical confirmations**: RSI crossing back above 30, MACD bullish crossover (daily), green candle with volume >1.5× 20-day avg, or price closing above 5-day EMA. Never enter on "it looks cheap" alone.
+- [ ] **ATR check**: Compute 14-day ATR. Price alert distance ≥ 1.5× ATR. If 1.5× ATR > 10% of entry price → reduce size or skip.
+- [ ] **Scale in**: ⅓ at first confirmation, ⅓ after support holds 3+ days, ⅓ on breakout above key MA.
+- [ ] **News cross-check**: TradingView (English Reuters/Quartr) + Investir (French AFP/Agefi/Reuters) — both mandatory. See News Sources below.
+- [ ] **Price alert set** before entry, at ≥ 1.5× ATR below entry. Tag the position as ⚠️ WATCH and review daily while the alert is active.
+
+Full case study (Alten, June 2026): [`references/lessons-learned.md`](references/lessons-learned.md).
+
+## News Sources
+
+Decision table — full procedures: [`references/news-sources.md`](references/news-sources.md).
+
+| Question | Use |
+|----------|-----|
+| "Latest news about {ticker}?" | 1. Investir 2. TradingView |
+| "Has {ticker} had a profit warning?" | Investir (AFP/Reuters wires) |
+| "French market mood today?" | Boursier.com fil info |
+| "Analyst rating changes on {ticker}?" | 1. Investir 2. Boursier.com |
+| "Quick English backup for large cap?" | EODHD / Yahoo (API, no Playwright) |
+| "Full due diligence before short entry?" | **TradingView + Investir — both mandatory** |
+
+Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Playwright. Investir has cookie wall; headlines + first paragraphs are free. Each Playwright check: 15-35s. Always `browser_close()` after.
+
+## Data Sources
+
+- **yfinance (yfmcp)**: Phase 3 only — price history, ticker info, news. Do NOT use for Phase 4 opportunity discovery (screener/search are US-centric and return near-zero European results).
+- **EODHD (eodhd-mcp)**: Primary for Phase 4. Free plan (20 calls/day): `resolve_ticker`, `get_live_price_data`, `get_historical_stock_prices`, `get_company_news`, `get_stocks_from_search`, `get_exchange_tickers`, `stock_screener`. Blocked on free plan: `get_fundamentals_data` (403), `get_technical_indicators` (403) — compute indicators manually from OHLCV instead.
+- **Playwright**: Phase 4 — French market research via Boursier.com (sector rotations, analyst recos, fil info). Also used for entry checklist (TradingView + Investir). Each check: 15-35s.
+- **finance-trading-expert skill**: Always invoke via `Skill(skill="finance-trading-expert")` for indicator formulas and interpretation frameworks.
+- **Alpaca**: Do NOT use — US-market only, irrelevant for PEA.
+
+## Important Notes
+
+- **PRU is foundational**: never proceed without cost basis for every position
+- **PEA eligibility is a hard constraint**: verify domicile via ISIN before any recommendation
+- **PEA age drives tax**: always compute net P&L after tax in sell recommendations. Never let tax override a price alert, but use age to calibrate.
+- **Data fallback: yfinance first, EODHD second**: never skip a holding because yfinance can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
+- **Currency awareness**: most PEA stocks trade EUR, but CHF/GBP/NOK/SEK positions have FX impact on EUR P&L. Flag when significant.
+- **Technical indicators are signals, not guarantees**: always qualify recommendations with confidence levels.
+- **Fortuneo does not support stop-loss orders**: never recommend automatic stop orders. Instead, define a **price alert level** for each short position — when breached, tag the position as ⚠️ CRITICAL WATCH and require the user to manually sell at the next market session. The price alert functions as a hard sell trigger, not a suggestion.
+- **Thesis is the anchor**: for long positions, thesis determines hold-through-volatility vs exit. Every long must have documented thesis.
+- **European market hours**: Paris/Frankfurt 9:00-17:30 CET. Data may be delayed outside these hours.

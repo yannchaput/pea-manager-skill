@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    {"text": "Reads or references the TRACKER.md file", "passed": true, "evidence": "Explicitly mentions 'données du fichier TRACKER.md' and uses its data throughout"},
+    {"text": "Displays the current portfolio holdings", "passed": true, "evidence": "Section 1 shows portfolio table with both positions"},
+    {"text": "Fetches current price data for at least one stock", "passed": false, "evidence": "States 'Les prix de marché en temps réel n'ont pas pu être récupérés' — environment limitation"},
+    {"text": "Mentions technical indicators (RSI, MACD, or Bollinger Bands)", "passed": false, "evidence": "No mention of any technical indicators. Analysis is purely fundamental/thesis-based"},
+    {"text": "Provides strategy-aware recommendations (different for long vs short)", "passed": true, "evidence": "Clear distinction: TotalEnergies=CONSERVER (long), STMicroelectronics=VÉRIFIER/VENDRE (short) with stop loss discipline"},
+    {"text": "Mentions P&L calculation or references PRU", "passed": true, "evidence": "PRU references throughout, suggests tracking P&L latent, includes price targets based on PRU"},
+    {"text": "Updates or mentions updating the Last reviewed date", "passed": true, "evidence": "Recommended action: 'Mettre à jour le tracker avec les cours actuels des deux positions'"}
+  ],
+  "summary": {"passed": 5, "failed": 2, "total": 7, "pass_rate": 0.714}
+}

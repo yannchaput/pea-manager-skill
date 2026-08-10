@@ -1,0 +1,51 @@
+{
+  "skill_name": "pea-manager",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Je viens d'ouvrir mon PEA et j'ai acheté mes premières actions. Peux-tu m'aider à suivre mon portefeuille ? Voici ce que j'ai : 50 actions TotalEnergies achetées à 42,50€ (je veux les garder longtemps pour les dividendes), et 100 actions STMicroelectronics achetées à 28,75€ (je veux les revendre rapidement dès que ça monte).",
+      "expected_output": "The skill should detect no TRACKER.md exists (first-time setup), ask clarifying questions about ISIN if needed, present a portfolio table with columns Name, ISIN, Nb Shares, PRU, Strategy, and ask for confirmation before saving.",
+      "files": [],
+      "expectations": [
+        "Mentions checking for or detecting the absence of TRACKER.md",
+        "Identifies the two stocks: TotalEnergies and STMicroelectronics",
+        "Correctly maps TotalEnergies to 'long' strategy",
+        "Correctly maps STMicroelectronics to 'short' strategy",
+        "Mentions PRU values: 42.50€ and 28.75€",
+        "Mentions PEA eligibility or constraint",
+        "Presents a portfolio table with columns: Name, ISIN, Nb Shares, PRU, Strategy",
+        "Attempts to look up ISIN or mentions ISIN importance"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Je voudrais faire le point sur mon portefeuille PEA. Est-ce que je dois vendre certaines positions ?",
+      "expected_output": "The skill should read the existing TRACKER.md, display the current portfolio state, offer to update it, then proceed to Phase 3 analysis for each position — fetching price data, computing RSI/MACD/Bollinger Bands, and giving sell/hold recommendations based on strategy type.",
+      "files": ["evals/files/mock_tracker.md"],
+      "expectations": [
+        "Reads or references the TRACKER.md file",
+        "Displays the current portfolio holdings",
+        "Fetches current price data for at least one stock",
+        "Mentions technical indicators (RSI, MACD, or Bollinger Bands)",
+        "Provides strategy-aware recommendations (different for long vs short)",
+        "Mentions P&L calculation or references PRU",
+        "Updates or mentions updating the Last reviewed date"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "As-tu des idées de nouvelles actions européennes à acheter dans mon PEA ? Je cherche des petites valeurs avec un bon potentiel de hausse rapide.",
+      "expected_output": "The skill should enter Phase 4, scanning for PEA-eligible European small/mid caps using yfinance screening, filtering by market cap and momentum, and presenting candidates in a table with company details, current price, catalysts, and entry strategy.",
+      "files": ["evals/files/mock_tracker.md"],
+      "expectations": [
+        "Mentions PEA eligibility constraint (European/EEA domicile required)",
+        "Attempts to scan or search for European stocks",
+        "Focuses on small or mid cap companies",
+        "Presents candidate stocks in a table or list",
+        "Includes key data points for candidates",
+        "Mentions quick profit potential or momentum",
+        "Recommends short strategy for new candidates"
+      ]
+    }
+  ]
+}

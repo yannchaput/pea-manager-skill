@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    {"text": "Mentions PEA eligibility constraint (European/EEA domicile required)", "passed": true, "evidence": "Opening section explicitly details PEA constraints including EU/EEA domicile requirement"},
+    {"text": "Attempts to scan or search for European stocks", "passed": true, "evidence": "Provides extensive list across 6 thematic sectors with 30+ European small/mid caps"},
+    {"text": "Focuses on small or mid cap companies", "passed": true, "evidence": "Multiple small caps listed (Exail 600M, Figeac Aero 200M, Genfit 300M, etc.), titled 'Small Caps Européennes'"},
+    {"text": "Presents candidate stocks in a table or list", "passed": true, "evidence": "6 thematic tables each with columns: Valeur, Pays, ISIN, Capitalisation, Thèse d'investissement"},
+    {"text": "Includes key data points for candidates", "passed": true, "evidence": "ISIN, country, market cap, investment thesis provided for every candidate"},
+    {"text": "Mentions quick profit potential or momentum", "passed": true, "evidence": "Intro mentions 'potentiel de hausse rapide'; sector themes highlight catalysts"},
+    {"text": "Recommends 'short' strategy for new candidates", "passed": false, "evidence": "No explicit short vs long strategy recommendation for candidates; focuses on thematic investment without strategy classification"}
+  ],
+  "summary": {"passed": 6, "failed": 1, "total": 7, "pass_rate": 0.857}
+}

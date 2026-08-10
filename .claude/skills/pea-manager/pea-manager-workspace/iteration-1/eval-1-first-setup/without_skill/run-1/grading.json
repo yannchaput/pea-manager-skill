@@ -1,0 +1,13 @@
+{
+  "expectations": [
+    {"text": "Mentions checking for or detecting the absence of TRACKER.md", "passed": false, "evidence": "No mention of TRACKER.md or any file-based tracking mechanism"},
+    {"text": "Identifies the two stocks: TotalEnergies and STMicroelectronics", "passed": true, "evidence": "Both stocks in portfolio table and detailed analysis"},
+    {"text": "Correctly maps TotalEnergies to 'long' strategy", "passed": true, "evidence": "Table shows 'Long terme / Dividendes' for TotalEnergies"},
+    {"text": "Correctly maps STMicroelectronics to 'short' strategy", "passed": true, "evidence": "Table shows 'Court terme / Plus-value' for STMicroelectronics"},
+    {"text": "Mentions PRU values: 42.50€ and 28.75€", "passed": true, "evidence": "Table shows 'Prix d'achat: 42.50€' and '28.75€'"},
+    {"text": "Mentions PEA eligibility or constraint", "passed": true, "evidence": "Includes dedicated PEA context section with eligibility rules and tax treatment"},
+    {"text": "Presents a portfolio table with columns: Name, ISIN, Nb Shares, PRU, Strategy", "passed": false, "evidence": "Table uses different columns: Action, Quantité, Prix d'achat, Coût total, Stratégie — missing ISIN column and PRU label"},
+    {"text": "Attempts to look up ISIN or mentions ISIN importance", "passed": false, "evidence": "No mention of ISINs anywhere; uses tickers (TTE, STMPA) instead"}
+  ],
+  "summary": {"passed": 5, "failed": 3, "total": 8, "pass_rate": 0.625}
+}

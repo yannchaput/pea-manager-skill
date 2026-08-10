@@ -1,0 +1,393 @@
+{
+  "metadata": {
+    "skill_name": "pea-manager",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-06-14T22:25:56Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions checking for or detecting the absence of TRACKER.md",
+          "passed": true,
+          "evidence": "Response explicitly identifies this as Phase 1 first-time setup, notes TRACKER.md was NOT written to disk, describes the detection flow"
+        },
+        {
+          "text": "Identifies the two stocks: TotalEnergies and STMicroelectronics",
+          "passed": true,
+          "evidence": "Both stocks clearly listed throughout: Step 2 table, portfolio table, thesis section"
+        },
+        {
+          "text": "Correctly maps TotalEnergies to 'long' strategy",
+          "passed": true,
+          "evidence": "Line 22: 'long (dividendes, long terme)'"
+        },
+        {
+          "text": "Correctly maps STMicroelectronics to 'short' strategy",
+          "passed": true,
+          "evidence": "Line 22: 'short (revente rapide des que ca monte)'"
+        },
+        {
+          "text": "Mentions PRU values: 42.50\u20ac and 28.75\u20ac",
+          "passed": true,
+          "evidence": "Lines 20-22: 'PRU (cost basis) 42.50 EUR' and '28.75 EUR'"
+        },
+        {
+          "text": "Mentions PEA eligibility or constraint",
+          "passed": true,
+          "evidence": "Step 3 verifies PEA eligibility for both stocks, mentions EU/EEA domicile, French overseas territories"
+        },
+        {
+          "text": "Presents a portfolio table with columns: Name, ISIN, Nb Shares, PRU, Strategy",
+          "passed": true,
+          "evidence": "Lines 64-68: exact template table with all 5 columns"
+        },
+        {
+          "text": "Attempts to look up ISIN or mentions ISIN importance",
+          "passed": true,
+          "evidence": "Step 3 dedicated to ISIN lookup, provides correct ISINs FR0000120271 and NL0000226223"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.857,
+        "passed": 6,
+        "failed": 1,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Reads or references the TRACKER.md file",
+          "passed": true,
+          "evidence": "Phase 2 section explicitly shows portfolio from TRACKER.md with exact data"
+        },
+        {
+          "text": "Displays the current portfolio holdings",
+          "passed": true,
+          "evidence": "Full portfolio table shown with all 5 columns from TRACKER.md"
+        },
+        {
+          "text": "Fetches current price data for at least one stock",
+          "passed": false,
+          "evidence": "MCP yfinance tools were unavailable in test environment; methodology fully described but no actual fetch"
+        },
+        {
+          "text": "Mentions technical indicators (RSI, MACD, or Bollinger Bands)",
+          "passed": true,
+          "evidence": "Extensive sections with formulas for RSI, MACD, Bollinger Bands, SMA 50/200, and volume analysis"
+        },
+        {
+          "text": "Provides strategy-aware recommendations (different for long vs short)",
+          "passed": true,
+          "evidence": "Separate decision grids for TotalEnergies (LONG: CONSERVER with thesis validation) vs STMicroelectronics (SHORT: conditional SELL based on price vs target/stop-loss)"
+        },
+        {
+          "text": "Mentions P&L calculation or references PRU",
+          "passed": true,
+          "evidence": "P&L formula provided, PRU referenced throughout, profit/loss calculations for both positions"
+        },
+        {
+          "text": "Updates or mentions updating the Last reviewed date",
+          "passed": true,
+          "evidence": "Explicitly mentions 'Mettre a jour les dates de Last reviewed dans TRACKER.md' in next steps"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions PEA eligibility constraint (European/EEA domicile required)",
+          "passed": true,
+          "evidence": "Filtering criteria #1 explicitly states PEA eligibility with exchange list (EPA, AMS, FRA, MIL, MCE)"
+        },
+        {
+          "text": "Attempts to scan or search for European stocks",
+          "passed": true,
+          "evidence": "Describes attempted yfinance tool usage, then provides 10 candidates from domain knowledge with European exchanges"
+        },
+        {
+          "text": "Focuses on small or mid cap companies",
+          "passed": true,
+          "evidence": "Explicit market cap range 500M-10B EUR in filtering criteria; all 10 candidates fall within or near this range"
+        },
+        {
+          "text": "Presents candidate stocks in a table or list",
+          "passed": true,
+          "evidence": "Detailed 10-candidate table with columns: Societe, ISIN, Bourse, Secteur, Market Cap, Prix, Catalyseur, Potentiel, Score"
+        },
+        {
+          "text": "Includes key data points for candidates",
+          "passed": true,
+          "evidence": "Each candidate has ISIN, market cap, price estimate, sector, exchange, catalyst, risk analysis"
+        },
+        {
+          "text": "Mentions quick profit potential or momentum",
+          "passed": true,
+          "evidence": "Column 'Potentiel 3-6 mois' with percentage targets (+15-30%), scoring system for short-term potential"
+        },
+        {
+          "text": "Recommends 'short' strategy for new candidates",
+          "passed": true,
+          "evidence": "Filtering criterion #5: 'Strategie recommandee: short (horizon semaines a mois, objectif +10-15%)'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.625,
+        "passed": 5,
+        "failed": 3,
+        "total": 8,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions checking for or detecting the absence of TRACKER.md",
+          "passed": false,
+          "evidence": "No mention of TRACKER.md or any file-based tracking mechanism"
+        },
+        {
+          "text": "Identifies the two stocks: TotalEnergies and STMicroelectronics",
+          "passed": true,
+          "evidence": "Both stocks in portfolio table and detailed analysis"
+        },
+        {
+          "text": "Correctly maps TotalEnergies to 'long' strategy",
+          "passed": true,
+          "evidence": "Table shows 'Long terme / Dividendes' for TotalEnergies"
+        },
+        {
+          "text": "Correctly maps STMicroelectronics to 'short' strategy",
+          "passed": true,
+          "evidence": "Table shows 'Court terme / Plus-value' for STMicroelectronics"
+        },
+        {
+          "text": "Mentions PRU values: 42.50\u20ac and 28.75\u20ac",
+          "passed": true,
+          "evidence": "Table shows 'Prix d'achat: 42.50\u20ac' and '28.75\u20ac'"
+        },
+        {
+          "text": "Mentions PEA eligibility or constraint",
+          "passed": true,
+          "evidence": "Includes dedicated PEA context section with eligibility rules and tax treatment"
+        },
+        {
+          "text": "Presents a portfolio table with columns: Name, ISIN, Nb Shares, PRU, Strategy",
+          "passed": false,
+          "evidence": "Table uses different columns: Action, Quantit\u00e9, Prix d'achat, Co\u00fbt total, Strat\u00e9gie \u2014 missing ISIN column and PRU label"
+        },
+        {
+          "text": "Attempts to look up ISIN or mentions ISIN importance",
+          "passed": false,
+          "evidence": "No mention of ISINs anywhere; uses tickers (TTE, STMPA) instead"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.714,
+        "passed": 5,
+        "failed": 2,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Reads or references the TRACKER.md file",
+          "passed": true,
+          "evidence": "Explicitly mentions 'donn\u00e9es du fichier TRACKER.md' and uses its data throughout"
+        },
+        {
+          "text": "Displays the current portfolio holdings",
+          "passed": true,
+          "evidence": "Section 1 shows portfolio table with both positions"
+        },
+        {
+          "text": "Fetches current price data for at least one stock",
+          "passed": false,
+          "evidence": "States 'Les prix de march\u00e9 en temps r\u00e9el n'ont pas pu \u00eatre r\u00e9cup\u00e9r\u00e9s' \u2014 environment limitation"
+        },
+        {
+          "text": "Mentions technical indicators (RSI, MACD, or Bollinger Bands)",
+          "passed": false,
+          "evidence": "No mention of any technical indicators. Analysis is purely fundamental/thesis-based"
+        },
+        {
+          "text": "Provides strategy-aware recommendations (different for long vs short)",
+          "passed": true,
+          "evidence": "Clear distinction: TotalEnergies=CONSERVER (long), STMicroelectronics=V\u00c9RIFIER/VENDRE (short) with stop loss discipline"
+        },
+        {
+          "text": "Mentions P&L calculation or references PRU",
+          "passed": true,
+          "evidence": "PRU references throughout, suggests tracking P&L latent, includes price targets based on PRU"
+        },
+        {
+          "text": "Updates or mentions updating the Last reviewed date",
+          "passed": true,
+          "evidence": "Recommended action: 'Mettre \u00e0 jour le tracker avec les cours actuels des deux positions'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.857,
+        "passed": 6,
+        "failed": 1,
+        "total": 7,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions PEA eligibility constraint (European/EEA domicile required)",
+          "passed": true,
+          "evidence": "Opening section explicitly details PEA constraints including EU/EEA domicile requirement"
+        },
+        {
+          "text": "Attempts to scan or search for European stocks",
+          "passed": true,
+          "evidence": "Provides extensive list across 6 thematic sectors with 30+ European small/mid caps"
+        },
+        {
+          "text": "Focuses on small or mid cap companies",
+          "passed": true,
+          "evidence": "Multiple small caps listed (Exail 600M, Figeac Aero 200M, Genfit 300M, etc.), titled 'Small Caps Europ\u00e9ennes'"
+        },
+        {
+          "text": "Presents candidate stocks in a table or list",
+          "passed": true,
+          "evidence": "6 thematic tables each with columns: Valeur, Pays, ISIN, Capitalisation, Th\u00e8se d'investissement"
+        },
+        {
+          "text": "Includes key data points for candidates",
+          "passed": true,
+          "evidence": "ISIN, country, market cap, investment thesis provided for every candidate"
+        },
+        {
+          "text": "Mentions quick profit potential or momentum",
+          "passed": true,
+          "evidence": "Intro mentions 'potentiel de hausse rapide'; sector themes highlight catalysts"
+        },
+        {
+          "text": "Recommends 'short' strategy for new candidates",
+          "passed": false,
+          "evidence": "No explicit short vs long strategy recommendation for candidates; focuses on thematic investment without strategy classification"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.9523,
+        "stddev": 0.0826,
+        "min": 0.857,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.732,
+        "stddev": 0.117,
+        "min": 0.625,
+        "max": 0.857
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.22",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

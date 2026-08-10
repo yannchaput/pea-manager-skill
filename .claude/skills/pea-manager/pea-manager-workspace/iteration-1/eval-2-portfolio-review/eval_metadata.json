@@ -1,0 +1,14 @@
+{
+  "eval_id": 2,
+  "eval_name": "portfolio-review",
+  "prompt": "Je voudrais faire le point sur mon portefeuille PEA. Est-ce que je dois vendre certaines positions ?",
+  "assertions": [
+    "Reads or references the TRACKER.md file",
+    "Displays or references the current portfolio holdings (TotalEnergies and STMicroelectronics)",
+    "Fetches current price data for at least one of the stocks",
+    "Mentions technical indicators (RSI, MACD, or Bollinger Bands) in analysis",
+    "Provides strategy-aware recommendations (different for long vs short positions)",
+    "Mentions P&L calculation or references PRU",
+    "Updates or mentions updating the Last reviewed date"
+  ]
+}
