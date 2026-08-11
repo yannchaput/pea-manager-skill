@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+#Playwright
+.playwright-mcp
+
+# superpowers
+docs
+
+# paperasse
+page-actualites-conseils.yml
+page-consensus-analystes.yml
+page-societe.yml
+.claude/skills/commissaire-aux-comptes
+.claude/skills/comptable
+.claude/skills/controleur-fiscal
+.claude/skills/fiscaliste
+.claude/skills/notaire
+.claude/skills/syndic
