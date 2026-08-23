@@ -65,7 +65,7 @@ Look for:
 Return EXACTLY this structure:
 
 ```
-FRENCH MARKET RESEARCH (Agent C)
+FRENCH MARKET RESEARCH (Agent B)
 
 ## Market Themes
 - Theme 1: description

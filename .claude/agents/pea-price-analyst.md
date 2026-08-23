@@ -5,7 +5,6 @@ skills:
   - finance-trading-expert
 tools:
   - Bash
-  - mcp__yfmcp__yfinance_get_price_history
   - mcp__yfmcp__yfinance_get_ticker_info
   - mcp__eodhd-mcp__resolve_ticker
   - mcp__eodhd-mcp__get_live_price_data
@@ -16,45 +15,32 @@ You analyze a single PEA portfolio position — fetch its current price and comp
 
 ## Procedure
 
-**1. Fetch current price and OHLCV data**
+**1. Fetch OHLCV data**
 
-- Primary: yfinance `get_price_history(period="6mo", interval="1d")` — use 6mo to get enough data for SMA200 computation.
-- Fallback (yfinance returns empty, common for ETFs): EODHD `resolve_ticker` → `get_live_price_data` + `get_historical_stock_prices(period="d")`.
-- **Never skip** — if yfinance fails, you MUST use EODHD fallback. If both fail, report `PRICE: UNAVAILABLE` with the errors.
+- Primary: run the pre-built fetcher — **do NOT generate any script**, this replaces the old throwaway parsers:
+  ```bash
+  python3 .claude/skills/pea-manager/scripts/fetch_ohlcv.py --ticker {TICKER} --range 1y
+  ```
+  It hits Yahoo's chart API over HTTP and writes `/tmp/pea_ohlcv_{TICKER}.json` (ticker-unique, dots replaced by underscores — safe for parallel agents). **Use `--range 1y`** — 6 months (~127 bars) is NOT enough for a valid SMA200.
+- Cross-check the current price with `yfinance_get_ticker_info({TICKER})`.
+- Fallback (fetch_ohlcv.py fails, common for ETFs): EODHD `resolve_ticker` → `get_historical_stock_prices(period="d")`, then write the same parallel-array JSON (`dates/opens/highs/lows/closes/volumes`) to `/tmp/pea_ohlcv_{TICKER}.json`.
+- **Never skip** — if both fail, report `PRICE: UNAVAILABLE` with the errors.
 
 **2. Compute ALL technical indicators via the shared Python script**
 
-Save the OHLCV data to a temp JSON file, then run the shared computation script. This guarantees precision and consistency across all position analyses.
+`fetch_ohlcv.py` (step 1) already wrote the ticker-unique JSON. Just run the compute script against it:
 
-**Step-by-step:**
-
-a) After fetching OHLCV data, extract the parallel arrays (dates, opens, highs, lows, closes, volumes) and write them to a **ticker-unique temp file** to avoid collisions with parallel agents.
-
-**CRITICAL: Use a unique path** — `/tmp/pea_ohlcv.json` is shared across all parallel `pea-price-analyst` agents and WILL be overwritten mid-task. Always derive the path from the ticker:
-
-```bash
-TMPFILE="/tmp/pea_ohlcv_$(echo "{TICKER}" | tr '.' '_').json"
-```
-
-JSON format:
-```json
-{"dates": ["YYYY-MM-DD", ...], "opens": [...], "highs": [...], "lows": [...], "closes": [...], "volumes": [...]}
-```
-
-Write the JSON, then verify the last close matches the fetched current price before computing.
-
-b) Run the script with the ticker-unique input:
 ```bash
 python3 .claude/skills/pea-manager/scripts/compute_indicators.py \
   --name "{NAME}" --ticker "{TICKER}" \
   --shares {SHARES} --pru {PRU} \
   --pea-age "{PEA_AGE}" --source "{yfinance/eodhd}" \
-  -i "$TMPFILE"
+  -i /tmp/pea_ohlcv_{TICKER}.json
 ```
 
-The script computes **all indicators** (RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, P&L, tax-adjusted net) from the OHLCV data and outputs the structured format below. No manual computation needed — the script does everything.
+The script computes **all indicators** (RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, P&L, tax-adjusted net) and outputs the structured format below. No manual computation and no script generation — the two pre-built scripts do everything.
 
-c) The script's stdout is the final output block. Pipe it directly to your response. **Do not modify the script's output** except to add context if the data has known limitations (e.g., partial day volume, missing SMA200 for young tickers).
+The script's stdout is the final output block. Pipe it directly to your response. **Do not modify the script's output** except to add context if the data has known limitations (e.g., missing SMA200 for young tickers).
 
 ## Output
 

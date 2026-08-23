@@ -5,7 +5,6 @@ skills:
   - finance-trading-expert
 tools:
   - Bash
-  - mcp__yfmcp__yfinance_get_price_history
   - mcp__yfmcp__yfinance_get_ticker_info
   - mcp__eodhd-mcp__resolve_ticker
   - mcp__eodhd-mcp__get_live_price_data
@@ -18,22 +17,23 @@ You perform technical due diligence on a single PEA candidate stock — fetch it
 
 **1. Fetch OHLCV data**
 
-- Primary: yfinance `get_price_history(period="6mo", interval="1d")` for the ticker.
-- Fallback (yfinance returns empty): EODHD `resolve_ticker` → `get_historical_stock_prices(period="d")`.
+- Primary: run the pre-built fetcher — **do NOT generate any script**:
+  ```bash
+  python3 .claude/skills/pea-manager/scripts/fetch_ohlcv.py --ticker {TICKER} --range 1y
+  ```
+  It writes `/tmp/pea_ohlcv_{TICKER}.json` (ticker-unique — safe for parallel agents). Use `--range 1y` so SMA200 is valid.
+- Fallback (fetch_ohlcv.py fails): EODHD `resolve_ticker` → `get_historical_stock_prices(period="d")`, then write the same parallel-array JSON to `/tmp/pea_ohlcv_{TICKER}.json`.
 - **Never skip** — if both fail, report `PRICE: UNAVAILABLE`.
 
 **2. Run the DD computation script**
 
-Save the OHLCV data to `/tmp/pea_ohlcv_dd.json` (JSON format: `{"dates":[...], "opens":[...], "highs":[...], "lows":[...], "closes":[...], "volumes":[...]}`).
-
-Run:
 ```bash
 python3 .claude/skills/pea-manager/scripts/compute_indicators.py \
   --mode dd \
   --name "{NAME}" --ticker "{TICKER}" \
   --entry-price {ENTRY_PRICE} --target {TARGET} --stop {STOP} \
   --source "{yfinance/eodhd}" \
-  -i /tmp/pea_ohlcv_dd.json
+  -i /tmp/pea_ohlcv_{TICKER}.json
 ```
 
 All three optional flags (`--entry-price`, `--target`, `--stop`) should be passed when available from the dispatch prompt. The script auto-computes the stop from 1.5× ATR if `--stop` is omitted.

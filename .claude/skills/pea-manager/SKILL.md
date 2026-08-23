@@ -1,7 +1,7 @@
 ---
 name: pea-manager
 description: Use when the user asks about their PEA portfolio, wants a portfolio review or trade decision, seeks new European stock opportunities, or mentions PEA-eligible French/European stocks. Triggered by phrases like "Fais le point sur mon PEA", "Gérer mon portefeuille PEA", "Dois-je vendre ?", "Des idées d'achat ?".
-allowed-tools: [mcp__yfmcp__yfinance_get_price_history, mcp__yfmcp__yfinance_get_ticker_info, mcp__yfmcp__yfinance_get_financials, mcp__yfmcp__yfinance_get_ticker_news, mcp__yfmcp__yfinance_get_top, mcp__yfmcp__yfinance_screen, mcp__yfmcp__yfinance_search, mcp__eodhd-mcp__get_historical_stock_prices, mcp__eodhd-mcp__get_live_price_data, mcp__eodhd-mcp__get_stocks_from_search, mcp__eodhd-mcp__resolve_ticker, mcp__eodhd-mcp__get_company_news, mcp__eodhd-mcp__get_exchange_tickers, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_close, mcp__plugin_playwright_playwright__browser_wait_for, Read, Edit, Write, Skill, Skill(skill="finance-trading-expert")]
+allowed-tools: [mcp__yfmcp__yfinance_get_ticker_info, mcp__yfmcp__yfinance_search, mcp__eodhd-mcp__get_historical_stock_prices, mcp__eodhd-mcp__get_live_price_data, mcp__eodhd-mcp__get_stocks_from_search, mcp__eodhd-mcp__resolve_ticker, mcp__eodhd-mcp__get_company_news, mcp__eodhd-mcp__get_exchange_tickers, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_close, mcp__plugin_playwright_playwright__browser_wait_for, Read, Edit, Write, Skill, Skill(skill="finance-trading-expert")]
 metadata:
   author: yannchaput
   version: "2.0"
@@ -42,8 +42,8 @@ If intent is ambiguous: *"Voulez-vous une revue complète (Phase 3), une recherc
 | Phase | What runs in parallel | Agent prompt per |
 |-------|----------------------|------------------|
 | **3.1+3.2** | Price fetch + technical indicators | One `pea-price-analyst` agent per position |
-| **4-Short.1** | `pea-eodhd-exchange-browser` + `pea-eodhd-short-screener` + `pea-french-market-research` | One agent per scan source (3 agents in parallel) |
-| **4-Long.1** | `pea-eodhd-long-screener` + `pea-eodhd-exchange-browser` (optional) + `pea-french-market-research` | One agent per scan source (2-3 agents in parallel) |
+| **4-Short.1** | `pea-eodhd-exchange-browser` + `pea-french-market-research` | One agent per scan source (2 agents in parallel) |
+| **4-Long.1** | `pea-eodhd-exchange-browser` + `pea-french-market-research` | One agent per scan source (2 agents in parallel) |
 | **Entry checklist** | TradingView news + Investir news + `pea-dd-analyst` | One agent per source, dd-analyst per ticker |
 
 **Each subagent returns structured output** — the main agent synthesizes, never the subagent. Agent definitions live in `.claude/agents/`. See [`references/workflow-phases.md`](references/workflow-phases.md) for dispatch recipes and how to invoke each agent.
@@ -107,7 +107,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 ### Phase 3: Portfolio Analysis (Core)
 
-**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent fetches prices (yfinance → EODHD fallback) and computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
+**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent fetches prices (`fetch_ohlcv.py` → EODHD fallback) and computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
 
 **3.3 Decision by strategy** — always check `PEA > 5 years` first:
 
@@ -135,7 +135,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 ### Phase 4: New Opportunities
 
-**Do NOT use yfinance for Phase 4.** Yahoo Finance screeners and searches are US-centric — they return zero or near-zero European results. Use EODHD + Playwright exclusively.
+**Do NOT use yfinance screeners/search for Phase 4 discovery.** Yahoo's `yfinance_screen`, `yfinance_get_top`, `yfinance_search` are US-centric — they return zero or near-zero European-domiciled results. Use EODHD + Playwright for discovery. **For candidate price/OHLCV enrichment, `scripts/fetch_ohlcv.py` (Yahoo chart API) is allowed** — it's free, no quota, and returns clean JSON.
 
 **Step 4.0 — Strategy routing (MANDATORY):** If the user hasn't specified short or long, ask:
 > *"Quel type d'opportunités recherchez-vous ? Court terme (trading swing, semaines à mois) ou long terme (buy & hold, années) ?"*
@@ -144,12 +144,11 @@ If the user already specified, route directly to 4-Short or 4-Long.
 
 #### Phase 4-Short: Short-Term Scan
 
-**Dispatch three subagents in parallel** (step 4-Short.1):
+**Dispatch two subagents in parallel** (step 4-Short.1):
 
 | Agent | File | Role | Budget |
 |-------|------|------|--------|
 | `pea-eodhd-exchange-browser` | `.claude/agents/pea-eodhd-exchange-browser.md` | Browse EU exchanges for PEA-eligible mid-caps | ~8-10 EODHD calls |
-| `pea-eodhd-short-screener` | `.claude/agents/pea-eodhd-short-screener.md` | Screen by momentum + value (2 queries, no dividends) | ~15-18 EODHD calls |
 | `pea-french-market-research` | `.claude/agents/pea-french-market-research.md` | Extract French market themes from Boursier.com via Playwright | 0 API calls |
 
 Main agent merges, deduplicates, filters (PEA eligibility → mid-cap → momentum → diversification). **Exclude positions in `## Exceptions` from the diversification filter** — exception positions do not count toward sector over-concentration checks. Then rank and present (step 4-Short.2-3).
@@ -158,15 +157,12 @@ Main agent merges, deduplicates, filters (PEA eligibility → mid-cap → moment
 
 #### Phase 4-Long: Long-Term Scan
 
-**Dispatch up to three subagents in parallel** (step 4-Long.1):
+**Dispatch two subagents in parallel** (step 4-Long.1):
 
 | Agent | File | Role | Budget |
 |-------|------|------|--------|
-| `pea-eodhd-long-screener` | `.claude/agents/pea-eodhd-long-screener.md` | Screen large caps (€10B+) by dividends, growth, value (3 queries) | ~25-31 EODHD calls |
-| `pea-eodhd-exchange-browser` | `.claude/agents/pea-eodhd-exchange-browser.md` | Browse EU exchanges for large-cap opportunities (optional) | ~8-10 EODHD calls |
+| `pea-eodhd-exchange-browser` | `.claude/agents/pea-eodhd-exchange-browser.md` | Browse EU exchanges for large-cap opportunities | ~8-10 EODHD calls |
 | `pea-french-market-research` | `.claude/agents/pea-french-market-research.md` | Extract French market themes from Boursier.com via Playwright | 0 API calls |
-
-**The long-screener alone may exceed the 20-call daily limit.** Decide at dispatch: if budget is tight, run only the long-screener (skip exchange browser) and instruct it to skip `get_company_news` calls.
 
 Main agent filters (PEA eligibility → large cap → moat → dividend consistency → valuation → diversification). **Exclude positions in `## Exceptions` from the diversification filter.** Then rank and present (steps 4-Long.2-3). For each candidate: explicitly state *"Why hold this for 5+ years?"*
 
@@ -207,8 +203,10 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 ## Data Sources
 
 - **yfinance (yfmcp)**: Phase 3 only — price history, ticker info, news. Do NOT use for Phase 4 opportunity discovery (screener/search are US-centric and return near-zero European results).
-- **EODHD (eodhd-mcp)**: Primary for Phase 4. Free plan (20 calls/day): `resolve_ticker`, `get_live_price_data`, `get_historical_stock_prices`, `get_company_news`, `get_stocks_from_search`, `get_exchange_tickers`, `stock_screener`. Blocked on free plan: `get_fundamentals_data` (403), `get_technical_indicators` (403) — compute indicators manually from OHLCV instead.
+- **Yahoo chart API (free, no key)**: `scripts/fetch_ohlcv.py` hits `query1.finance.yahoo.com/v8/finance/chart/{TICKER}?range=1y&interval=1d` over plain HTTP and returns clean JSON OHLCV for European tickers — the primary free source for indicator data (Phase 3 and Phase 4 candidate enrichment). No daily quota. Use it instead of generating throwaway parsers.
+- **EODHD (eodhd-mcp)**: Free plan = **20 calls/day shared across ALL agents**. Free tools: `resolve_ticker`, `get_live_price_data`, `get_historical_stock_prices`, `get_company_news`, `get_stocks_from_search`, `get_exchange_tickers`. **Paid (403 on free plan — do NOT call): `stock_screener`, `get_fundamentals_data`, `get_technical_indicators`, `get_bulk_fundamentals`.** Compute indicators via `scripts/compute_indicators.py` instead.
 - **Playwright**: Phase 4 — French market research via Boursier.com (sector rotations, analyst recos, fil info). Also used for entry checklist (TradingView + Investir). Each check: 15-35s.
+- **Stooq**: Do NOT use — now gated behind a JavaScript proof-of-work challenge; returns HTML instead of CSV to plain `curl`/`urllib`.
 - **finance-trading-expert skill**: Always invoke via `Skill(skill="finance-trading-expert")` for indicator formulas and interpretation frameworks.
 - **Alpaca**: Do NOT use — US-market only, irrelevant for PEA.
 
@@ -217,7 +215,8 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 - **PRU is foundational**: never proceed without cost basis for every position
 - **PEA eligibility is a hard constraint**: verify domicile via ISIN before any recommendation
 - **PEA age drives tax**: always compute net P&L after tax in sell recommendations. Never let tax override a price alert, but use age to calibrate.
-- **Data fallback: yfinance first, EODHD second**: never skip a holding because yfinance can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
+- **Data fallback: `fetch_ohlcv.py` (Yahoo chart) first, EODHD second**: never skip a holding because the fetcher can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
+- **Batch EODHD price lookups**: use `get_live_price_data` with `additional_symbols` (up to 20 tickers in one call) — never one call per ticker.
 - **Currency awareness**: most PEA stocks trade EUR, but CHF/GBP/NOK/SEK positions have FX impact on EUR P&L. Flag when significant.
 - **Technical indicators are signals, not guarantees**: always qualify recommendations with confidence levels.
 - **Fortuneo does not support stop-loss orders**: never recommend automatic stop orders. Instead, define a **price alert level** for each short position — when breached, tag the position as ⚠️ CRITICAL WATCH and require the user to manually sell at the next market session. The price alert functions as a hard sell trigger, not a suggestion.

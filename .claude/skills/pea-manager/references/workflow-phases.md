@@ -59,7 +59,7 @@ The agent definition (`.claude/agents/pea-price-analyst.md`) contains the full p
 
 **Main agent collects all results**, then proceeds to step 3.3 for cross-position synthesis. Exception positions are silently omitted from all synthesis tables and decision outputs — do not mention them unless the user asks.
 
-**Rate limit awareness**: EODHD free plan allows 20 calls/day total across all subagents. Each agent prefers yfinance and only falls back to EODHD when yfinance returns empty. If the portfolio has many positions, the main agent should track EODHD call count — if the limit is near, prioritize yfinance-only agents and flag data gaps explicitly.
+**Rate limit awareness**: EODHD free plan allows 20 calls/day total across all subagents. Each agent uses `fetch_ohlcv.py` (free Yahoo chart API, no quota) first and only falls back to EODHD when that fails — so Phase 3 rarely touches the EODHD quota. If the limit is near, flag data gaps explicitly.
 
 ### Step 3.2: Technical Indicators (computed by pea-price-analyst agent)
 
@@ -103,7 +103,7 @@ The agent returns RSI(14), MACD(12,26,9), Bollinger(20,2σ), SMA 50/200, ATR(14)
 
 ## Phase 4: New Opportunities
 
-**Do NOT use yfinance for Phase 4.** Yahoo Finance screeners (`yfinance_screen`, `yfinance_get_top`, `yfinance_search`) are US-centric — they return zero or near-zero European-domiciled results. Use EODHD + Playwright exclusively for opportunity discovery.
+**Do NOT use yfinance screeners/search for Phase 4 discovery.** Yahoo's `yfinance_screen`, `yfinance_get_top`, `yfinance_search` are US-centric — they return zero or near-zero European-domiciled results. Use EODHD + Playwright for discovery. **For candidate price/OHLCV enrichment, `scripts/fetch_ohlcv.py` (Yahoo chart API) is allowed** — it's free, no quota, and returns clean JSON.
 
 ### Step 4.0: Strategy Routing (MANDATORY)
 
@@ -119,11 +119,11 @@ The agent returns RSI(14), MACD(12,26,9), Bollinger(20,2σ), SMA 50/200, ATR(14)
 
 ### Phase 4-Short: Short-Term Opportunity Scan
 
-**EODHD call budget**: free plan = 20 calls/day total across all subagents. Agent A uses ~8-10 calls, Agent B uses ~15-18 calls. If budget is exhausted mid-scan, prioritize Agent A (higher signal for PEA stocks). Mark missing data explicitly — do not fall back to yfinance.
+**EODHD call budget**: ~8-10 calls (exchange-browser only; market-research uses Playwright). If the price batch hits 402 (quota exhausted), enrich candidate prices via `scripts/fetch_ohlcv.py` (free Yahoo chart API) instead.
 
 #### Step 4-Short.1: Parallel Scan Dispatch
 
-**Dispatch three subagents concurrently.** Each agent's full procedure, tools, and output format is defined in its own file under `.claude/agents/`. The dispatch prompts below are minimal — the agent definition file is the ground truth for what each agent does.
+**Dispatch two subagents concurrently.** Each agent's full procedure, tools, and output format is defined in its own file under `.claude/agents/`. The dispatch prompts below are minimal — the agent definition file is the ground truth for what each agent does.
 
 **Agent A — pea-eodhd-exchange-browser** (`.claude/agents/pea-eodhd-exchange-browser.md`):
 
@@ -131,13 +131,7 @@ The agent returns RSI(14), MACD(12,26,9), Bollinger(20,2σ), SMA 50/200, ATR(14)
 Agent(subagent_type="pea-eodhd-exchange-browser", prompt="Scan European exchanges (Euronext Paris, Xetra, Amsterdam, Milan, Madrid) for PEA-eligible mid-cap opportunities. Exclude tickers already in portfolio (read TRACKER.md). Return up to 20 candidates.")
 ```
 
-**Agent B — pea-eodhd-short-screener** (`.claude/agents/pea-eodhd-short-screener.md`):
-
-```
-Agent(subagent_type="pea-eodhd-short-screener", prompt="Screen European stocks for PEA-eligible mid-cap candidates using momentum and value filters. Exclude tickers already in portfolio (read TRACKER.md). Track EODHD call budget. Return up to 15 candidates.")
-```
-
-**Agent C — pea-french-market-research** (`.claude/agents/pea-french-market-research.md`):
+**Agent B — pea-french-market-research** (`.claude/agents/pea-french-market-research.md`):
 
 ```
 Agent(subagent_type="pea-french-market-research", prompt="Research current French market themes, sector rotations, and analyst rating changes via Boursier.com. Return stocks mentioned positively with context, sector themes, and key takeaways.")
@@ -147,7 +141,7 @@ Agent(subagent_type="pea-french-market-research", prompt="Research current Frenc
 
 #### Step 4-Short.2: Filters
 
-**First, merge and deduplicate** all candidate lists from Agents A, B, C. Normalize ticker formats (`.PA` vs `.DE` etc.) and remove duplicates by ticker or company name.
+**First, merge and deduplicate** all candidate lists from Agents A and B. Normalize ticker formats (`.PA` vs `.DE` etc.) and remove duplicates by ticker or company name.
 
 **Then apply filters** in order:
 1. **PEA eligibility**: verify domicile via ISIN country code (first 2 chars). Cross-check with [`references/pea-eligibility.md`](references/pea-eligibility.md).
@@ -168,25 +162,19 @@ Register candidates in `## Watchlist — Candidats court terme` in TRACKER.md. F
 
 ### Phase 4-Long: Long-Term Opportunity Scan
 
-**EODHD call budget**: the long-term screener agent uses up to 15 calls for queries + 10-16 for cross-checks (prices + news). This may exceed the 20-call free-plan limit on its own. If other agents also run, they will push the total higher. **Decide at dispatch time**: if the budget is tight, instruct the long-screener to skip news lookups and only fetch prices.
+**EODHD call budget**: ~8-10 calls (exchange-browser only; market-research uses Playwright). Enrich candidate valuation/dividends via free sources — `scripts/fetch_ohlcv.py` (Yahoo chart) or `yfinance_get_ticker_info` (fundamentals).
 
 #### Step 4-Long.1: Parallel Scan Dispatch
 
-**Dispatch up to three subagents concurrently.** The long-term scan uses a different screener agent (large caps, dividends, growth, value) alongside the existing market research and exchange browser.
+**Dispatch two subagents concurrently.**
 
-**Agent Long-Screener — pea-eodhd-long-screener** (`.claude/agents/pea-eodhd-long-screener.md`):
-
-```
-Agent(subagent_type="pea-eodhd-long-screener", prompt="Screen European large-cap stocks for PEA-eligible long-term buy-and-hold candidates. Use dividend, value, and growth filters. Exclude tickers already in portfolio (read TRACKER.md). Target large caps (€10B+). Track EODHD call budget. Return up to 15 candidates with long-term thesis for each.")
-```
-
-**Agent A — pea-eodhd-exchange-browser** (`.claude/agents/pea-eodhd-exchange-browser.md`) — optional, run in parallel if budget allows:
+**Agent A — pea-eodhd-exchange-browser** (`.claude/agents/pea-eodhd-exchange-browser.md`):
 
 ```
 Agent(subagent_type="pea-eodhd-exchange-browser", prompt="Scan European exchanges (Euronext Paris, Xetra, Amsterdam, Milan, Madrid) for PEA-eligible LARGE-CAP opportunities (€10B+). Focus on established companies with durable competitive advantages. Exclude tickers already in portfolio (read TRACKER.md). Return up to 15 candidates.")
 ```
 
-**Agent C — pea-french-market-research** (`.claude/agents/pea-french-market-research.md`):
+**Agent B — pea-french-market-research** (`.claude/agents/pea-french-market-research.md`):
 
 ```
 Agent(subagent_type="pea-french-market-research", prompt="Research current French market themes, sector rotations, and analyst rating changes via Boursier.com. Focus on long-term structural themes (energy transition, AI, aging demographics, reshoring). Return stocks mentioned positively with context, sector themes, and key takeaways.")
