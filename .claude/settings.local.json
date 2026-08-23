@@ -41,7 +41,8 @@
       "mcp__yfmcp__yfinance_get_analyst_estimates",
       "WebFetch(domain:news.google.com)",
       "WebFetch(domain:www.google.com)",
-      "WebFetch(domain:www.abcbourse.com)"
+      "WebFetch(domain:www.abcbourse.com)",
+      "WebFetch(domain:investir.lesechos.fr)"
     ]
   }
 }
