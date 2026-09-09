@@ -131,6 +131,8 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 - PEA < 5 years → lean toward holding (tax benefit of waiting)
 - Update Thesis section
 
+**Alert-breach discipline**: if ≥3 uncorrelated positions (different sectors, no shared idiosyncratic news) breach their price alert in the same review, treat it as a market-wide pullback, not a portfolio-wide sell signal — report each breach without escalating to "action required." See LL-03 in [`references/lessons-learned.md`](references/lessons-learned.md).
+
 **3.4 Update TRACKER.md**: update Last review, ask for broker's current figures, recompute totals, update position review dates. **MANDATORY: review ALL watchlist candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal.
 
 ### Phase 4: New Opportunities
@@ -219,6 +221,6 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 - **Batch EODHD price lookups**: use `get_live_price_data` with `additional_symbols` (up to 20 tickers in one call) — never one call per ticker.
 - **Currency awareness**: most PEA stocks trade EUR, but CHF/GBP/NOK/SEK positions have FX impact on EUR P&L. Flag when significant.
 - **Technical indicators are signals, not guarantees**: always qualify recommendations with confidence levels.
-- **Fortuneo does not support stop-loss orders**: never recommend automatic stop orders. Instead, define a **price alert level** for each short position — when breached, tag the position as ⚠️ CRITICAL WATCH and require the user to manually sell at the next market session. The price alert functions as a hard sell trigger, not a suggestion.
+- **Fortuneo does not support stop-loss orders**: never recommend automatic stop orders. Instead, define a **price alert level** for each short position — when breached, tag the position as ⚠️ CRITICAL WATCH and require the user to manually sell at the next market session. The price alert functions as a hard sell trigger, not a suggestion — **for a single, idiosyncratic breach.** If ≥3 uncorrelated positions across different sectors breach simultaneously, treat it as a market-wide move, not a per-position sell trigger: report every breach but don't push toward immediate action. See [`references/lessons-learned.md`](references/lessons-learned.md) LL-03.
 - **Thesis is the anchor**: for long positions, thesis determines hold-through-volatility vs exit. Every long must have documented thesis.
 - **European market hours**: Paris/Frankfurt 9:00-17:30 CET. Data may be delayed outside these hours.

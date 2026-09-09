@@ -88,6 +88,8 @@ The agent returns RSI(14), MACD(12,26,9), Bollinger(20,2σ), SMA 50/200, ATR(14)
 - PEA < 5 years → lean toward holding (tax benefit of waiting is significant)
 - Update Thesis section with new observations
 
+**Alert-breach discipline** (LL-03, [`references/lessons-learned.md`](lessons-learned.md)): a price alert breach is normally a hard sell trigger (LL-02) — but only for a single, idiosyncratic breach. If ≥3 uncorrelated positions across different sectors breach simultaneously with no shared company-specific news, it's a market-wide pullback, not a portfolio-wide sell signal. Report every breach clearly and keep the alert active, but do not escalate the framing to "action required" — name the pattern to the user and defer to their read of macro conditions.
+
 ### Step 3.4: Update TRACKER.md
 
 - Update `Last review` date

@@ -106,3 +106,22 @@ These rules extend the LL-01 checklist. They apply specifically to **dividend-ca
 - [ ] "RSI is neutral, not overbought, so it can go up" → Neutral RSI in a downtrend means the trend can continue. It's not a signal.
 - [ ] "MACD histogram is turning positive" → Histogram divergence is NOT a crossover. Wait for the actual crossover.
 - [ ] "The stop loss will protect me" → Fortuneo doesn't support automatic stops. A price alert only works if you act on it immediately when breached.
+
+## LL-03: Don't Force Sell Decisions on Market-Wide Alert Breaches (September 2026)
+
+### What Happened
+
+During a Phase 3 review on Sept 9, 2026, four unrelated positions (Arkema short, Vinci long, Sanofi short, Saint-Gobain long) hit or breached their price-alert levels simultaneously. Following the LL-02 rule that "a price alert is a hard sell trigger, not a suggestion," the agent flagged all four as 🔴 CRITICAL WATCH and pushed toward immediate sell decisions. The user rejected this: *"Pas de panique. On est sur un marché bearish, on ne prend pas de décisions."* The breaches were a broad market-wide pullback, not idiosyncratic weakness in any of the four names.
+
+### Root Cause
+
+LL-02's "hard trigger" rule was written for a **single-position** breach (GTT), where the breach reflects stock-specific information (failed thesis, momentum shift). It does not distinguish that case from **multiple simultaneous breaches across uncorrelated positions/sectors**, which is evidence of a market-level move, not a signal about any one company. Applying the single-position rule mechanically at the portfolio level manufactures a panic-sell recommendation the underlying evidence doesn't support.
+
+### Corrective Rule (Qualifies LL-02, Does Not Replace It)
+
+1. **Single-position, idiosyncratic breach** → LL-02 still applies in full: treat the price alert as a hard trigger, tag 🔴 CRITICAL WATCH, tell the user to sell at the next session.
+2. **Multiple simultaneous breaches across uncorrelated positions/sectors, with no idiosyncratic news on any of them** → treat as a market-wide signal, not a portfolio-wide sell trigger:
+   - Report every breach clearly and keep the alert active for the next review — do not drop or soften the reporting.
+   - Do NOT frame it as requiring an immediate decision or escalate the language to "action required."
+   - Explicitly name the pattern to the user (e.g. *"4 positions sur des secteurs différents ont franchi leur alerte le même jour — probable mouvement de marché, pas de signal spécifique à chaque titre"*) and defer to the user's read of macro conditions when given.
+3. When in doubt whether a breach is idiosyncratic or market-wide, check if ≥3 positions across different sectors breached on the same session — if yes, default to the market-wide framing above.
