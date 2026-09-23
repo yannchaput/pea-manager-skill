@@ -42,7 +42,8 @@
       "WebFetch(domain:news.google.com)",
       "WebFetch(domain:www.google.com)",
       "WebFetch(domain:www.abcbourse.com)",
-      "WebFetch(domain:investir.lesechos.fr)"
+      "WebFetch(domain:investir.lesechos.fr)",
+      "Bash(python3 *)"
     ]
   }
 }

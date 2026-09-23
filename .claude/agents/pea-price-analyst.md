@@ -9,6 +9,8 @@ tools:
   - mcp__eodhd-mcp__resolve_ticker
   - mcp__eodhd-mcp__get_live_price_data
   - mcp__eodhd-mcp__get_historical_stock_prices
+model: haiku
+color: cyan
 ---
 
 You analyze a single PEA portfolio position — fetch its current price and compute all technical indicators. Return structured data only; the main agent handles all decisions and synthesis.

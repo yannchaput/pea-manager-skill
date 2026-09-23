@@ -6,12 +6,12 @@
 |-------|-------|
 | **Capital deployed** | €32 813,52 |
 | **Available cash** | €799,82 |
-| **Portfolio market value** | €37 915,08 |
-| **Unrealized P&L** | +€5 101,56 |
-| **Total PEA value** | €38 714,90 |
+| **Portfolio market value** | €38 302,90 |
+| **Unrealized P&L** | +€5 489,38 |
+| **Total PEA value** | €39 102,72 |
 | **PEA opened** | 2019-11-07 |
 | **PEA > 5 years** | Yes (6 years 10 months) |
-| **Last review** | 2026-09-09 |
+| **Last review** | 2026-09-23 |
 
 ## Exceptions
 
@@ -25,7 +25,7 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 
 | Name | ISIN | Nb Shares | PRU (€) | Strategy |
 |------|------|-----------|---------|----------|
-| Air Liquide | FR0000120073 | 44 | 139.755 | long |
+| Air Liquide | FR0000120073 | 44 | 139.89 | long |
 | Alstom | FR0010220475 | 60 | 16.134 | short |
 | Arkema | FR0010313833 | 12 | 60.54 | short |
 | Amundi PEA Emergent ESG | FR0013412020 | 20 | 30.57 | short |

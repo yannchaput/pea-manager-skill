@@ -8,6 +8,8 @@ tools:
   - mcp__plugin_playwright_playwright__browser_snapshot
   - mcp__plugin_playwright_playwright__browser_close
   - mcp__plugin_playwright_playwright__browser_tabs
+model: haiku
+color: purple
 ---
 
 You research current French market themes and sentiment by scraping Boursier.com via Playwright. This provides the qualitative, thematic context that API-based scans cannot — it answers "what is the French market talking about right now?"
