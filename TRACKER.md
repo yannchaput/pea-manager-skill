@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Capital deployed** | €32 813,52 |
-| **Available cash** | €799,82 |
-| **Portfolio market value** | €38 302,90 |
-| **Unrealized P&L** | +€5 489,38 |
+| **Capital deployed** | €32 202,12 |
+| **Available cash** | €1 540,42 |
+| **Portfolio market value** | €37 562,30 |
+| **Unrealized P&L** | +€5 360,18 |
 | **Total PEA value** | €39 102,72 |
 | **PEA opened** | 2019-11-07 |
 | **PEA > 5 years** | Yes (6 years 10 months) |
@@ -28,7 +28,6 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 | Air Liquide | FR0000120073 | 44 | 139.89 | long |
 | Alstom | FR0010220475 | 60 | 16.134 | short |
 | Arkema | FR0010313833 | 12 | 60.54 | short |
-| Amundi PEA Emergent ESG | FR0013412020 | 20 | 30.57 | short |
 | Amundi PEA Nasdaq-100 UCITS ETF | FR0011871110 | 58 | 86.63 | long |
 | Amundi PEA S&P 500 Screened UCITS ETF | FR0013412285 | 45 | 51.127 | long |
 | Amundi S&P Eurozone Climate Paris Aligned | LU2195226068 | 20 | 39.79 | long |
@@ -66,7 +65,8 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 | PSP5 S&P 500 (partial) | 20 | 55.93 | 49.21 | +134.40 | +13.66% |
 | Sopra Steria (final) | 5 | 186.00 | 142.155 | +219.23 | +30.84% |
 | MERSEN | 10 | 37.28 | 34.336 | +29.44 | +8.57% |
-| **Total** | | | | **+119.94** | |
+| Amundi PEA Emergent ESG | 20 | 37.03 | 30.57 | +129.20 | +21.13% |
+| **Total** | | | | **+249.14** | |
 
 > PEA > 5 ans : gains exonérés d'impôt (prélèvements sociaux 17.2% uniquement sur les plus-values).
 
@@ -75,118 +75,112 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 ### Air Liquide (long)
 - **Date entered**: 2025 (estimé), renforcé le 2026-06-20 : +9 actions à 164,16 €, renforcé le 2026-06-22 : +9 actions à 165,48 €
 - **Thesis**: Leader mondial des gaz industriels, revenus récurrents, dividende stable (~1,9%), transition hydrogène
-- **Performance**: **+20,4% brut (+1 257 €, +1 041 € net PS)**. Cours 168,32 €. RSI 44,8 neutre en baisse. MACD bearish depuis le 28/07 (histogramme −0,19). Prix à 40 % de la bande de Bollinger (lower-middle), sous la SMA50 (172,66 €), au-dessus de la SMA200 (160,54 €). ATR 2,95 €.
+- **Performance**: **+20,2% brut (+1 245 €, +871 € net PS)**. Cours 168,18 €. RSI 49,8 neutre en hausse. MACD bearish depuis le 28/07 (histogramme −0,54). Prix à 48 % de la bande de Bollinger (middle), sous la SMA50 (170,44 €), au-dessus de la SMA200 (161,52 €) — golden cross actif. ATR 2,50 €.
 - **Exit conditions**: Détérioration structurelle du dividende OU perte de position dominante
-- **Last reviewed**: 2026-09-09 — **HOLD**. Pullback −7,6 % depuis l'ATH (182,26 €), MACD bearish, RSI neutre en baisse. Structure de fond intacte (au-dessus SMA200). Aucun signal de vente.
+- **Last reviewed**: 2026-09-23 — **HOLD**. Consolidation proche du milieu de bande, structure de fond intacte (golden cross). Aucun signal de vente.
 
 ### Alstom (short)
 - **Date entered**: 2026-06-17
 - **ISIN**: FR0010220475
 - **Thesis**: Leader mondial du ferroviaire — le train est le transport décarboné par excellence. Titre massacré après AK du 17 avril et résultats décevants. Valorisation extrême : P/B 0,74 (sous les capitaux propres !), forward P/E 7,8×. Consensus analystes objectif 21,75 € (+37%).
-- **Performance**: **−1,8% (−17 €)**. Cours 15,85 €. RSI 45,2 neutre en hausse. MACD bullish depuis le 21/05 (histogramme +0,07). Prix à 27 % de la bande de Bollinger (lower-middle), proche de la SMA50 (16,06 €). ATR 0,46 €. Volume normal.
+- **Performance**: **−8,1% (−78 €)**. Cours 14,83 €. RSI 36,3 neutre en baisse. MACD bearish crossover le 17/09 (retournement — était bullish). Prix à 1 % de la bande de Bollinger (proche bande basse). **Death cross confirmé** (SMA50 16,05 € < SMA200 20,42 €). ATR 0,45 €. Plus bas 52 semaines : 14,72 €.
 - **Exit conditions**: Objectif 18,50 € (+16,7%) swing. Stop loss à 14,50 € (−8,5%).
-- **Last reviewed**: 2026-09-09 — **HOLD serré**. Range 15-17,6 € post-AK inchangé. Stop 14,50 € à bonne distance (~2,9×ATR). Patience.
+- **Ordre en cours**: ⏳ **Ordre stop placé à 14,50 € sur la totalité (60 actions), le 2026-09-23.** En attente de déclenchement (cours actuel 14,83 €, écart 0,33 €).
+- **Last reviewed**: 2026-09-23 — ⚠️ **WATCH resserré**. Cours 14,83 € à seulement 0,33 € (~0,7×ATR) du stop 14,50 € — proche du plus bas 52 semaines (14,72 €). MACD vient de repasser bearish (17/09), momentum se détériore. Ordre stop désormais placé par l'utilisateur au niveau de l'alerte.
 
 ### Arkema (short)
 - **Date entered**: 2026-08-23
 - **ISIN**: FR0010313833 — Ticker: **AKE.PA**
 - **Thesis**: Chimie de spécialité (adhésifs, matériaux avancés). Bénéficiaire de la rotation sectorielle vers les matériaux/industriels. Diversifiant — aucune chimie au portefeuille avant. Entrée à 60,00 € (pivot SMA20) après 3/4 confirmations LL-01 et cross-check news feu vert.
 - **Exit conditions**: Alerte sortie **58,23 €** (1,5× ATR sous l'entrée, au-dessus SMA50 57,84 €) → vente manuelle si cassée. Objectifs T1 62,74 € (+4,6 %), T2 65,00 € (+8,3 %).
-- **Performance**: **−4,1 % (−30 €)**. Cours 58,05 €. RSI 41,4 neutre en baisse. MACD bearish crossover le 03/09 (histogramme −0,13). Prix à 15 % de la bande de Bollinger (lower-middle). SMA50 58,35 €/SMA200 57,26 € — golden cross faible (écart 1,9 %). ATR 1,46 €.
-- **Last reviewed**: 2026-09-09 — ⚠️ **WATCH** (alerte 58,23 € franchie). MACD bearish (03/09). **Décision utilisateur : HOLD, pas de vente** — marché bearish généralisé, pas de décision de panique. Alerte laissée active, à réévaluer à la prochaine revue.
-
-### Amundi PEA Emergent ESG (short)
-- **ISIN**: FR0013412020
-- **Date entered**: 2025 (estimé)
-- **Thesis**: Exposition diversifiée aux marchés émergents via ETF éligible PEA
-- **Performance**: **+19,5% brut (+120 €, +99 € net PS)**. Cours 36,54 €. RSI 60,2 en hausse. MACD bullish depuis le 21/08. Prix à 91 % de la bande de Bollinger (upper-middle, proche bande sup.). SMA50 35,36 €/SMA200 32,76 € — golden cross intact. ATR 0,54 €.
-- **Exit conditions**: Stop suiveur à 34,50 €. Si le stop est enfoncé → sortir.
-- **Last reviewed**: 2026-09-09 — **CONSIDER SELLING (prise de profits partielle)**. Objectif de profit +10-15 % dépassé (+19,5 %). RSI en hausse vers le surachat, prix proche de la bande de Bollinger supérieure. Stop suiveur 34,50 € encore loin (5,6 % cushion). Envisager une vente partielle ou relever le stop suiveur vers ~35,60 € (proche SMA50).
+- **Performance**: **−5,0 % (−36 €)**. Cours 57,50 €. RSI 45,3 neutre en hausse. MACD bearish depuis le 03/09 (histogramme −0,39). Prix à 37 % de la bande de Bollinger (lower-middle). SMA50 58,69 €/SMA200 57,57 € — golden cross faible, prix repassé sous la SMA200. ATR 1,37 €. Volume élevé (+43 %). Dividende 6,26 %.
+- **Last reviewed**: 2026-09-23 — ⚠️ **WATCH** (alerte 58,23 € toujours franchie, écart désormais 0,73 €). MACD bearish inchangé. Position dans le lot des 5 breaches uncorrelated de cette revue (cf. synthèse) — traité comme repli de marché généralisé, pas de signal idiosyncratique. **HOLD maintenu.**
 
 ### Amundi PEA Nasdaq-100 UCITS ETF (long)
 - **ISIN**: FR0011871110 — Ticker: **PUST.PA**
 - **Date entered**: 2025 (estimé)
 - **Thesis**: Exposition long-terme au Nasdaq-100 via ETF synthétique éligible PEA. Position patrimoniale — perception d'intérêts sur la poche synthétique. Aucun objectif de vente à court terme.
-- **Performance**: **+17,2% brut (+862 €, +714 € net PS)**. Cours 101,50 €. RSI 49,3 neutre en hausse. MACD bearish depuis le 18/08 (histogramme −0,15). Prix à 44 % de la bande de Bollinger (lower-middle), proche de la SMA50 (101,86 €), largement au-dessus de la SMA200 (93,69 €). ATR 1,32 €.
+- **Performance**: **+24,0% brut (+1 204 €, +997 € net PS)**. Cours 107,38 €. **RSI 71,3 — surachat.** MACD bullish crossover le 21/09 (retournement — était bearish). Prix à 126 % de la bande de Bollinger (au-dessus de la bande sup. — extension forte). SMA50 101,64 €/SMA200 94,45 € — golden cross actif. ATR 1,40 €.
 - **Exit conditions**: Aucun stop — position long-terme patrimoniale. Réévaluer uniquement en cas de changement structurel (frais, éligibilité PEA, sous-performance persistante vs indice).
-- **Last reviewed**: 2026-09-09 — **HOLD long-terme**. Consolidation CT (MACD bearish) dans une tendance de fond intacte. Laisser courir sans stop.
+- **Last reviewed**: 2026-09-23 — **HOLD long-terme**. RSI en surachat (71,3) et prix étendu au-dessus de la bande de Bollinger — signal de vigilance (pas de vente, position patrimoniale sans stop), possible pause/pullback à court terme après le rally. Tendance de fond fortement haussière.
 
 ### Amundi PEA S&P 500 Screened UCITS ETF (long)
 - **ISIN**: FR0013412285 — Ticker: **PSP5.PA**
 - **Date entered**: 2025 (estimé), renforcé le 2026-08-27 : +15 actions à 54,70 €
 - **Thesis**: Core holding long-terme — exposition au S&P 500 via ETF synthétique éligible PEA. Position patrimoniale, à renforcer sur repli. (Historique : 20 actions vendues le 10/08 à 55,93 € → +134,40 €.)
-- **Performance**: **+12,9 % brut (+296 €, +245 € net PS)**. Cours 57,71 €. RSI 44,9 neutre en baisse. MACD bearish depuis le 19/08 (histogramme −0,14). Prix à 22 % de la bande de Bollinger (lower-middle). SMA50 57,98 €/SMA200 53,99 € — golden cross établi. ATR 0,47 €.
+- **Performance**: **+16,5 % brut (+380 €, +315 € net PS)**. Cours 59,58 €. RSI 66,0 en hausse. MACD bearish depuis le 19/08 (histogramme −0,01, quasi neutre). Prix à 116 % de la bande de Bollinger (au-dessus de la bande sup.). SMA50 58,10 €/SMA200 54,35 € — golden cross établi. ATR 0,48 €.
 - **Exit conditions**: Aucun stop — position long-terme patrimoniale. Renforcer sur corrections significatives (>10 %).
-- **Last reviewed**: 2026-09-09 — **HOLD long-terme**. Pullback CT sans casser la structure haussière. Renforcer si repli >10 %.
+- **Last reviewed**: 2026-09-23 — **HOLD long-terme**. Prix étendu au-dessus de la bande de Bollinger supérieure malgré le MACD bearish — extension technique à surveiller, pas d'action sur position patrimoniale. Structure haussière intacte.
 
 ### Amundi S&P Eurozone Climate Paris Aligned (long)
 - **ISIN**: LU2195226068 — Ticker: **EPAB.PA**
 - **Date entered**: 2025 (estimé)
 - **Thesis**: Core holding long-terme, exposition zone euro filtrée ESG, diversification géographique
-- **Performance**: **+6,9% brut (+55 €, +45 € net PS)**. Cours 42,53 €. RSI 41,9 neutre stable. MACD bearish depuis le 24/08 (histogramme −0,17). Prix à 2 % de la bande de Bollinger (proche bande basse). SMA50 42,81 €/SMA200 40,09 € — golden cross intact. ATR 0,42 €. Liquidité faible.
+- **Performance**: **+6,4% brut (+51 €, +42 € net PS)**. Cours 42,33 €. RSI 46,1 neutre en hausse. MACD bearish depuis le 24/08 (histogramme −0,23). Prix à 33 % de la bande de Bollinger (lower-middle). SMA50 42,83 €/SMA200 40,31 € — golden cross intact. ATR 0,48 €. Volume subdued (−40 %).
 - **Exit conditions**: Changement de conviction ESG OU sous-performance structurelle vs indice
-- **Last reviewed**: 2026-09-09 — **HOLD**. Refroidissement post-ATH (44,21 €). Structure haussière intacte. Core holding, ne pas trader.
+- **Last reviewed**: 2026-09-23 — **HOLD**. Stabilisation sur la bande basse-médiane, structure haussière intacte. Core holding, ne pas trader.
 
 ### Engie (long)
 - **Date entered**: 2024 ou avant (estimé)
 - **Thesis**: Transition énergétique, dividende élevé (~12,9% sur PRU, 5,1% au cours actuel), utilities défensif
-- **Performance**: **+130,1% brut (+408 €, +338 € net PS)**. ⭐ Star du portefeuille. Cours 24,05 €. RSI 34,2 neutre en hausse (proche survente). MACD bearish depuis le 28/07 (histogramme −0,23). Prix à 22 % de la bande de Bollinger (lower-middle), sous la SMA50 (26,11 €) ET sous la SMA200 (25,96 €) — cross haussier fragile (écart 0,6 %). ATR 0,55 €. Dividende 5,6 % de rendement.
+- **Performance**: **+126,2% brut (+396 €, +328 € net PS)**. ⭐ Star du portefeuille. Cours 23,64 €. RSI 37,6 neutre en baisse (proche survente). MACD bearish depuis le 28/07 (histogramme −0,80). Prix à 17 % de la bande de Bollinger (lower-middle), sous la SMA50 (25,40 €) ET sous la SMA200 (26,08 €). **Death cross confirmé le 11/09** (dégradation vs le cross fragile de la revue précédente). ATR 0,51 €. Volume très élevé (+134 % vs moyenne 20j). Dividende 5,67 % de rendement.
 - **Exit conditions**: Changement structurel de la politique de dividende OU dégradation réglementaire majeure
-- **Last reviewed**: 2026-09-09 — **STRONG HOLD**. Pullback −19,5 % depuis l'ATH (29,89 €), RSI proche survente. Dividende 1,35 €/action sécurisé. Vigilance sur le cross SMA50/200 fragile mais thèse intacte.
+- **Last reviewed**: 2026-09-23 — **STRONG HOLD**. Death cross désormais confirmé (11/09) avec volume anormalement élevé (+134 %) — dégradation technique notable, à surveiller de près, mais thèse dividende/utilities défensif intacte et position massivement profitable. Aucune action requise ; pas d'alerte prix définie sur cette position (long terme).
 
 ### Eurazeo (short)
 - **Date entered**: 2026-08-27 (15 actions à 49,64 € — ordre unique)
 - **ISIN**: FR0000121121 — Ticker: **RF.PA**
 - **Thesis**: Private equity / gestion d'actifs française à ~53 % de décote sur NAV (105,4 €/action vs cours ~50 €, P/B 0,53). Retour à la création de valeur positive (NAV +3,3 % au S1, RN −6 M€ vs −311 M€, AUM +9 % à 40 Md€). Catalyseurs de compression de décote : rachat d'actions ~120 M€ + cession Aroma-Zone (Partners Group). Consensus Strong Buy (objectif moyen 68,90-71,73 €, +38-44 %). Due diligence LL-01 complétée le 23/08.
-- **Performance**: **−3,0 % (−22 €)**. Cours 48,60 €. RSI 45,1 neutre stable. MACD bearish crossover le 02/09 (histogramme −0,29). Prix à 7 % de la bande de Bollinger (lower-middle). SMA50 47,43 €/SMA200 47,41 € — golden cross marginal le jour même (09/09). ATR 1,11 €.
+- **Performance**: **−5,1 % (−38 €)**. Cours 47,54 €. RSI 45,7 neutre en hausse. MACD bearish depuis le 02/09 (histogramme −0,60). Prix à 36 % de la bande de Bollinger (lower-middle). SMA50 48,66 €/SMA200 47,03 € — golden cross confirmé le 08/09. ATR 1,03 €.
 - **Exit conditions**: Alerte sortie **47,86 €** (1,5× ATR sous l'entrée). Objectifs T1 **53,25 €** (+7,3 %), T2 **55,00 €** (+10,8 %). **Limite de vente : 53,25 €** (T1).
-- **Last reviewed**: 2026-09-09 — ⚠️ **WATCH resserré**. Alerte de sortie 47,86 € à seulement 1,5 % du cours (48,60 €). MACD bearish récent. Position récente (27/08), thèse intacte mais surveillance quotidienne recommandée. Ne pas renforcer.
+- **Last reviewed**: 2026-09-23 — ⚠️ **WATCH — alerte 47,86 € désormais franchie** (cours 47,54 €, −0,32 € sous l'alerte). Position récente (27/08), MACD bearish persistant. Fait partie du lot de 5 breaches uncorrelated de cette revue (cf. synthèse) — traité comme repli de marché généralisé plutôt que signal idiosyncratique. **HOLD, ne pas renforcer**, surveiller quotidiennement.
 
 ### Exosens (short)
 - **Date entered**: 2026-08-09
 - **ISIN**: FR001400Q9V2 — Ticker: **EXENS.PA**
 - **Thesis**: Leader français des technologies de détection et d'imagerie (vision nocturne, capteurs, nucléaire). Spin-off de Groupe HLD, position unique sur des marchés de niche en croissance (défense, industrie, sciences). Potentiel de revalorisation post-introduction.
-- **Performance**: **−2,4 % (−14 €)**. Cours 56,25 €. RSI 41,4 neutre en hausse. MACD bearish confirmé depuis le 27/08 (histogramme −0,66). Prix à 22 % de la bande de Bollinger (lower-middle), sous la SMA50 (59,76 €). ATR 1,95 €.
-- **Exit conditions**: Objectif +15 % (~65,70 €). Stop à 55,00 € (−3,7 %). **Limite de vente conseillée : 63,00 €** (le retournement MACD du 27/08 rend le +15 % moins probable à CT).
-- **Last reviewed**: 2026-09-09 — **HOLD (vigilance accrue)**. Stop 55,00 € à seulement 1,25 € du cours (~0,64×ATR — se rapproche). MACD bearish confirmé. Limite de vente 63 € maintenue mais de moins en moins probable à CT.
+- **Performance**: **+10,0 % (+58 €, +48 € net PS)**. Cours 63,40 €. RSI 64,2 en hausse. **MACD bullish crossover le 23/09** (retournement complet — était bearish depuis le 27/08). Prix à 106 % de la bande de Bollinger (au-dessus bande sup.). SMA50 59,74 €/SMA200 59,27 € — golden cross. ATR 2,18 €. Volume élevé (+59 %).
+- **Exit conditions**: Objectif +15 % (~65,70 €). Stop à 55,00 € (−3,7 %). **Limite de vente conseillée : 63,00 €**.
+- **Ordre en cours**: ⏳ **Vente limitée à 63,60 € sur la totalité (10 actions), placée le 2026-09-23.** En attente d'exécution (cours actuel 63,40 € — ordre pas encore atteint).
+- **Last reviewed**: 2026-09-23 — **CONSIDER SELLING**. Retournement complet depuis la dernière revue : position passée de −2,4 % à **+10,0 %**, objectif court terme (10-15 %) atteint et limite de vente conseillée (63,00 €) dépassée. Ordre de vente limité placé par l'utilisateur à 63,60 €.
 
 ### Independance AM Europe Small A (C) (short)
 - **Date entered**: 2025 (estimé)
 - **Thesis**: Exposition small caps européennes via fonds actif
-- **Performance**: **+3,7% brut (+44 €, +36 € net PS)**. Dernière NAV : 246,44 € (2026-08-07). RSI 58,0 en hausse. MACD bearish depuis le 29/06 (histogramme −0,06). Prix à 93 % de la bande de Bollinger. SMA50 244,11 €, SMA200 231,36 € — golden cross. ATR 1,29 € (NAV quotidienne uniquement).
+- **Performance**: **+3,7% brut (+44 €, +36 € net PS)** — inchangé, dernière NAV connue : 246,44 € (2026-08-07). RSI 58,0 en hausse (donnée du 07/08, non réactualisée). MACD bearish depuis le 29/06. SMA50 244,11 €, SMA200 231,36 € — golden cross.
 - **Exit conditions**: Objectif +10% (~261 €) OU sous-performance vs indice small caps sur 6 mois
-- **Last reviewed**: 2026-08-23 — **HOLD**. OPCVM — données de marché limitées (NAV quotidienne, pas de volume). NAV non réactualisée cette revue (dernière 246,44 € au 07/08). Gain modeste mais positif. Position non analysée par agent (fonds actif).
+- **Last reviewed**: 2026-09-23 — **HOLD (données non actualisées)**. OPCVM luxembourgeois — ISIN non résolu par yfinance ni Yahoo Chart API (fonds actif, pas de ticker d'échange standard). NAV toujours celle du 07/08 (246,44 €), **désormais périmée depuis ~7 semaines**. Nécessiterait une source dédiée (site Independance AM, Morningstar/FE fundinfo, ou dépositaire PEA) pour une NAV à jour. Aucune action — gain modeste et positif au dernier chiffre connu.
 
 ### Indra Sistemas (short)
 - **Date entered**: 2026-09-09 (ordre limite placé le 27/08 sur watchlist, exécuté à 58,732 €)
 - **ISIN**: ES0118594417 — Ticker: **IDR.MC**
 - **Thesis**: Pure-play défense/IT espagnol (radars, systèmes de défense + Minsait IT). Supercycle de réarmement OTAN : forte visibilité commandes défense, transformation IT (Minsait) en cours. La défense européenne est le thème porteur du moment (rotation luxe/tech → défense).
 - **Exit conditions**: Alerte sortie **55,82 €** (1,5× ATR sous l'ordre limite initial 58,50 €) → vente manuelle si cassée.
-- **Performance**: **−3,1 % (−27 €)** dès le premier jour. Cours 56,94 €. RSI 38,3 en baisse. MACD bearish crossover le 02/09 (avant l'exécution). Prix proche de la bande basse de Bollinger. SMA50 56,95 €/SMA200 53,54 € — structure haussière LT intacte. ATR 1,81 €.
+- **Performance**: **+6,0 % (+53 €, +44 € net PS)**. Cours 62,24 €. RSI 58,6 neutre en baisse. MACD bearish depuis le 02/09 (histogramme négatif). Prix à 75 % de la bande de Bollinger (upper-middle). SMA50 59,34 €/SMA200 54,32 € — golden cross intact, structure haussière LT confirmée. ATR 1,77 €.
 - **Cross-check news (09/09)** — TradingView + Investir, aucun catalyseur négatif trouvé : résultats H1 réaffirmés, série de contrats défense positifs (SANTAM, Adif, Chili, Hanwha Aerospace/K9), gouvernance stabilisée depuis avril (Ángel Simón président non-exécutif, CEO en poste). Titre +83% sur 1 an / +25% YTD, proche de son ATH — valorisation tendue signalée par la presse. Repli de -3,1% lu comme prise de bénéfices après un fort rally + marché risk-off généralisé le 09/09 (CAC40 -1,94%), pas une dégradation structurelle.
-- **Last reviewed**: 2026-09-09 — **HOLD**. Position ouverte le jour même, thèse confirmée par le cross-check news. MACD bearish à surveiller mais pas de signal de vente. Marché bearish généralisé — pas de décision de panique (cf. compte).
+- **Last reviewed**: 2026-09-23 — **HOLD**. Position désormais profitable (+6,0 %, contre −3,1 % à l'ouverture). Alerte de sortie 55,82 € loin du cours (62,24 €). MACD bearish persistant mais structure haussière LT (golden cross) intacte. Aucun signal de vente.
 
 ### Saint-Gobain (long)
 - **Date entered**: 2024 ou avant (estimé)
 - **Thesis**: Leader mondial des matériaux de construction, diversification géographique, dividende 2,3%
-- **Performance**: **+54,3% brut (+1 258 €, +1 042 € net PS)**. Cours 71,50 € (−3,9 % sur la séance). RSI 28,6 **survente** en baisse. MACD bearish crossover le 28/08 (histogramme −1,08). Prix sous la bande basse de Bollinger (−6 %). Death cross SMA50 (78,69 €) / SMA200 (79,85 €). ATR 1,97 €.
-- **Exit conditions**: Alerte à 71,51 € (1,5× ATR sous PRU+50 %). Thèse long-terme intacte. Forward P/E 10,5, consensus Buy objectif 97,72 € (+37 %).
-- **Last reviewed**: 2026-09-09 — ⚠️ **WATCH** (cours 71,50 € quasi sur l'alerte 71,51 €, RSI survente 28,6, death cross). Thèse LT intacte (objectif analystes 97,72 €). **Décision utilisateur : HOLD, pas de vente** — marché bearish généralisé, pas de décision de panique.
+- **Performance**: **+52,4% brut (+1 215 €, +1 006 € net PS)**. Cours 70,64 €. RSI 36,2 en hausse (remonte depuis la survente). MACD bearish depuis le 28/08 (histogramme −1,16). Prix à 32 % de la bande de Bollinger (lower-middle). SMA50 77,29 €/SMA200 79,06 € — death cross persistant. ATR 1,73 €. Forward P/E 10,4, dividende 3,23 %.
+- **Exit conditions**: Alerte à 71,51 € (1,5× ATR sous PRU+50 %). Thèse long-terme intacte. Consensus Buy objectif 97,72 € (+38 %).
+- **Last reviewed**: 2026-09-23 — ⚠️ **WATCH — alerte 71,51 € désormais franchie** (cours 70,64 €, −0,87 € sous l'alerte). RSI remonte depuis la survente (28,6 → 36,2), death cross persistant. Fait partie du lot de 5 breaches uncorrelated de cette revue (cf. synthèse) — traité comme repli de marché généralisé. Thèse LT intacte (P/E 10,4×, objectif analystes 97,72 €). **HOLD maintenu**, pas de vente.
 
 ### Sanofi (short)
 - **Date entered**: 2026-07-16 (tranche 1/3), renforcé le 2026-07-20 : +10 actions à 76,91 € (tranche 2/3), renforcé le 2026-08-09 : +10 actions à 74,70 € (tranche 3/3)
 - **ISIN**: FR0000120578
 - **Thesis**: Leader pharmaceutique français, pipeline oncologie/immunologie/vaccins, dividende élevé (5,4%), forward P/E 8,4 (décote injustifiée). Entrée après correction de −22% depuis l'ATH, catalysée par l'approbation FDA du Sarclisa Escena. Due diligence LL-01 complétée.
-- **Performance**: **−3,1% (−70 €)**. Cours 74,24 €. RSI 37,4 neutre en baisse. MACD bearish crossover le 08/09 (hier). Prix sous la bande basse de Bollinger (−2 %). Death cross SMA50 (76,32 €) / SMA200 (78,46 €). ATR 1,50 €.
+- **Performance**: **−4,5% (−104 €)**. Cours 73,11 €. RSI 39,0 neutre en baisse. MACD bearish depuis le 07/09 (histogramme −0,34). Prix à 12 % de la bande de Bollinger (proche bande basse). SMA50 76,05 €/SMA200 77,86 € — alignement bearish persistant. ATR 1,39 €.
 - **Exit conditions**: Alerte à 74,15 € (PRU − 1,5× ATR). Objectif 88-92 € (+15-20%). Position complète (3/3).
-- **Last reviewed**: 2026-09-09 — ⚠️ **WATCH** (cours 74,24 € quasi sur l'alerte 74,15 €). MACD bearish (08/09). **Décision utilisateur : HOLD, pas de vente** — marché bearish généralisé, pas de décision de panique.
+- **Last reviewed**: 2026-09-23 — ⚠️ **WATCH — alerte 74,15 € désormais franchie** (cours 73,11 €, −1,04 € sous l'alerte). MACD bearish persistant. Fait partie du lot de 5 breaches uncorrelated de cette revue (cf. synthèse) — traité comme repli de marché généralisé. **HOLD maintenu**, pas de vente.
 
 ### Vinci (long)
 - **Date entered**: 2024 ou avant (estimé)
 - **Thesis**: Leader mondial des concessions et construction, cash-flows récurrents, dividende ~4%
-- **Performance**: **+23,7% brut (+984 €, +815 € net PS)**. Cours 111,80 €. RSI 33,2 neutre en hausse. MACD bearish crossover le 21/08 (histogramme −0,84). Prix à 13 % de la bande de Bollinger (lower-middle, proche bande basse). Death cross confirmé le 20/07 (SMA50 119,92 € < SMA200 125,02 €). ATR 2,10 €.
-- **Exit conditions**: Alerte à 114,45 € (1,5× ATR). Thèse long-terme (concessions, dividende) intacte. Dividende 3,95 €/action (rendement 4,4 % sur PRU).
-- **Last reviewed**: 2026-09-09 — ⚠️ **WATCH** (alerte 114,45 € franchie, death cross 20/07). Thèse LT (concessions, dividende) intacte. **Décision utilisateur : HOLD, pas de vente** — marché bearish généralisé, pas de décision de panique.
+- **Performance**: **+22,7% brut (+943 €, +780 € net PS)**. Cours 110,90 €. RSI 39,0 neutre en baisse. MACD bearish depuis le 21/08 (histogramme négatif). Prix à 23 % de la bande de Bollinger (lower-middle). Death cross persistant (SMA50 117,62 € < SMA200 124,49 €). ATR 1,92 €. Dividende 4,5 % de rendement (détachement 13/10, 1,10 €/action).
+- **Exit conditions**: Alerte à 114,45 € (1,5× ATR). Thèse long-terme (concessions, dividende) intacte. Forward P/E 11,1, consensus Buy.
+- **Last reviewed**: 2026-09-23 — ⚠️ **WATCH — alerte 114,45 € toujours franchie** (cours 110,90 €, écart désormais 3,55 €). Death cross persistant. Fait partie du lot de 5 breaches uncorrelated de cette revue (cf. synthèse) — traité comme repli de marché généralisé. Thèse LT (concessions, dividende, valorisation attractive) intacte. **HOLD maintenu**, pas de vente.
 
 ### iShares MSCI World Swap PEA UCITS ETF (long)
 - **Date entered**: 2024 ou avant (estimé)
@@ -199,9 +193,9 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 - **Date entered**: 2026-08-10
 - **ISIN**: FR0000044448
 - **Thesis**: Leader mondial des câbles, bénéficiaire direct de la transition énergétique (éolien offshore, interconnexions, data centers). H1 2026 en beat : guidance EBITDA relevée, contrat sous-marin IPTO, rachat d'actions, expansion US. Pullback de 152→130 € absorbé, reprise enclenchée. Valorisation attractive (P/E ~10×). Due diligence LL-01 complétée le 10/08/2026.
-- **Performance**: **−1,6 % (−34 €)**. Cours 138,50 €. RSI 49,3 neutre stable. MACD bullish depuis le 07/08 (histogramme +0,55). Prix à 34 % de la bande de Bollinger (lower-middle). SMA50 136,77 €/SMA200 135,74 € — cross serré. ATR 4,14 €.
+- **Performance**: **+0,2 % (+4 €)**. Cours 141,00 €. RSI 53,3 neutre en hausse. MACD bullish crossover le 21/09 (poursuite du mouvement haussier). Prix à 68 % de la bande de Bollinger (upper-middle). SMA50 137,23 €/SMA200 136,39 €. ATR 4,28 €. Dividende 2,02 %, consensus Buy objectif 171,73 €.
 - **Exit conditions**: Stop/alerte à 133,47 € (1,5× ATR = −4,6 %). Objectif 155-160 € (+11-14 %). **Limite de vente : 155,00 €** (T1).
-- **Last reviewed**: 2026-09-09 — **HOLD**. Stop 133,47 € à bonne distance (5,03 €, ~1,2×ATR). Objectif 155-160 € inchangé. Pas d'action.
+- **Last reviewed**: 2026-09-23 — **HOLD**. Position quasi à l'équilibre, momentum haussier confirmé (MACD bullish). Stop 133,47 € à bonne distance. Objectif 155-160 € inchangé. Pas d'action.
 
 ## Watchlist — Candidats court terme
 
@@ -221,7 +215,7 @@ Candidats identifiés en Phase 4-Short le 2026-08-10, en attente de confirmation
   - [ ] Close > EMA5 (46,76 €) — premier seuil de confirmation
 - **Alerte**: 44,70 € (1,5× ATR de 1,78 € sous le point d'entrée cible de ~46,50 €)
 - **Allocation cible**: ~700 € (15 actions à ~46,50 €)
-- **Décision**: ⏳ **WATCH** — revue 09/09 : cours 43,72 €, range-bound depuis 2 semaines (42,90-44,70 €). Toujours 0/4 confirmations (RSI 38,8 <50, MACD bearish depuis le 10/07 sans crossover, aucune bougie verte confirmée par le volume, close/EMA5 instable). **Death cross confirmé le 01/09** (SMA50 47,02 € < SMA200 47,84 €) — dégradation structurelle supplémentaire. Toujours pas d'entrée.
+- **Décision**: ⏳ **WATCH** — revue 23/09 : cours 44,00 € (+0,7 % vs 09/09). **MACD bullish crossover le 23/09** (retournement — 1/4 confirmation désormais acquise) et volume élevé (+61 % vs moyenne 20j, borderline le seuil 1,5×). RSI 46,6 toujours <50 (2/4 non atteint). Close vs EMA5 non confirmé sur plusieurs séances. Structure toujours dégradée (SMA50 45,76 €, prix en dessous ; death cross du 01/09 non inversé). Signal naissant à confirmer à la prochaine revue — pas encore d'entrée (1-2/4 confirmations selon lecture du volume).
 
 ### Hensoldt (HAG.DE) — ISIN DE000A1EW009
 - **Repérée le**: 2026-08-10
@@ -237,25 +231,10 @@ Candidats identifiés en Phase 4-Short le 2026-08-10, en attente de confirmation
   - [ ] Bougie de rebond sur support avec volume >1,5× moyenne (>450k)
 - **Alerte**: 81,60 € (1,5× ATR de 5,88 € sous le point d'entrée cible de ~87,50 €)
 - **Allocation cible**: ~720 € (8 actions à ~87-90 €)
-- **Décision**: ⏳ **WATCH** — revue 09/09 : cours **78,62 €** (-3,5 % sur la séance), n'a **pas** fait un repli sain vers 85-87 € comme espéré — a traversé cette zone et cassé l'ancien stop (81,60 €). MACD bearish depuis le 31/08 (histogramme -1,42), RSI retombé à 35,5. Plus que **1/4 confirmations**. Ce n'est plus une meilleure opportunité d'entrée mais un possible retournement de tendance — attendre une stabilisation technique (RSI qui remonte + MACD qui repasse bullish) avant de reconsidérer, avec un stop recalculé (ATR-based ~73,87 € si entrée).
-
-### GTT (GTT.PA) — ISIN FR0011726833
-- **Repérée le**: 2026-08-10
-- **Cours actuel**: 208,00 € (revue 27/08)
-- **Thèse**: Quasi-monopole mondial des membranes cryogéniques pour transport GNL. H1 2026 record : RN +16,9 % à 210 M€, carnet de commandes à des niveaux historiques, guidance confirmée. Commande éthane en Chine (Chengda). Barrière technologique infranchissable (brevets, certification). Bénéficiaire structurel de la transition énergétique (le gaz comme énergie de transition).
-- **Consensus**: Buy, objectif ~215-220 € (+7-10 %). Aucun analyste vendeur.
-- **Point de vigilance**: Prix à 99 % de la bande de Bollinger supérieure — suracheté CT. Entrée à 201 € laisse peu de marge jusqu'à l'objectif. Liquidité modérée (~80k titres/jour).
-- **Catalyseur**: Pas de catalyseur immédiat — le H1 a été publié le 28/07. Prochain événement : résultats S1 2027 (février-mars 2027).
-- **Critères d'entrée LL-01** (sur pullback):
-  - [ ] Pullback vers SMA50 (191,88 €) ou zone 192-195 €
-  - [ ] RSI redescend sous 55 (actuellement 62,7)
-  - [ ] MACD reste haussier
-  - [ ] Bougie de rebond sur support avec volume normal
-- **Alerte**: 194,66 € (1,5× ATR de 4,23 € sous le point d'entrée cible de ~195 €)
-- **Allocation cible**: ~3 015 € (15 actions à ~195-200 €) — nécessite cash disponible
-- **Décision**: ⏳ **WATCH** — revue 27/08 : cours 208,00 €, encore plus haut. Ordre limite 195 € jamais touché. RSI 65,1 (toujours >55). Critères d'entrée (repli vers 192-195 €) non remplis. Maintenir l'ordre limite ~195 €. NB : ATR réactualisé 3,84 € → alerte réelle 1,5×ATR ≈ 189,80 €. Cash dispo 1 680,80 € — l'allocation cible GTT (~3 015 €) ne tient plus.
+- **Décision**: ⏳ **WATCH (conviction dégradée)** — revue 23/09 : cours 79,30 € (stable vs 78,62 € au 09/09, pas de nouvelle jambe de baisse mais pas de rebond franc non plus). RSI remonte à 44,4 (depuis 35,5) — refroidissement positif. Mais **MACD désormais bearish (crossover 31/08)** — le seul signal technique valide à la revue précédente a disparu. **2/4 confirmations** (RSI hors survente + reste dans la fourchette). Toujours pas de bougie de rebond confirmée par le volume (normal, pas élevé). Repéré le 10/08 (~6 semaines) — encore dans la fenêtre des 2 mois. Attendre stabilisation technique claire avant toute entrée ; stop recalculé resterait ~73,87 € si entrée.
 
 > **Indra Sistemas** — ordre limite exécuté le 2026-09-09 à 58,732 € (15 actions). Basculé en Portfolio Composition, voir section Thesis.
+> **GTT** — retiré de la watchlist le 2026-09-23 (décision utilisateur). Titre trop éloigné de la zone d'entrée cible (224,80 € vs 192-195 €), budget incompatible avec le cash disponible.
 
 ### Figeac Aero (FGA.PA) — ISIN FR0011665280
 - **Repérée le**: 2026-09-09 (scan hors watchlist, small/mid-cap, budget ~750€)
@@ -270,7 +249,7 @@ Candidats identifiés en Phase 4-Short le 2026-08-10, en attente de confirmation
   - [ ] Close > EMA5 confirmé sur plusieurs séances
 - **Alerte**: 10,61 € (1,5× ATR de 0,29 € sous le cours actuel)
 - **Allocation cible**: ~740 € (67 actions à 11,04 €)
-- **Décision**: ⏳ **WATCH** — thèse intéressante et budget-compatible, mais signaux techniques contradictoires. Ne pas se fier au score automatique du script (3/4) : les critères LL-01 stricts (MACD *bullish*, bougie verte confirmée) ne sont pas remplis. Cross-check news (TradingView + Investir) pas encore fait — obligatoire avant toute entrée.
+- **Décision**: ⏳ **WATCH** — revue 23/09 : cours 10,96 € (léger repli vs 11,04 €). RSI 50,0 neutre (pas de sortie de survente confirmée). **MACD bearish crossover le 18/09** — signal supplémentaire négatif (était déjà bearish depuis le 13/07, la tendance de fond baissière domine toujours). Volume normal, pas de bougie verte confirmée. Toujours 0-1/4 confirmations strictes. Thèse sectorielle (Airbus/Boeing) intacte mais signaux techniques restent contradictoires/faibles. Cross-check news (TradingView + Investir) toujours pas fait — obligatoire avant toute entrée. Repéré le 09/09 (2 semaines) — pas encore stale.
 
 ### Soitec (SOI.PA) — ISIN FR0013227113 (à confirmer avant exécution)
 - **Repérée le**: 2026-09-09 (scan hors watchlist, momentum sectoriel semi-conducteurs)
@@ -281,7 +260,7 @@ Candidats identifiés en Phase 4-Short le 2026-08-10, en attente de confirmation
 - **Critères d'entrée LL-01**: 3/4 au score automatique du script, mais **ne pas chasser le rallye** — R/R défavorable à ce niveau (stop 1,5×ATR = -9,3 %, pas de résistance overhead calculable).
 - **Zone de repli cible**: 130-134 € (ancienne résistance, support potentiel)
 - **Allocation cible**: ~720 € (5 actions à 144,30 € — position minimale vu le prix élevé par action)
-- **Décision**: ⏳ **WATCH** — attendre un repli/consolidation vers 130-134 € pour un meilleur ratio risque/rendement. Cross-check news obligatoire avant toute décision.
+- **Décision**: ⏳ **WATCH (extension technique persistante)** — revue 23/09 : cours **150,65 €**, a continué de grimper depuis le repérage (144,30 € le 09/09, +4,4 %) au lieu de refluer vers la zone cible 130-134 €. RSI se refroidit légèrement (68,2 → 62,6) mais reste élevé. MACD toujours bullish. R/R toujours défavorable à ce niveau (stop 1,5×ATR ≈ 135,67 €, soit −10 % — pas de résistance overhead fiable). **Ne pas chasser le rallye** — maintenir l'attente d'un repli. Cross-check news toujours pas fait.
 
 ## Watchlist — Candidats long terme
 
@@ -294,5 +273,5 @@ Candidats identifiés en Phase 4-Short le 2026-08-10, en attente de confirmation
 - **Valorisation vs secteur**: Titre +56 % YTD vs <10 % pour le CAC 40 — sur-performance nette mais valorisation tendue, peu de marge de sécurité à ce niveau. Upgrade BofA vers Buy le 16/06 (+7 % ce jour-là).
 - **Point de vigilance**: Cours proche de la résistance forte (24,34 €), MACD bearish crossover le 25/08 (essoufflement du momentum CT après un fort rally). LL-01 : seulement 2/4 confirmations techniques — pas un point d'entrée idéal aujourd'hui.
 - **Stratégie d'entrée**: Achat en tiers (⅓/⅓/⅓) plutôt qu'en une fois, vu la valorisation tendue. Attendre un repli vers le support 23,51 € (voire 21,52 € pour un meilleur point d'entrée) avant la première tranche.
-- **Décision**: ⏳ **WATCH** — thèse long terme solide (moat, transition digitale, retour actionnaire) mais entrée différée : prix proche ATH après +56 % YTD, momentum CT faiblissant. Réévaluer sur repli vers 23,51 € ou en cas de correction de marché plus large.
+- **Décision**: ⏳ **WATCH** — revue 23/09 : cours **25,10 €**, a continué de grimper depuis le repérage (24,00 € le 09/09) et a dépassé la résistance alors identifiée (24,34 €) au lieu de refluer vers le support 23,51 €. RSI 62,4 modéré. **MACD reste bearish** (crossover du 26/08, persistant) malgré la hausse du prix — divergence baissière à surveiller. Thèse long terme solide (moat, transition digitale, retour actionnaire) mais entrée toujours différée : le titre s'éloigne de la zone d'achat visée. Réévaluer sur repli vers 23,51 € ou correction de marché plus large.
 
