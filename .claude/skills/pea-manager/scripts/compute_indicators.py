@@ -5,8 +5,17 @@ Compute technical indicators from OHLCV data for PEA portfolio positions.
 Usage:
   python3 compute_indicators.py \
     --name "Air Liquide" --ticker "AI.PA" \
-    --shares 44 --pru 139.755 --pea-age ">5" --source "yfinance" \
+    --shares 44 --pru 139.755 --pea-years 6.83 --source "yfinance" \
     < ohlcv.json
+
+--pea-years takes a plain number (age of the PEA in years since opening).
+Tax rate is derived automatically (>=5 years -> 18.6% PS only, <5 years -> 31.4%
+PFU) — never pass the rate or a ">"/"<" comparison string here: on the command
+line ">" is a shell redirection operator, and even when quoted correctly, an
+LLM-driven caller reformatting free text like ">5 years (6y10m)" into a shell
+argument has repeatedly dropped the leading ">" silently, which flips every
+position's net P&L to the wrong tax rate without erroring. A plain float
+sidesteps both failure modes.
 
 Input (stdin): JSON object with parallel arrays:
   {"dates": [...], "opens": [...], "highs": [...], "lows": [...],
@@ -479,8 +488,13 @@ def main():
                         help="Number of shares (phase3 only)")
     parser.add_argument("--pru", type=float, default=0,
                         help="Average cost basis in EUR (phase3 only)")
+    parser.add_argument("--pea-years", type=float, default=None,
+                        help="PEA age in years as a plain number, e.g. 6.83 (phase3 only). "
+                             "Determines the tax rate: >=5 -> 18.6%% PS only, <5 -> 31.4%% PFU.")
     parser.add_argument("--pea-age", default="",
-                        help='PEA age, e.g. ">5 years" (phase3 only)')
+                        help="Optional free-text label for the PEA age shown in the output "
+                             "(e.g. '6 years 10 months'). Cosmetic only — does NOT affect the "
+                             "tax rate; use --pea-years for that.")
     parser.add_argument("--source", default="yfinance", help="Data source name (yfinance/eodhd)")
     parser.add_argument("--entry-price", type=float, default=None,
                         help="Planned entry price in EUR (dd mode)")
@@ -499,8 +513,10 @@ def main():
         if args.pru <= 0:
             print("ERROR: --pru required for phase3 mode", file=sys.stderr)
             sys.exit(1)
-        if not args.pea_age:
-            print("ERROR: --pea-age required for phase3 mode", file=sys.stderr)
+        if args.pea_years is None:
+            print("ERROR: --pea-years required for phase3 mode (plain number of years, "
+                  "e.g. 6.83 — do not use --pea-age for tax logic, it is display-only)",
+                  file=sys.stderr)
             sys.exit(1)
 
     # Read input
@@ -607,18 +623,16 @@ LL-01: [{confirmations}/4 confirmations] — ATR [{atr_status}] — recommendati
         gross_pl = (current_price - args.pru) * args.shares
         gross_pl_pct = (current_price - args.pru) / args.pru * 100
 
-        if ">" in args.pea_age or ("5" in args.pea_age and ">" in args.pea_age):
-            if gross_pl > 0:
-                tax_rate = 0.172
-                net_pl = gross_pl * (1 - tax_rate)
-            else:
-                net_pl = gross_pl
+        pea_over_5y = args.pea_years >= 5
+        if gross_pl > 0:
+            tax_rate = 0.186 if pea_over_5y else 0.314
+            net_pl = gross_pl * (1 - tax_rate)
         else:
-            if gross_pl > 0:
-                tax_rate = 0.30
-                net_pl = gross_pl * (1 - tax_rate)
-            else:
-                net_pl = gross_pl
+            net_pl = gross_pl
+
+        pea_age_label = args.pea_age if args.pea_age else (
+            f"{'>' if pea_over_5y else '<'}5 years ({args.pea_years:.2f}y)"
+        )
 
         output = f"""POSITION: {args.name} ({args.ticker})
 PRICE: €{current_price:.2f} (source: {args.source})
@@ -629,7 +643,7 @@ BOLLINGER: upper {bb_upper}, middle {bb_middle}, lower {bb_lower} — price at {
 SMA: 50-day {sma50_val}, 200-day {sma200_val} — [{sma_status} on {sma_cross_date}]
 ATR(14): {atr_val} — 1.5× ATR = {atr_1_5x} ({atr_pct}% from price)
 VOLUME: {vol_display}
-TAX: PEA {args.pea_age} — net after tax: {net_pl:+.2f}€"""
+TAX: PEA {pea_age_label} — net after tax: {net_pl:+.2f}€"""
 
     print(output)
 

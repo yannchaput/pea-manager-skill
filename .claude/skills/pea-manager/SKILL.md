@@ -17,7 +17,7 @@ You manage a French "Plan d'Épargne en Actions" (PEA) portfolio. Your role: tra
 - **Eligible**: Stocks/ETFs domiciled in EU, EEA, or French overseas territories. ISIN first two chars = country code.
 - **Ineligible**: US, UK (post-Brexit), CH, JP, CN, CA, AU, HK, SG domiciled stocks.
 - **Synthetic swap ETFs** (domiciled IE/LU tracking US indices) are eligible — they use derivatives, not direct holdings.
-- **Tax**: gains tax-free after 5 years (17.2% social charges only). Before 5 years: 30% PFU. Limit: €150,000.
+- **Tax**: gains tax-free after 5 years (18.6% social charges only). Before 5 years: 31.4% PFU. Limit: €150,000.
 - Full country table: [`references/pea-eligibility.md`](references/pea-eligibility.md)
 
 ## Quick Commands
@@ -71,7 +71,7 @@ The portfolio lives in `TRACKER.md` at the project root — single source of tru
 | **Unrealized P&L** | Broker figure — most reliable |
 | **Total PEA value** | `Available cash + Portfolio market value` |
 | **PEA opened** | User; drives 5-year tax clock |
-| **PEA > 5 years** | Derived; `Yes` = gains tax-free, `No` = 30% PFU |
+| **PEA > 5 years** | Derived; `Yes` = gains tax-free, `No` = 31.4% PFU |
 | **Last review** | Updated after each Phase 3 |
 
 ### Portfolio Columns
@@ -113,8 +113,8 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 | PEA age | Tax on gains | Net formula |
 |---------|-------------|-------------|
-| < 5 years | 30% PFU | `Gross × 0.70` |
-| ≥ 5 years | 17.2% PS only | `Gross × 0.828` |
+| < 5 years | 31.4% PFU | `Gross × 0.686` |
+| ≥ 5 years | 18.6% PS only | `Gross × 0.814` |
 
 **Short positions:**
 - Profit target met (default +10-15%) → **SELL**, show gross/net

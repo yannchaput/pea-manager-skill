@@ -14,7 +14,7 @@
 - **Synthetic swap ETFs** domiciled in eligible countries (e.g., Ireland IE, Luxembourg LU) are PEA-eligible even when tracking US indices — they use derivatives rather than holding US securities directly
 - **UK-domiciled** stocks/ETFs: not eligible post-Brexit unless a specific bilateral agreement applies
 - **Verify with ISIN**: the first two characters of the ISIN identify the country of domicile (FR = France, IE = Ireland, LU = Luxembourg, etc.)
-- **PEA tax benefit**: gains are tax-free after 5 years (social charges at 17.2% still apply)
+- **PEA tax benefit**: gains are tax-free after 5 years (social charges at 18.6% still apply)
 - **Contribution limit**: €150,000 per plan
 
 ## Quick Eligibility Check

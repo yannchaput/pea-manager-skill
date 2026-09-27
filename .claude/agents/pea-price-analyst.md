@@ -36,9 +36,11 @@ You analyze a single PEA portfolio position — fetch its current price and comp
 python3 .claude/skills/pea-manager/scripts/compute_indicators.py \
   --name "{NAME}" --ticker "{TICKER}" \
   --shares {SHARES} --pru {PRU} \
-  --pea-age "{PEA_AGE}" --source "{yfinance/eodhd}" \
+  --pea-years {PEA_YEARS} --source "{yfinance/eodhd}" \
   -i /tmp/pea_ohlcv_{TICKER}.json
 ```
+
+**`--pea-years` must be the plain number of years given in the dispatch prompt (e.g. `6.83`) — never rewrite it as `">5 years"` or similar.** The `>`/`<` form is a shell redirection character and is also unreliable to reconstruct from free text; the script derives the tax rate itself from the number (>=5 → 18.6% PS only, <5 → 31.4% PFU). If the dispatch prompt only gives a qualitative age (e.g. "PEA age: >5 years"), convert it to a number before building this command instead of passing the qualitative text through.
 
 The script computes **all indicators** (RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, P&L, tax-adjusted net) and outputs the structured format below. No manual computation and no script generation — the two pre-built scripts do everything.
 

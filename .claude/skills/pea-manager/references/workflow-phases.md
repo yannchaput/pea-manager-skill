@@ -10,7 +10,7 @@ Triggered when no `TRACKER.md` exists in the skill directory.
 2. **Ask for account-level information**:
    - Available cash (uninvested euros inside the PEA envelope)
    - PEA opening date. Ask: *"Quand avez-vous ouvert votre PEA ?"*
-   - Compute PEA age: *"Votre PEA a [X] ans — les plus-values sont [exonérées d'impôt / encore soumises au PFU de 30%]"*
+   - Compute PEA age: *"Votre PEA a [X] ans — les plus-values sont [exonérées d'impôt / encore soumises au PFU de 31,4%]"*
 3. **Ask for portfolio composition**: For each holding — company name, ISIN (or ticker), number of shares, PRU (€), strategy (`short` or `long`)
 4. **Compute totals**: Ask for broker's Unrealized P&L and Portfolio market value. Derive Capital Deployed = Portfolio Market Value − Unrealized P&L. Total PEA Value = Available Cash + Portfolio Market Value.
 5. **Present full TRACKER.md** — Account Information table + Portfolio Composition table — for user confirmation
@@ -52,8 +52,10 @@ For the remaining N positions, dispatch N `pea-price-analyst` agents. Each agent
 **Dispatch recipe** (one call per non-exception position):
 
 ```
-Agent(subagent_type="pea-price-analyst", prompt="Analyze {NAME} ({TICKER}, ISIN: {ISIN}) for PEA portfolio review. Position: {SHARES} shares, PRU {PRU}€, strategy: {STRATEGY}. PEA age: {>/< 5 years}.")
+Agent(subagent_type="pea-price-analyst", prompt="Analyze {NAME} ({TICKER}, ISIN: {ISIN}) for PEA portfolio review. Position: {SHARES} shares, PRU {PRU}€, strategy: {STRATEGY}. PEA age: {PEA_YEARS} years (opened {PEA_OPENED_DATE}).")
 ```
+
+**Always pass PEA age as a plain number of years** (e.g. `6.83`, computed from the `PEA opened` date in TRACKER.md), not as qualitative text like ">5 years". The agent forwards this straight to `compute_indicators.py --pea-years`, which derives the tax rate itself — qualitative text has repeatedly gotten reformatted or lost its `>` character in transit (a shell redirection character), silently flipping the tax rate for every position in the review. See `.claude/agents/pea-price-analyst.md` for the exact CLI contract.
 
 The agent definition (`.claude/agents/pea-price-analyst.md`) contains the full procedure, tools, and output schema. Pass all position parameters in the prompt.
 
@@ -68,8 +70,8 @@ The agent returns RSI(14), MACD(12,26,9), Bollinger(20,2σ), SMA 50/200, ATR(14)
 ### Step 3.3: Decision by Strategy
 
 **Tax context check** (before every sell recommendation):
-- **PEA < 5 years**: 30% PFU. Compute net: *"Gain brut: +X€. Après PFU (30%): +Y€ net."*
-- **PEA ≥ 5 years**: only 17.2% social charges. *"Gain brut: +X€. PS (17.2%): Y€. Net: +Z€."*
+- **PEA < 5 years**: 31.4% PFU. Compute net: *"Gain brut: +X€. Après PFU (31,4%): +Y€ net."*
+- **PEA ≥ 5 years**: only 18.6% social charges. *"Gain brut: +X€. PS (18,6%): Y€. Net: +Z€."*
 - Never let tax override a price alert, but use PEA age to calibrate recommendations
 
 **Short strategy:**

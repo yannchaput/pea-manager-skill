@@ -58,7 +58,7 @@ Positions listed here are **excluded from Phase 3 and Phase 4 analysis**. They r
 - **Unrealized P&L**: `Portfolio market value − Capital deployed`. Broker figure is most reliable.
 - **Total PEA value**: `Available cash + Portfolio market value`
 - **PEA opened**: Date the PEA plan was opened — determines the 5-year tax clock.
-- **PEA > 5 years**: Derived from opening date. `Yes` → gains tax-free (only 17.2% social charges). `No` → 30% flat tax (PFU).
+- **PEA > 5 years**: Derived from opening date. `Yes` → gains tax-free (only 18.6% social charges). `No` → 31.4% flat tax (PFU).
 - **Last review**: Most recent portfolio analysis date. Updated after each Phase 3 run.
 
 ## Portfolio Columns
