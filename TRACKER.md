@@ -195,7 +195,7 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 
 ## Watchlist — Candidats court terme
 
-Candidats identifiés en Phase 4-Short le 2026-08-10, en attente de confirmation technique pour entrée.
+Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attente de confirmation technique pour entrée.
 
 > **SPIE** — retirée de la watchlist le 2026-10-08 (décision utilisateur). Cours 41,32 € vs zone d'entrée ~46,50 € (+12,5 %), death cross, fenêtre de 2 mois atteinte.
 > **Hensoldt** — retirée de la watchlist le 2026-10-08 (décision utilisateur). Cours 74,82 € vs zone d'entrée ~87,50 € (+17 %), lower-highs, fenêtre de 2 mois atteinte.
@@ -227,6 +227,97 @@ Candidats identifiés en Phase 4-Short le 2026-08-10, en attente de confirmation
 - **Zone de repli cible**: 130-134 € (ancienne résistance, support potentiel)
 - **Allocation cible**: ~720 € (5 actions à 144,30 € — position minimale vu le prix élevé par action)
 - **Décision**: ⏳ **WATCH (ne pas chasser le rallye)** — revue 08/10 : cours 151,85 € (+0,8 % vs 150,65 € le 23/09), 15 % au-dessus de la zone cible 130-134 € (SMA50 131,92 € dans cette zone). Le script DD sort « ENTER » (3/4 : MACD haussier, tendance haussière, ATR OK), mais calculé sur le cours actuel, pas sur la zone d'entrée. Non suivi : ATR 9,48 € (1,5× = 14,22 €, 9,4 % du prix, à la limite des 10 %), R/R défavorable à ce niveau, cross-check news toujours pas fait (obligatoire), marché baissier. RSI 54,0 en baisse. Attendre un repli vers 130-134 €.
+
+### Teleperformance (TEP.PA) — ISIN FR0000051807
+- **Repérée le**: 2026-10-08 (Phase 4-Short, DD technique pea-dd-analyst ; mid-cap ~4,2 Md€)
+- **Cours actuel**: 71,80 €
+- **Thèse**: Services externalisés (relation client/IA), secteur dé-noté mais cours en tendance haussière sur 3 mois (higher-highs, golden cross 17/08, SMA50 70,02 € > SMA200 59,62 €). Forward P/E 5,1× (BPA forward 14,21 €). Secteur absent du portefeuille — diversifiant, peu corrélé à l'énergie/défense/matériaux en breach.
+- **Consensus**: Buy (2,5/5, 14 avis), objectif moyen 76,98 € (+7 %), médiane 69,85 €, fourchette 45–142 € (très dispersée).
+- **Point de vigilance**: MACD bearish depuis le 09/09 (histogramme −0,51), prix à 74 % de la bande de Bollinger — entrée à privilégier sur repli, pas à 71,80 €. **Cross-check news fait le 08/10 (TradingView + Investir) : verdict MIXTE.** Négatif : CA en baisse (−2,2 % T1, −1,2 % T2 à périmètre constant), narratif disruption IA, **Concentrix (concurrent US) a averti deux fois (30/06 et 30/09) et TEP a décroché le 30/09**, coûts de restructuration relevés à 120–140 M€ (vs 70–90 M€), nouveau DG (Jorge Amar, mars) et DAF confirmé (24/09), titre parmi les plus vendus à découvert d'Europe. Positif : guidance 2026 confirmée trois fois, marges stables, refinancement bouclé (1,2 Md€ + rachat 600 M€), plus gros actionnaire à 14,87 %, P/E 2026e ~5,2×, rendement ~6,3 %. Aucun profit warning propre à TEP. Consensus Investir non lisible (inscription requise).
+- **Catalyseur**: Pas de catalyseur daté confirmé. Résultats T3 probablement fin octobre (~28-29/10, déduit des dates passées, non confirmé) : risque de gap dans la fenêtre de trading.
+- **Critères d'entrée LL-01** (script DD : 2/4, détail non fourni):
+  - [ ] MACD bullish crossover (bearish depuis le 09/09, ligne 1,99 / signal 2,50)
+  - [ ] Repli tenu sur le support fort 68,20 € (SMA50 70,02 €) puis close > EMA5
+  - [ ] Bougie verte avec volume >1,5× moyenne 20j (>350k, actuellement ~0,95×)
+  - [ ] RSI(14) reste > 50 sur le repli (actuellement 55,8, en hausse)
+  - [x] Cross-check news TradingView + Investir (08/10) : pas de signal structurel aigu, verdict mixte (voir point de vigilance)
+- **Zone d'entrée cible**: 68,50–70,00 € (~69,50 €)
+- **Alerte**: 66,00 € (1,5× ATR de 2,33 € sous l'entrée, sous le support modéré 66,13 €)
+- **Objectifs**: T1 72,76 € (+4,7 %, résistance forte), T2 76,98 € (+10,8 %, objectif consensus)
+- **Allocation cible**: ~700 € (10 actions à ~69,50 €), en tiers
+- **Décision**: ⏳ **WATCH** — rang 1/5 après cross-check : meilleur profil tendance + diversification, mais risque sectoriel IA persistant et 2/4 LL-01 seulement. Si entrée : tiers n°1 réduit (~230 €), idéalement après la publication T3 (fin octobre) pour éviter le gap ; cours actuel au-dessus de la zone d'entrée.
+
+### Eramet (ERA.PA) — ISIN FR0000131757
+- **Repérée le**: 2026-10-08 (Phase 4-Short, DD technique ; mid-cap ~1,3 Md€, VE ~4,2 Md€)
+- **Cours actuel**: 44,98 €
+- **Thèse**: Mines/métaux (manganèse, nickel, lithium) — forte volatilité, exposition matières premières et inflation, absente du portefeuille. Score LL-01 automatique **3/4** (MACD bullish crossover le 21/09, histogramme +0,20, RSI 51,6 en hausse, ATR OK).
+- **Consensus**: Hold (3,17/5, 6 avis), objectif moyen 50,67 € (+12,6 %), fourchette 43–56 €.
+- **Point de vigilance**: **Cross-check news fait le 08/10 (TradingView + Investir) : verdict MITIGÉ, orienté négatif à court terme.** Opérations en reprise (EBITDA ajusté S1 +45 % à 276 M€, objectifs confirmés, mine Weda Bay relancée le 10/09, lithium/manganèse en croissance) **mais** : dilution probable (augmentation de capital ≈ 39 % de la capitalisation), dette nette ~5,5× l'EBITDA fin 2025, Moody's B2 (03/03), résultat net S1 −146 M€, dépréciation Sénégal 112 M€ (usine Grande Côte à ~30 % de capacité), actionnariat incertain (famille Duval 37 % cherche à sortir, État 27 %), départ opaque du DG (02/02) et nouveau DAF (26/05), risque quotas nickel Indonésie. Qualité bilan faible, prix 16 % sous la SMA200 (death cross), range 43,50–46,47 €, consensus Hold. Le 3/4 LL-01 est calculé sur une structure fragile.
+- **Catalyseur**: **Augmentation de capital de 500 M€ en attente** (annoncée 18/02, votée en AG le 27/05, attendue d'ici fin d'année ≈ 39 % de la capitalisation) ; capex de 350 M$ en lithium Argentine annoncé le 01/10 (besoins de financement supplémentaires) ; cession possible de la participation lithium (Glencore, InfraVia cités, 16/09). Résultats T3 non datés (fin oct./début nov. déduit, non confirmé).
+- **Critères d'entrée LL-01** (script DD : 3/4):
+  - [x] MACD bullish crossover (21/09, histogramme +0,20)
+  - [ ] Close > résistance 46,47 € avec volume >1,5× moyenne 20j (>35k, actuellement ~1,0×)
+  - [ ] Close > EMA5 confirmé sur plusieurs séances
+  - [ ] Cross-check news (08/10) : **catalyseur négatif identifié** (augmentation de capital 500 M€ en attente) — à lever après l'opération
+- **Zone d'entrée cible**: ~44,50 € (repli vers le support fort 43,50 €) ou cassure confirmée > 46,47 €
+- **Alerte**: 42,50 € (1,5× ATR de 1,35 € sous l'entrée, sous le support 43,50 €)
+- **Objectifs**: T1 46,47 € (+4,4 %) puis 48,38 € (+8,7 %)
+- **Allocation cible**: ~670 € (15 actions à ~44,50 €), en tiers, réduire si cross-check news douteux
+- **Décision**: ⏳ **WATCH — entrée suspendue** — rang 2/5 → rétrogradé après cross-check : ne pas acheter avant le lancement/clôture de l'augmentation de capital (pression dilutive probable dans les semaines à mois à venir). Ré-évaluer après l'opération ; si le cours se tasse sur la décote de l'émission, l'entrée redevient pertinente. Aucune allocation tant que la dilution n'est pas passée.
+
+### SBM Offshore (SBMO.AS) — ISIN NL0000360618 (à confirmer avant exécution)
+- **Repérée le**: 2026-10-08 (Phase 4-Short, DD technique ; mid-cap ~5,8 Md€)
+- **Cours actuel**: 35,36 €
+- **Thèse**: Parapétrolier offshore (FPSO), bénéficiaire de la flambée du pétrole (Brent ~105 $) et des investissements offshore. Tendance haussière intacte (higher-highs, SMA50 35,06 € > SMA200 32,98 €), forward P/E 9,5×. Valeur de rotation énergie, absente du portefeuille côté services pétroliers.
+- **Consensus**: Buy (1,78/5, 8 avis), objectif moyen 45,73 € (+29 %).
+- **Point de vigilance**: Corrélation avec TotalEnergies (déjà au portefeuille) — double exposition pétrole. Une désescalade au Moyen-Orient serait un risque de baisse rapide. MACD bearish depuis le 30/09, 1/4 confirmation. Date des résultats non confirmée. ISIN non retourné par les sources — à vérifier.
+- **Catalyseur**: Prix du pétrole, carnet de commandes FPSO — cross-check news **pas encore fait** (obligatoire).
+- **Critères d'entrée LL-01** (script DD : 1/4):
+  - [ ] MACD bullish crossover (bearish depuis le 30/09, ligne 0,48 / signal 0,68)
+  - [ ] Repli tenu sur support 34,06–35,48 € puis close > EMA5
+  - [ ] Bougie verte avec volume >1,5× moyenne 20j (>575k, actuellement ~1,0×)
+  - [ ] RSI(14) rebondit depuis la zone 40–45 (actuellement 49,3 en hausse)
+- **Zone d'entrée cible**: 34,50–35,00 € (~34,80 €)
+- **Alerte**: 33,50 € (1,5× ATR de 0,85 € sous l'entrée, sous le support fort 34,06 €)
+- **Objectifs**: T1 36,87 € (+6,0 %), T2 37,40 € (+7,5 %, plus haut 52 sem.)
+- **Allocation cible**: ~700 € (20 actions à ~34,80 €), à réduire vu la double exposition pétrole
+- **Décision**: ⏳ **WATCH** — rang 3/5 : thèse cohérente avec le contexte mais déjà corrélée à TotalEnergies.
+
+### Aperam (APAM.AS) — ISIN LU0569974404
+- **Repérée le**: 2026-10-08 (Phase 4-Short, DD technique ; mid-cap ~2,7 Md€)
+- **Cours actuel**: 36,76 €
+- **Thèse**: Acier inoxydable, cyclique à beta élevé (1,82), forward P/E 8,0×, P/B 0,81, rendement 5,2 % (détachement 13/11). Rebond de capitulation potentiel : RSI 19,8 (survente extrême), volume +53 % (fourchette 52 sem. 29,50–53,85 € ; la source donne aussi « 0,2 % du plus bas », incohérent avec ces bornes — à revérifier). Secteur absent du portefeuille.
+- **Consensus**: Buy (2,45/5, 12 avis), objectif moyen 52,01 € (+41 %) ; le cours est sous la cible la plus basse (38 €).
+- **Point de vigilance**: **Couteau qui tombe** — MACD bearish (histogramme −0,83), lower-highs, prix 19 % sous la bande de Bollinger inférieure, SMA50 45,45 € très au-dessus. Aucune entrée avant retournement confirmé. Résultats le 06/11.
+- **Catalyseur**: Rebond technique ; résultats 06/11 ; dividende (ex 13/11). Cross-check news **pas encore fait** (obligatoire).
+- **Critères d'entrée LL-01** (script DD : 1/4):
+  - [ ] RSI(14) repasse au-dessus de 30 (actuellement 19,8, en baisse)
+  - [ ] MACD bullish crossover (bearish depuis le 10/09)
+  - [ ] Bougie verte avec volume >1,5× moyenne 20j (>175k ; volume déjà élevé +53 % mais direction baissière)
+  - [ ] Close > EMA5 et retour dans la bande de Bollinger (>38,67 €)
+- **Zone d'entrée cible**: ~38,70 € (retour dans la bande, après confirmation)
+- **Alerte**: 36,35 € (1,5× ATR de 1,57 € sous l'entrée)
+- **Objectifs**: T1 43,66 € (+12,8 %, milieu de bande), T2 45,76 € (+18 %)
+- **Allocation cible**: ~580 € (15 actions à ~38,70 €), en tiers
+- **Décision**: ⏳ **WATCH (attendre retournement)** — rang 4/5 : fort potentiel de rebond mais 0 confirmation haussière.
+
+### Forvia (FRVIA.PA) — ISIN FR0000121147
+- **Repérée le**: 2026-10-08 (Phase 4-Short, DD technique ; mid-cap ~1,65 Md€) — seul candidat cité par les **deux** sources (scan places + Boursier.com « passe la seconde »)
+- **Cours actuel**: 8,94 €
+- **Thèse**: Équipementier automobile en désendettement/restructuration, forward P/E 4,3×. Secteur absent du portefeuille. Cité positivement par l'analyse Boursier.com (07/10).
+- **Consensus**: Buy (1,92/5, 13 avis), objectif moyen 14,83 € (+66 %), fourchette 11–39 € (très dispersée).
+- **Point de vigilance**: **Bilan fragile** — dette ~9,7 Md€ (D/E ~255 %), perte nette −1,27 Md€, FCF −471 M€, beta 1,66. Death cross, prix sous SMA50 (9,15 €) et SMA200 (10,61 €), MACD bearish (25/09). Secteur auto sous pression (OPMobility : double baisse d'objectif). Date des résultats non disponible.
+- **Catalyseur**: Désendettement ; Boursier.com positif (titre seul). Cross-check news **pas encore fait** (obligatoire).
+- **Critères d'entrée LL-01** (script DD : 2/4):
+  - [ ] Close > SMA50 (9,15 €) — premier seuil de confirmation
+  - [ ] MACD bullish crossover (bearish depuis le 25/09, ligne −0,09 / signal −0,09, quasi neutre)
+  - [ ] Bougie verte avec volume >1,5× moyenne 20j (>1,3 M, actuellement ~1,2×)
+  - [ ] Support 8,52–8,93 € tient (plus bas 52 sem. 8,42 €)
+- **Zone d'entrée cible**: ~9,15 € (reprise de la SMA50)
+- **Alerte**: 8,45 € (1,5× ATR de 0,47 € sous l'entrée, sous le support fort 8,52 €)
+- **Objectifs**: T1 9,88 € (+8,0 %, bande haute), T2 10,61 € (+16 %, SMA200)
+- **Allocation cible**: ~640 € (70 actions à ~9,15 €), à réduire (bilan)
+- **Décision**: ⏳ **WATCH** — rang 5/5 : double source mais bilan trop fragile pour une entrée sans confirmation.
 
 ## Watchlist — Candidats long terme
 
