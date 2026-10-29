@@ -48,7 +48,7 @@ If intent is ambiguous: *"Voulez-vous une revue complète (Phase 3), une recherc
 
 **Each subagent returns structured output** — the main agent synthesizes, never the subagent. Agent definitions live in `.claude/agents/`. See [`references/workflow-phases.md`](references/workflow-phases.md) for dispatch recipes and how to invoke each agent.
 
-**Playwright subagents**: open their own browser tab (`browser_tabs(action="new")`) and close it when done (`browser_close()`) to avoid contention on the shared browser instance.
+**Playwright subagents**: the browser has one shared "current tab", so opening your own tab does not isolate you from other agents. When 2+ Playwright agents run at the same time, each works only through `browser_run_code_unsafe` on a private page handle and never calls `browser_close()` — recipe in [`references/news-sources.md`](references/news-sources.md#playwright-concurrency-rule-read-before-dispatching-2-playwright-agents). A lone Playwright agent closes its tab with `browser_tabs(action="close")`.
 
 **What stays in the main agent:**
 - All user interaction (Phase 1, Phase 2)
@@ -200,7 +200,7 @@ Decision table — full procedures: [`references/news-sources.md`](references/ne
 | "Quick English backup for large cap?" | EODHD / Yahoo (API, no Playwright) |
 | "Full due diligence before short entry?" | **TradingView + Investir — both mandatory** |
 
-Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Playwright. Investir has cookie wall; headlines + first paragraphs are free. Each Playwright check: 15-35s. Always `browser_close()` after.
+Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Playwright. Investir has cookie wall; headlines + first paragraphs are free. Each Playwright check: 15-35s. Close your own tab after (never `browser_close()` with other Playwright agents running — see the concurrency rule in `news-sources.md`).
 
 ## Data Sources
 

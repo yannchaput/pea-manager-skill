@@ -4,6 +4,31 @@ This file contains the complete procedures for all news sources used by the PEA 
 
 ---
 
+## Playwright concurrency rule (read before dispatching 2+ Playwright agents)
+
+The Playwright MCP server has **one shared "current tab"**. `browser_navigate`, `browser_snapshot`, `browser_evaluate`, `browser_click`, `browser_wait_for` take no tab argument and act on it; `browser_tabs(new|select)` moves it for every agent. Opening "your own tab" therefore does not isolate later calls. Observed 2026-10-29 with two parallel agents: 3 of 8 steps landed on the other agent's tab, and one agent's `browser_close()` closed every tab, including the other agent's.
+
+| Situation | Do |
+|-----------|----|
+| 2+ Playwright agents at the same time (e.g. TradingView + Investir entry checklist) | Work only through `browser_run_code_unsafe` on a **private page handle** (recipe below). One call per site/ticker. Never call the pointer-based tools or `browser_close()`. The agent must have `browser_run_code_unsafe` in its tools. |
+| One Playwright agent alone | The step lists below are fine. End with `browser_tabs(action="close")`, not `browser_close()`. |
+
+```js
+async (page) => {
+  const p = await page.context().newPage();   // private handle, not the shared current tab
+  try {
+    await p.goto('https://www.tradingview.com/symbols/EURONEXT-ORA/', { waitUntil: 'domcontentloaded' });
+    await p.getByRole('tab', { name: 'News' }).click();
+    await p.waitForTimeout(2000);
+    return await p.evaluate(() => document.body.innerText.slice(0, 6000));
+  } finally { await p.close(); }   // the handle never leaves the call
+}
+```
+
+Adapt the goto/click/evaluate lines to the site (Investir: cookie banner + headline extraction, see below).
+
+---
+
 ## Primary: TradingView (via Playwright) — English, per-ticker, free
 
 TradingView aggregates Reuters, Quartr (earnings transcripts/slides), and other sources. It is the best free source for European mid/small cap news. **This check is mandatory before any `short` entry recommendation.**
@@ -17,7 +42,7 @@ Examples: `EURONEXT:ATE` (Alten), `EURONEXT:AIR` (Airbus), `EURONEXT:DSY` (Dassa
 2. Click the **News** tab: `getByRole('tab', { name: 'News' })`
 3. Take a snapshot: `browser_snapshot()`
 4. Extract and read all article titles, dates, and sources from the snapshot
-5. Close the browser: `browser_close()`
+5. Close your tab: `browser_tabs(action="close")` (single-agent mode; in parallel mode follow the concurrency rule above)
 
 **What to look for in the news**:
 - Revenue/profit warnings (strongest sell signal)
@@ -81,7 +106,7 @@ Investir (Les Echos group) is the most comprehensive French-language source for 
    ```
 5. Navigate to the `/actualites-conseils` sub-page for full history (30+ articles)
 6. Read article previews (first 2-3 paragraphs) for context on key headlines
-7. Close the browser: `browser_close()`
+7. Close your tab: `browser_tabs(action="close")` (single-agent mode; in parallel mode follow the concurrency rule above)
 
 **What Investir provides that other sources don't**:
 - French-language editorial analysis ("Conseil de la rédaction") — even the headline alone signals the editorial stance
@@ -142,5 +167,5 @@ Use these for quick English-language checks via API (no Playwright needed). They
 - **Boursier.com**: Per-ticker content is limited (AJAX lazy-load, JS template rendering). Best used for market-level sentiment, not individual stock news.
 - **TradingView**: English-only. No French-language context.
 - **Playwright adds latency**: Each check takes ~15-25 seconds. For a full portfolio review, budget ~5 minutes extra if checking all positions. Investir check with actualités sub-page takes ~25-35 seconds.
-- **Always close the browser tab** after each check to avoid resource leaks (`browser_close()`)
+- **Always close your own tab** after each check to avoid resource leaks (`browser_tabs(action="close")`, or `p.close()` in the private-handle recipe). Never `browser_close()` while another Playwright agent may be running: it closed every agent's tabs in testing.
 - **No single source covers everything**: Investir = best French per-ticker. TradingView = best English per-ticker. Boursier.com = best French market sentiment. EODHD/Yahoo = quick API backup. Use all four for a complete picture.

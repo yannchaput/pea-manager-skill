@@ -23,7 +23,7 @@ Return structured data only; the main agent handles all synthesis and decisions.
 ```
 browser_tabs(action="new")
 ```
-This avoids contention with any other Playwright agents.
+This gives you a tab of your own, but the browser has one shared "current tab": this agent uses the pointer-based tools (it has no `browser_run_code_unsafe`), so the main agent must not dispatch it while another Playwright agent is running (e.g. the TradingView/Investir entry checklist). For concurrent work, use the private-handle recipe in `.claude/skills/pea-manager/references/news-sources.md` (Playwright concurrency rule).
 
 **2. Extract market headlines from Boursier.com fil info**
 
@@ -86,7 +86,9 @@ Company | TICKER.PA | Upgrade / target raise / positive mention | Sector theme |
 **5. Close the browser tab when done**
 
 ```
-browser_close()
+browser_tabs(action="close")
 ```
+
+Never call `browser_close()`: it closes every tab in the shared browser, including other agents'.
 
 If extraction fails (site changes, JS not loaded), return what you could get and flag the issue.
