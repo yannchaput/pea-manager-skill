@@ -14,6 +14,7 @@
 - **Synthetic swap ETFs** domiciled in eligible countries (e.g., Ireland IE, Luxembourg LU) are PEA-eligible even when tracking US indices — they use derivatives rather than holding US securities directly
 - **UK-domiciled** stocks/ETFs: not eligible post-Brexit unless a specific bilateral agreement applies
 - **Verify with ISIN**: the first two characters of the ISIN identify the country of domicile (FR = France, IE = Ireland, LU = Luxembourg, etc.)
+- **ISIN prefix is a first-pass filter only**: eligibility also depends on the issuer's registered office and tax status. A few EU-ISIN stocks are *not* eligible (e.g. Ahold Delhaize NL0011794037 was flagged non-eligible by the user's broker on 2026-10-15). **Always confirm in the broker's PEA-eligible flag before recommending a buy** — prefer French (FR) issuers when eligibility is unverified.
 - **PEA tax benefit**: gains are tax-free after 5 years (social charges at 18.6% still apply)
 - **Contribution limit**: €150,000 per plan
 
