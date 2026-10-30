@@ -120,7 +120,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 - Profit target met (default +10-15%) → **SELL**, show gross/net
 - RSI > 70 + near upper Bollinger → strong sell
 - RSI < 30 + near lower Bollinger → hold (unless fundamentals broken)
-- MACD bearish crossover → tighten price alert level
+- MACD bearish crossover → tighten the stop/alert level
 - Output: **SELL NOW / CONSIDER SELLING / HOLD / ACCUMULATE**
 
 **Long positions:**
@@ -131,7 +131,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 - PEA < 5 years → lean toward holding (tax benefit of waiting)
 - Update Thesis section
 
-**Alert-breach discipline**: if ≥3 uncorrelated positions (different sectors, no shared idiosyncratic news) breach their price alert in the same review, treat it as a market-wide pullback, not a portfolio-wide sell signal — report each breach without escalating to "action required." See LL-03 in [`references/lessons-learned.md`](references/lessons-learned.md).
+**Alert-breach discipline** (applies to positions protected only by an alert; a position with a stop placed exits automatically): if ≥3 uncorrelated positions (different sectors, no shared idiosyncratic news) breach their price alert in the same review, treat it as a market-wide pullback, not a portfolio-wide sell signal — report each breach without escalating to "action required." See LL-03 in [`references/lessons-learned.md`](references/lessons-learned.md).
 
 **3.4 Update TRACKER.md**: update Last review, ask for broker's current figures, recompute totals, update position review dates. **MANDATORY: review ALL watchlist candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal.
 
@@ -183,7 +183,7 @@ Main agent filters (PEA eligibility → large cap → moat → dividend consiste
 - [ ] **ATR check**: Compute 14-day ATR. Price alert distance ≥ 1.5× ATR. If 1.5× ATR > 10% of entry price → reduce size or skip.
 - [ ] **Scale in**: ⅓ at first confirmation, ⅓ after support holds 3+ days, ⅓ on breakout above key MA.
 - [ ] **News cross-check**: TradingView (English Reuters/Quartr) + Investir (French AFP/Agefi/Reuters) — both mandatory. See News Sources below.
-- [ ] **Price alert set** before entry, at ≥ 1.5× ATR below entry. Tag the position as ⚠️ WATCH and review daily while the alert is active.
+- [ ] **Stop placed** (*ordre à seuil de déclenchement*) at ≥ 1.5× ATR below entry as soon as the buy fills, plus a price alert at the same level. Tag the position as ⚠️ WATCH and review daily while it is active.
 
 Full case study (Alten, June 2026): [`references/lessons-learned.md`](references/lessons-learned.md).
 
@@ -221,6 +221,6 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 - **Batch EODHD price lookups**: use `get_live_price_data` with `additional_symbols` (up to 20 tickers in one call) — never one call per ticker.
 - **Currency awareness**: most PEA stocks trade EUR, but CHF/GBP/NOK/SEK positions have FX impact on EUR P&L. Flag when significant.
 - **Technical indicators are signals, not guarantees**: always qualify recommendations with confidence levels.
-- **Fortuneo does not support stop-loss orders**: never recommend automatic stop orders. Instead, define a **price alert level** for each short position — when breached, tag the position as ⚠️ CRITICAL WATCH and require the user to manually sell at the next market session. The price alert functions as a hard sell trigger, not a suggestion — **for a single, idiosyncratic breach.** If ≥3 uncorrelated positions across different sectors breach simultaneously, treat it as a market-wide move, not a per-position sell trigger: report every breach but don't push toward immediate action. See [`references/lessons-learned.md`](references/lessons-learned.md) LL-03.
+- **Fortuneo supports trigger orders** (confirmed by the user on 2026-10-30): the *ordre à seuil de déclenchement* (stop: becomes a market order once the threshold is touched) and the *ordre à plage de déclenchement* (becomes a limit order once the threshold is touched). **For every `short` position, recommend a stop at the alert level** (≥ 1.5× ATR below the reference price) instead of relying on the user to sell by hand; the price alert stays as a secondary notification. Always state the limits: a stop sells at the market price, so a gap down executes below the threshold; it can fire on an intraday wick; orders have a maximum validity and must be renewed (check the exact labels and validity in the Fortuneo order ticket). A plain **sell limit order is not a stop**: set below the market it executes immediately, so never offer it as downside protection. It is the right tool for a *take-profit* above the market. `long` positions get no stop by default (thesis decides); an alert is enough. When a position has an alert but no stop placed, fall back to the manual rule: ⚠️ CRITICAL WATCH and a manual sell at the next session for a single idiosyncratic breach; for ≥3 uncorrelated breaches treat it as a market-wide move and don't push toward immediate action (LL-03 in [`references/lessons-learned.md`](references/lessons-learned.md)).
 - **Thesis is the anchor**: for long positions, thesis determines hold-through-volatility vs exit. Every long must have documented thesis.
 - **European market hours**: Paris/Frankfurt 9:00-17:30 CET. Data may be delayed outside these hours.

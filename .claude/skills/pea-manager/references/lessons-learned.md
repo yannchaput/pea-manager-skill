@@ -96,7 +96,7 @@ These rules extend the LL-01 checklist. They apply specifically to **dividend-ca
    - [ ] MACD bullish crossover (line crossing above signal, not just histogram turning positive)
    - [ ] Price closes above EMA12
    - [ ] RSI > 50 (momentum has shifted from bearish to bullish territory)
-4. **Price alert = mandatory sell, not a suggestion.** Fortuneo does not support stop-loss orders. When a price alert is breached, the user must sell at the next market session — the recovery might not come next time. The GTT stop breach on June 26 was survived only by luck (rebound from 176.80 € to 189.70 €). Next time the stock may not recover. Tag breached positions as 🔴 CRITICAL and remind the user explicitly: *"L'alerte à X € a été franchie. Vous devez vendre au prochain marché."*
+4. **Price alert = mandatory sell, not a suggestion; better, place a stop.** Fortuneo does offer trigger orders (*ordre à seuil de déclenchement*, *à plage de déclenchement*), so a stop at the alert level removes the dependence on acting by hand (a stop still sells at market on a gap). Where only an alert exists, when it is breached the user must sell at the next market session — the recovery might not come next time. The GTT stop breach on June 26 was survived only by luck (rebound from 176.80 € to 189.70 €). Next time the stock may not recover. Tag breached positions as 🔴 CRITICAL and remind the user explicitly: *"L'alerte à X € a été franchie. Vous devez vendre au prochain marché."*
 5. **No entry without a catalyst within 2 weeks.** "H1 results in 6 weeks" is not a catalyst. Earnings, product launches, contract wins, analyst days — something concrete and imminent.
 
 ### Red Flags — Cancel the Entry If You See These
@@ -105,7 +105,7 @@ These rules extend the LL-01 checklist. They apply specifically to **dividend-ca
 - [ ] "It's a quality company at a good price" → Quality companies fall further in downtrends. Wait for confirmation.
 - [ ] "RSI is neutral, not overbought, so it can go up" → Neutral RSI in a downtrend means the trend can continue. It's not a signal.
 - [ ] "MACD histogram is turning positive" → Histogram divergence is NOT a crossover. Wait for the actual crossover.
-- [ ] "The stop loss will protect me" → Fortuneo doesn't support automatic stops. A price alert only works if you act on it immediately when breached.
+- [ ] "The stop loss will protect me" → Only if it is actually placed (*ordre à seuil de déclenchement*) and still valid; stops expire and gap through. A price alert alone works only if you act on it immediately when breached.
 
 ## LL-03: Don't Force Sell Decisions on Market-Wide Alert Breaches (September 2026)
 
@@ -119,7 +119,7 @@ LL-02's "hard trigger" rule was written for a **single-position** breach (GTT), 
 
 ### Corrective Rule (Qualifies LL-02, Does Not Replace It)
 
-1. **Single-position, idiosyncratic breach** → LL-02 still applies in full: treat the price alert as a hard trigger, tag 🔴 CRITICAL WATCH, tell the user to sell at the next session.
+1. **Single-position, idiosyncratic breach** (alert-only position) → LL-02 still applies in full: treat the price alert as a hard trigger, tag 🔴 CRITICAL WATCH, tell the user to sell at the next session.
 2. **Multiple simultaneous breaches across uncorrelated positions/sectors, with no idiosyncratic news on any of them** → treat as a market-wide signal, not a portfolio-wide sell trigger:
    - Report every breach clearly and keep the alert active for the next review — do not drop or soften the reporting.
    - Do NOT frame it as requiring an immediate decision or escalate the language to "action required."
