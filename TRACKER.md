@@ -4,14 +4,14 @@
 
 | Field | Value |
 |-------|-------|
-| **Capital deployed** | €33 460,07 |
-| **Available cash** | €941,67 |
-| **Portfolio market value** | €38 038,41 |
-| **Unrealized P&L** | +€4 578,34 |
-| **Total PEA value** | €38 980,08 |
+| **Capital deployed** | €31 611,82 |
+| **Available cash** | €2 524,43 |
+| **Portfolio market value** | €36 728,39 |
+| **Unrealized P&L** | +€5 116,57 |
+| **Total PEA value** | €39 252,82 |
 | **PEA opened** | 2019-11-07 |
 | **PEA > 5 years** | Yes (6 years 11 months) |
-| **Last review** | 2026-10-29 |
+| **Last review** | 2026-10-30 |
 
 ## Exceptions
 
@@ -37,7 +37,7 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 | Independance AM Europe Small A (C) | LU1832174692 | 5 | 237.712 | short |
 | Indra Sistemas | ES0118594417 | 15 | 58.732 | short |
 | LVMH | FR0000121014 | 5 | 392.842 | long |
-| Nexans | FR0000044448 | 15 | 140.739 | short |
+| Orange | FR0000133308 | 18 | 14.602 | long |
 | Saint-Gobain | FR0000125007 | 50 | 46.34 | long |
 | Sanofi | FR0000120578 | 30 | 76.589 | short |
 | TotalEnergies | FR0000120271 | 40 | 77.21 | long |
@@ -71,7 +71,8 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 | Amundi PEA Emergents ESG Transition (PRU estimé) | 20 | 36.805 | ~24.00 | +256.10 | +53.35% |
 | Vinci (partial) | 20 | 105.40 | 90.41 | +299.80 | +16.58% |
 | Vinci (final) | 26 | 108.00 | 90.41 | +457.34 | +19.46% |
-| **Total** | | | | **+1 164.34** | |
+| Nexans (2ᵉ lot) | 15 | 123.30 | 140.739 | -261.59 | -12.39% |
+| **Total** | | | | **+902.75** | |
 
 > PEA > 5 ans : gains exonérés d'impôt (prélèvements sociaux 18,6% uniquement sur les plus-values).
 > **Amundi PEA Emergents ESG Transition** — position jamais entrée dans le suivi (Portfolio Composition) avant sa liquidation totale le 2026-09-27. PRU de 24,00 € reconstitué de mémoire par l'utilisateur (non vérifié) — P&L à prendre avec prudence.
@@ -91,7 +92,7 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 - **Thesis**: Chimie de spécialité (adhésifs, matériaux avancés). Bénéficiaire de la rotation sectorielle vers les matériaux/industriels. Diversifiant — aucune chimie au portefeuille avant. Entrée à 60,00 € (pivot SMA20) après 3/4 confirmations LL-01 et cross-check news feu vert.
 - **Exit conditions**: Alerte sortie **58,23 €** (1,5× ATR sous l'entrée, au-dessus SMA50 57,84 €) → vente manuelle si cassée. Objectifs T1 62,74 € (+4,6 %), T2 65,00 € (+8,3 %).
 - **Performance**: **−8,8 % (−64,08 €)**. Cours 55,20 € (clôture 27/10). RSI 46,7 neutre stable. MACD bearish depuis le 02/09 (histogramme −0,04). Prix à 59 % de la bande de Bollinger. SMA50 56,86 €/SMA200 57,92 € — **death cross depuis le 16/10**, prix sous les deux. ATR 1,22 €. Volume normal. Consensus « hold » (objectif médian 61,5 €). Résultats le 05/11.
-- **Last reviewed**: 2026-10-29 — ⚠️ **WATCH — alerte 58,23 € toujours franchie**, écart 3,03 € (vs 1,83 € le 15/10) : le rebond s'est inversé, death cross le 16/10. 3 alertes franchies simultanément (Arkema, Nexans, Saint-Gobain), toutes sur des cycliques industriels/matériaux → LL-03 s'applique formellement, mais le marché général a rebondi depuis le 15/10 (voir Nexans). **HOLD jusqu'aux résultats du 05/11, ne pas renforcer.** 2ᵉ candidate à la réduction de risque après Nexans (consensus seulement « hold », aucun catalyseur positif).
+- **Last reviewed**: 2026-10-29 — ⚠️ **WATCH — alerte 58,23 € toujours franchie**, écart 3,03 € (vs 1,83 € le 15/10) : le rebond s'est inversé, death cross le 16/10. 3 alertes franchies simultanément (Arkema, Nexans, Saint-Gobain), toutes sur des cycliques industriels/matériaux → LL-03 s'applique formellement, mais le marché général a rebondi depuis le 15/10 (voir Nexans). **HOLD jusqu'aux résultats du 05/11, ne pas renforcer.** Candidate n°1 à la réduction de risque maintenant que Nexans est vendu (29/10) (consensus seulement « hold », aucun catalyseur positif).
 
 ### Amundi PEA Nasdaq-100 UCITS ETF (long)
 - **ISIN**: FR0011871110 — Ticker: **PUST.PA**
@@ -152,10 +153,19 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 - **Date entered**: 2026-09-09 (ordre limite placé le 27/08 sur watchlist, exécuté à 58,732 €)
 - **ISIN**: ES0118594417 — Ticker: **IDR.MC**
 - **Thesis**: Pure-play défense/IT espagnol (radars, systèmes de défense + Minsait IT). Supercycle de réarmement OTAN : forte visibilité commandes défense, transformation IT (Minsait) en cours. La défense européenne est le thème porteur du moment (rotation luxe/tech → défense).
-- **Exit conditions**: Alerte sortie **55,82 €** (1,5× ATR sous l'ordre limite initial 58,50 €) → vente manuelle si cassée.
+- **Exit conditions**: Alerte sortie relevée à **62,30 €** le 2026-10-30 (1,5× ATR = 3,03 € sous 65,40 €, au-dessus de la SMA50 60,73 €) ; ancienne alerte 55,82 €. Vente manuelle si cassée. Objectif +10-15 % brut (64,6-67,5 €) atteint à 65,40 € (+11,3 %) : envisager de vendre un tiers si l'ouverture du 30/10 est nettement plus haute.
 - **Performance**: **+7,6 % brut (+67,32 €, +54,80 € net PS)**. Cours 63,22 € (clôture 27/10). RSI 56,5 neutre stable. MACD bullish crossover le 27/10 (histogramme +0,03, signal très faible). Prix à 80 % de la bande de Bollinger. SMA50 60,73 €/SMA200 55,45 € — golden cross. ATR 2,02 €. Volume normal. Consensus Buy (objectif 68,06 €). **Résultats le 29/10 à 17:30 (aujourd'hui, après la séance).**
 - **Cross-check news (09/09)** — TradingView + Investir, aucun catalyseur négatif trouvé : résultats H1 réaffirmés, série de contrats défense positifs (SANTAM, Adif, Chili, Hanwha Aerospace/K9), gouvernance stabilisée depuis avril (Ángel Simón président non-exécutif, CEO en poste). Titre proche de son ATH — valorisation tendue signalée par la presse. Analystes toujours en Strong Buy (objectif moyen 67 €, +9 % vs cours actuel).
-- **Last reviewed**: 2026-10-29 — **HOLD**. Alerte d'origine 55,82 € très en dessous du cours (7,40 €) juste avant les résultats : proposition **toujours en attente de validation** — la relever à ~60,20 € (1,5× ATR sous le cours, sous la SMA50 60,73 €) pour protéger le gain latent contre un gap.
+- **Résultats T3 / 9M (publiés le 29/10, source : titres Reuters + résumés IA Quartr, communiqué d'origine non lu)** : CA 9M +29 %, EBIT 9M 454 M€ (+42 %), bénéfice net T3 136 M€ (vs 77 M€ au T3 2025), carnet de commandes > 22 Md€ (plus que doublé, Espace et Défense), objectifs annuels confirmés (CA > 7 Md€, EBIT > 700 M€). Réserve : cash-flow publié gonflé par des avances de programmes (PEM), FCF ajusté seulement 70 M€. Clôture 29/10 : 65,40 € (+3,55 %), soit +11,3 % brut / +9,2 % net PS. Réaction du 30/10 non vérifiée. Gouvernance : 5 dirigeants licenciés le 29/09 (dont CSO et CTO), motif non trouvé. **Capital Markets Day le 25/11** (nouveau plan stratégique).
+- **Last reviewed**: 2026-10-30 — **HOLD**, objectif de profit atteint. Alerte relevée à 62,30 € (à poser manuellement chez le courtier). Pas de renfort après +11 %.
+
+### Orange (long)
+- **Date entered**: 2026-10-30 — tranche 1/3 : 18 titres à 14,53 € (frais 1,30 €, coût total 262,84 €, PRU 14,602 €). L'ordre limite initial était à 14,20 € ; exécuté 0,33 € plus haut.
+- **ISIN**: FR0000133308 — Ticker: **ORA.PA**
+- **Thesis**: Opérateur télécom intégré (France, Espagne via MasOrange, Afrique/Moyen-Orient), flux de trésorerie récurrents, rendement 5,2-5,4 % (dividende FY26 prévu 0,79 €, acompte 0,30 € le 03/12), bêta 0,27. Secteur télécoms absent du portefeuille. Entrée après les résultats T3 du 27/10 (guidance EBITDAaL 2026 relevée pour la 3ᵉ fois, > +4,5 %). Cross-check news 29/10 : GREEN.
+- **Plan d'accumulation**: cible ~55 titres (~800 €) en tiers. Tranche 2 (18 titres) sur clôture > SMA50 (~14,80 €) ; tranche 3 (19 titres) si le plus bas 13,49 € tient. Pas de renfort tant que ces conditions ne sont pas remplies.
+- **Exit conditions**: Pas de stop par défaut (long terme). Réévaluer la thèse sur cassure du plus bas 52 sem. (13,49 €), coupe de dividende/guidance, ou dégradation structurelle (guerre des prix, perturbation satellite→mobile type SpaceX, dérapage de l'accord SFR). Risques : death cross SMA50/SMA200, dette nette ~45 Md€, risque politique 2027.
+- **Last reviewed**: 2026-10-30 — **HOLD**. Position ouverte à l'instant ; performance à mesurer à la prochaine revue.
 
 ### Saint-Gobain (long)
 - **Date entered**: 2024 ou avant (estimé)
@@ -177,8 +187,9 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 - **ISIN**: FR0000120271 — Ticker: **TTE.PA**
 - **Thesis**: Major énergétique intégrée française (pétrole/gaz, GNL, électricité bas-carbone), dividende élevé, redéploiement du cash des ventes Vinci vers un rendement de distribution. *À compléter lors de la prochaine revue Phase 3 (valorisation, rendement, catalyseurs).*
 - **Performance**: **+7,5 % brut (+231,60 €, +188,52 € net PS)** sur PRU 77,21 €. Cours 83,00 € (clôture 27/10). RSI 64,3 neutre en hausse. MACD bullish crossover le 16/10 (histogramme +0,42). Prix à 85 % de la bande de Bollinger. SMA50 78,38 €/SMA200 73,65 € — golden cross, prix au-dessus des deux. ATR 1,75 €. À 1,2 % du plus haut 52 semaines (84,00 €). Consensus Buy (objectif 89,13 €). **Résultats le 29/10 à 17:30 (aujourd'hui).**
-- **Exit conditions**: Alerte prix **74,70 €** (PRU − 1,5× ATR, sous la SMA50, au-dessus de la bande basse 73,87 €) → réévaluation si cassée. Détérioration structurelle du dividende ou de la politique de retour actionnaire. Risque de court terme : exposition pétrole, sensible à une désescalade au Moyen-Orient (thèse long terme inchangée).
-- **Last reviewed**: 2026-10-29 — **HOLD**. Au plus haut annuel juste avant les résultats. Alerte 74,70 € loin du cours (8,30 €) : proposition de la relever vers ~80,40 € (1,5× ATR sous le cours) pour protéger le gain latent. Risque inchangé : une désescalade au Moyen-Orient pèserait sur le titre.
+- **Exit conditions**: **Ordre stop (seuil de déclenchement) posé chez Fortuneo le 2026-10-30 à 82,00 € pour 40 actions** (1,5× ATR = 2,63 € sous 84,60 €) ; ancienne alerte 74,70 €. Vente au marché si le seuil est touché (un gap peut s'exécuter plus bas) ; à renouveler à l'expiration de l'ordre. Détérioration structurelle du dividende ou de la politique de retour actionnaire. Risque de court terme : exposition pétrole, sensible à une désescalade au Moyen-Orient (thèse long terme inchangée).
+- **Résultats T3 (publiés le 29/10, source : titres Reuters/Dow Jones + Zacks + résumé IA Quartr, communiqué d'origine non lu)** : résultat net ajusté ~9,1 Md$ (un titre TradingView parle de 8,26 Md$ : chiffre à vérifier), cash-flow d'exploitation 12,3 Md$, EBITDA ajusté 17,8 Md$, raffinage record (marge européenne 33,2 $/b vs 8,4 $), Brent moyen 97 $. Production 2 474 kbep/j (−1,3 %, +4 % hors Moyen-Orient). Prévision de cash-flow annuel relevée à > 42 Md$ (~43 Md$), 3ᵉ acompte 0,90 €/action, PDG ouvert à un dividende exceptionnel versé avec le solde en février. Réserve : BPA 4,03 $ légèrement sous le consensus Zacks (4,11 $). Clôture 29/10 : 84,60 € (+1,2 %, nouveau plus haut 52 sem.), +9,6 % brut. Réaction du 30/10 non vérifiée.
+- **Last reviewed**: 2026-10-30 — **HOLD**. Thèse de rendement confortée (cash-flow relevé, dividende exceptionnel possible). Stop posé à 82,00 € (40 actions). Risque inchangé : désescalade au Moyen-Orient.
 
 ### iShares MSCI World Swap PEA UCITS ETF (long)
 - **Date entered**: 2024 ou avant (estimé)
@@ -202,14 +213,6 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 - **Performance**: **+1,0 % brut (+8,40 €, +6,84 € net PS)** sur PRU 61,02 € à 61,62 € (clôture 27/10) ; cotation 28/10 : 63,24 € (+2,6 % sur la séance) → ≈ +31 € (+3,6 %). RSI 53,9 neutre en hausse. MACD bullish crossover le 15/10 (histogramme +0,59). Prix à 76 % de la bande de Bollinger. SMA50 61,72 €/SMA200 66,71 € — death cross. ATR 1,08 €. Volume normal. Plage 52 sem. 57,26–80,14 €. Consensus Buy (objectif 78,57 €).
 - **Exit conditions**: Pas d'alerte serrée (long terme). Réévaluer sur cassure du support 57,00-57,26 € (plus bas 52 sem.), coupe de guidance, ou détérioration structurelle de la nutrition spécialisée. Catalyseur : **ventes T3 le 28/10**.
 - **Last reviewed**: 2026-10-29 — **HOLD**. Ordre exécuté (PRU 61,02 €). **Cross-check news fait le 29/10 (TradingView + Investir) : GREEN tirant vers AMBER.** Ventes T3 (28/10) : 7,23 Md€, +4,0 % à périmètre constant (consensus +3,7 %), prix +3,6 % (attendu +2,8 %) mais **volume/mix +0,4 % (attendu +0,9 %)** ; guidance FY26 confirmée (+3-5 % LFL, résultat opérationnel plus rapide), rachat d'~3,5 M d'actions. Points faibles : Mizone (eau, Chine) pèse sur la zone CNAO (+0,1 %, ≈ −1 pt sur la croissance du groupe — le DAF indique que l'effet ne se répétera pas à cette échelle au T4), Amérique du Nord +2,4 % avec volumes −0,6 %, changement de responsable US au 02/11 (Lacombe succède à Magliocco). Nutrition spécialisée +4,7 %. Départ à la retraite du COO début 2027 (source : résumé IA TradingView, non vérifié). Aucun profit warning ni coupe de guidance. Séance du 28/10 : +2,6 % (63,24 €, volume ×1,8). Pas de renfort ; réévaluer sur cassure du support 57,00-57,26 €.
-
-### Nexans (short)
-- **Date entered**: 2026-08-10
-- **ISIN**: FR0000044448
-- **Thesis**: Leader mondial des câbles, bénéficiaire direct de la transition énergétique (éolien offshore, interconnexions, data centers). H1 2026 en beat : guidance EBITDA relevée, contrat sous-marin IPTO, rachat d'actions, expansion US. Pullback de 152→130 € absorbé, reprise enclenchée. Valorisation attractive (P/E ~10×). Due diligence LL-01 complétée le 10/08/2026.
-- **Performance**: **−13,3 % (−281,09 €)**. Cours 122,00 € (clôture 27/10 ; cotation 28/10 : 124,10 € → −249,59 €, −11,9 %). RSI 43,1 neutre en hausse. MACD bearish depuis le 28/09 (histogramme −1,81, **en aggravation**). Prix à 33 % de la bande de Bollinger. SMA50 133,63 €/SMA200 136,68 € — death cross depuis le 16/10. ATR 4,70 €. Volume normal. Plage 52 sem. 109,70–169,00 €. Consensus Buy (objectif 169,2 €), forward P/E 13,2.
-- **Exit conditions**: Stop/alerte à 133,47 € (1,5× ATR = −4,6 %). Objectif 155-160 € (+11-14 %). **Limite de vente : 155,00 €** (T1).
-- **Last reviewed**: 2026-10-29 — ⚠️ **CRITICAL WATCH — stop 133,47 € franchi pour la 3ᵉ revue consécutive**, écart 11,47 € (vs 6,27 € le 15/10 et 7,67 € le 08/10) : creusement continu. Le marché général a rebondi depuis le 15/10 (Eurazeo, Sanofi, Air Liquide) alors que Nexans a perdu −4,1 % de plus, MACD en dégradation : le cas ne ressemble plus à un simple repli de marché (LL-03) mais à une faiblesse propre au titre. **CONSIDER SELLING** — décision utilisateur (vente manuelle à la prochaine séance ; perte réalisée ≈ −250 à −280 €, aucun impôt). Objectif 155-160 € à +27 %.
 
 ## Watchlist — Candidats court terme
 
@@ -433,7 +436,7 @@ Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attent
 - **Risques**: Pression concurrentielle France/Espagne, endettement, risque politique 2027, exécution de l'accord SFR, perturbation satellite→mobile, rotation hors des « proxys obligataires ». **Résultats le 27/10** (confirmés).
 - **Stratégie d'entrée**: Après le 27/10. Tiers : ⅓ sur reconfirmation de la guidance ou ordre limite 13,80-14,10 € ; ⅓ sur close > SMA50 (~15,1 €) ; ⅓ sur tenue du plus bas 13,49 €.
 - **Allocation cible**: ~800 € (≈55 titres), en tiers.
-- **Décision**: 🟡 **TRÈS PROCHE — 1ᵉʳ tiers déclenchable** — revue 29/10 : cours 14,26 € (clôture 27/10 ; 14,225 € le 28/10, −0,25 %), RSI 47,4, MACD bullish crossover le 16/10 (histogramme +0,07), prix à 66 % de la bande, death cross SMA50/SMA200 (14,80/16,50 €), 3/4 au script. **Cross-check news fait le 29/10 (TradingView + Investir) : GREEN.** Résultats du 27/10 : T3 au-dessus du consensus (CA 12,19 Md€ vs 12,04 ; EBITDAaL 4,14 Md€, +4,6 % vs 4,10), **guidance EBITDAaL 2026 relevée pour la 3ᵉ fois (> +4,5 % vs > +4 %)**, FCF télécom ~4,3 Md€ confirmé, dividende FY26 prévu à 0,79 €/titre (0,75 € en FY25 ; acompte de 0,30 € versé le 03/12). Réaction de cours mitigée (≈ −2 % en début de séance le 27/10 sur la crainte satellite/SpaceX, clôture à 14,26 €), −18 % sur 3 mois. Aucun profit warning, coupe de dividende ni départ de direction. Points de vigilance : Orange Business −2,5 %, incident réseau mobile (semaine du 20/10, « problème technique »), négociations SFR toujours en cours, risque sectoriel (SpaceX/spectre bas), changements d'analystes des 20 et 28/10 illisibles (payants). **La condition d'entrée « ⅓ sur reconfirmation de la guidance » est remplie** (guidance relevée). Tiers suivants inchangés : ⅓ sur close > SMA50 (~14,8 €), ⅓ sur tenue du plus bas 13,49 €. Cash disponible 941,67 € : un 1ᵉʳ tiers ≈ 265 € (~18 titres). Décision d'achat à l'utilisateur.
+- **Décision**: ✅ **ENTRÉE — 1ᵉʳ tiers exécuté le 2026-10-30 (18 titres à 14,53 €, PRU frais inclus 14,602 €)**. Bloc à retirer de la watchlist à la prochaine revue ; tiers 2 et 3 suivis dans la section Thesis. Historique avant entrée : 🟡 TRÈS PROCHE — revue 29/10 : cours 14,26 € (clôture 27/10 ; 14,225 € le 28/10, −0,25 %), RSI 47,4, MACD bullish crossover le 16/10 (histogramme +0,07), prix à 66 % de la bande, death cross SMA50/SMA200 (14,80/16,50 €), 3/4 au script. **Cross-check news fait le 29/10 (TradingView + Investir) : GREEN.** Résultats du 27/10 : T3 au-dessus du consensus (CA 12,19 Md€ vs 12,04 ; EBITDAaL 4,14 Md€, +4,6 % vs 4,10), **guidance EBITDAaL 2026 relevée pour la 3ᵉ fois (> +4,5 % vs > +4 %)**, FCF télécom ~4,3 Md€ confirmé, dividende FY26 prévu à 0,79 €/titre (0,75 € en FY25 ; acompte de 0,30 € versé le 03/12). Réaction de cours mitigée (≈ −2 % en début de séance le 27/10 sur la crainte satellite/SpaceX, clôture à 14,26 €), −18 % sur 3 mois. Aucun profit warning, coupe de dividende ni départ de direction. Points de vigilance : Orange Business −2,5 %, incident réseau mobile (semaine du 20/10, « problème technique »), négociations SFR toujours en cours, risque sectoriel (SpaceX/spectre bas), changements d'analystes des 20 et 28/10 illisibles (payants). **La condition d'entrée « ⅓ sur reconfirmation de la guidance » est remplie** (guidance relevée). Tiers suivants inchangés : ⅓ sur close > SMA50 (~14,8 €), ⅓ sur tenue du plus bas 13,49 €. Cash disponible 941,67 € : un 1ᵉʳ tiers ≈ 265 € (~18 titres). Décision d'achat à l'utilisateur.
 
 ### Publicis Groupe (PUB.PA) — ISIN FR0000130577 (à confirmer dans le courtier)
 - **Repérée le**: 2026-10-15
