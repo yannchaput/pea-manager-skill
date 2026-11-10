@@ -429,11 +429,25 @@ def compute_support_resistance(closes, highs, lows):
     return s1_str, s2_str, r1_str, r2_str
 
 
-def score_ll01(rsi_val, macd_hist, vol_ratio, bb_pct, atr_pct, entry_price):
+def ll01_gate_reason(price, sma50, sma200, rsi_val):
+    """Return why a stock must not be scored ENTER, or None.
+
+    The 4-point score below is a snapshot and blind to trend, so it gave ENTER
+    to stocks in a downtrend (LL-01/LL-02) or already overbought. Unknown SMAs
+    (short history) do not gate: we cannot judge the trend."""
+    if rsi_val is not None and not math.isnan(rsi_val) and rsi_val >= 70:
+        return "overbought (RSI >= 70)"
+    if not (math.isnan(sma50) or math.isnan(sma200)) and sma50 < sma200 and price < sma200:
+        return "downtrend (death-cross state and price below SMA200)"
+    return None
+
+
+def score_ll01(rsi_val, macd_hist, vol_ratio, bb_pct, atr_pct, entry_price, gate_reason=None):
     """Automate LL-01 technical confirmation scoring.
     Returns (confirmations, atr_pass, recommendation).
     confirmation is int 0-4, atr_pass is bool, recommendation is
-    'ENTER' | 'WATCH' | 'SKIP'."""
+    'ENTER' | 'WATCH' | 'SKIP'. A gate_reason (see ll01_gate_reason) caps
+    ENTER at WATCH."""
     confirmations = 0
 
     # 1. RSI crossing above 30 (or already above 30 and rising)
@@ -464,7 +478,7 @@ def score_ll01(rsi_val, macd_hist, vol_ratio, bb_pct, atr_pct, entry_price):
     atr_pass = atr_pct is not None and not math.isnan(atr_pct) and atr_pct <= 10.0
 
     # Recommendation tier
-    if confirmations >= 3 and atr_pass:
+    if confirmations >= 3 and atr_pass and not gate_reason:
         recommendation = "ENTER"
     elif confirmations >= 1:
         recommendation = "WATCH"
@@ -600,10 +614,16 @@ def main():
         # LL-01 scoring
         # vol_ratio for LL-01: use vol_pct_diff which is recent vs 20d % change
         vol_ratio_for_ll01 = vol_pct_diff if not math.isnan(vol_pct_diff) else 0
+        gate_reason = ll01_gate_reason(
+            current_price,
+            sma50[-1], sma200[-1], rsi_val
+        )
         confirmations, atr_pass, recommendation = score_ll01(
-            rsi_val, macd_hist, vol_ratio_for_ll01, bb_pct, atr_pct, entry_price
+            rsi_val, macd_hist, vol_ratio_for_ll01, bb_pct, atr_pct, entry_price,
+            gate_reason=gate_reason
         )
         atr_status = "PASS" if atr_pass else "FAIL"
+        gate_line = f"\nLL-01 GATE: {gate_reason} — ENTER capped at WATCH" if gate_reason else ""
 
         output = f"""DUE DILIGENCE: {args.name} ({args.ticker})
 PRICE: €{current_price:.2f} (source: {args.source})
@@ -617,7 +637,7 @@ SUPPORT: {s1}, {s2}
 RESISTANCE: {r1}, {r2}
 TREND: {trend_label} — {trend_sentence}
 R/R: {rr_display} (entry {entry_price:.2f} → target {args.target if args.target else 'N/A'} / stop {stop_price if stop_price else 'N/A'})
-LL-01: [{confirmations}/4 confirmations] — ATR [{atr_status}] — recommendation [{recommendation}]"""
+LL-01: [{confirmations}/4 confirmations] — ATR [{atr_status}] — recommendation [{recommendation}]{gate_line}"""
     else:
         # Phase 3: existing P&L + tax computation
         gross_pl = (current_price - args.pru) * args.shares

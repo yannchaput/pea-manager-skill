@@ -42,8 +42,8 @@ If intent is ambiguous: *"Voulez-vous une revue complète (Phase 3), une recherc
 | Phase | What runs in parallel | Agent prompt per |
 |-------|----------------------|------------------|
 | **3.1+3.2** | Price fetch + technical indicators | One `pea-price-analyst` agent per position |
-| **4-Short.1** | `pea-eodhd-exchange-browser` + `pea-french-market-research` | One agent per scan source (2 agents in parallel) |
-| **4-Long.1** | `pea-eodhd-exchange-browser` + `pea-french-market-research` | One agent per scan source (2 agents in parallel) |
+| **4-Short.1** | `scripts/scan_universe.py` (Bash, no agent) + `pea-french-market-research` | Script for discovery, one agent for French themes |
+| **4-Long.1** | `scripts/scan_universe.py` (Bash, no agent) + `pea-french-market-research` | Script for discovery, one agent for French themes |
 | **Entry checklist** | TradingView news + Investir news + `pea-dd-analyst` | One agent per source, dd-analyst per ticker |
 
 **Each subagent returns structured output** — the main agent synthesizes, never the subagent. Agent definitions live in `.claude/agents/`. See [`references/workflow-phases.md`](references/workflow-phases.md) for dispatch recipes and how to invoke each agent.
@@ -146,11 +146,11 @@ If the user already specified, route directly to 4-Short or 4-Long.
 
 #### Phase 4-Short: Short-Term Scan
 
-**Dispatch two subagents in parallel** (step 4-Short.1):
+**Discovery = script + one agent** (step 4-Short.1). Run `python3 scripts/scan_universe.py --bucket mid` (about 2 s, Yahoo, no quota) and dispatch `pea-french-market-research` in parallel. The script ranks a fixed universe (`assets/universe.json`) with the trend-aware LL-01 score (downtrend or RSI ≥ 70 caps ENTER at WATCH). Do not use the EODHD exchange browse: it has no market-cap filter and returns whole exchanges (see Step A in `references/workflow-phases.md`).
 
 | Agent | File | Role | Budget |
 |-------|------|------|--------|
-| `pea-eodhd-exchange-browser` | `.claude/agents/pea-eodhd-exchange-browser.md` | Browse EU exchanges for PEA-eligible mid-caps | ~8-10 EODHD calls |
+| `scripts/scan_universe.py` | `assets/universe.json` | Rank the fixed PEA universe (mid bucket) by trend-aware LL-01 | 0 API calls (Yahoo) |
 | `pea-french-market-research` | `.claude/agents/pea-french-market-research.md` | Extract French market themes from Boursier.com via Playwright | 0 API calls |
 
 Main agent merges, deduplicates, filters (PEA eligibility → mid-cap → momentum → diversification). **Exclude positions in `## Exceptions` from the diversification filter** — exception positions do not count toward sector over-concentration checks. Then rank and present (step 4-Short.2-3).
@@ -159,11 +159,11 @@ Main agent merges, deduplicates, filters (PEA eligibility → mid-cap → moment
 
 #### Phase 4-Long: Long-Term Scan
 
-**Dispatch two subagents in parallel** (step 4-Long.1):
+**Discovery = script + one agent** (step 4-Long.1). Run `python3 scripts/scan_universe.py --bucket large` and dispatch `pea-french-market-research` in parallel. Take fundamentals for the PASS survivors from `yfinance_get_ticker_info`.
 
 | Agent | File | Role | Budget |
 |-------|------|------|--------|
-| `pea-eodhd-exchange-browser` | `.claude/agents/pea-eodhd-exchange-browser.md` | Browse EU exchanges for large-cap opportunities | ~8-10 EODHD calls |
+| `scripts/scan_universe.py` | `assets/universe.json` | Rank the fixed PEA universe (large bucket) by trend-aware LL-01 | 0 API calls (Yahoo) |
 | `pea-french-market-research` | `.claude/agents/pea-french-market-research.md` | Extract French market themes from Boursier.com via Playwright | 0 API calls |
 
 Main agent filters (PEA eligibility → large cap → moat → dividend consistency → valuation → diversification). **Exclude positions in `## Exceptions` from the diversification filter.** Then rank and present (steps 4-Long.2-3). For each candidate: explicitly state *"Why hold this for 5+ years?"*

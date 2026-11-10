@@ -1,6 +1,6 @@
 ---
 name: pea-eodhd-exchange-browser
-description: Browses European stock exchanges (Euronext Paris, Xetra, Amsterdam, Brussels, Madrid) via EODHD to discover PEA-eligible investment candidates. Follows the market-cap target specified in the dispatch prompt.
+description: DEPRECATED 2026-11-10, use scripts/scan_universe.py (the listing tool has no market-cap filter and returns whole exchanges). Was: Browses European stock exchanges (Euronext Paris, Xetra, Amsterdam, Brussels, Madrid) via EODHD to discover PEA-eligible investment candidates. Follows the market-cap target specified in the dispatch prompt.
 tools:
   - mcp__eodhd-mcp__get_exchange_tickers
   - mcp__eodhd-mcp__get_live_price_data

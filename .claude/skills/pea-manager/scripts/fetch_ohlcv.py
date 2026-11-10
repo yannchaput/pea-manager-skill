@@ -36,34 +36,23 @@ def fetch_json(url):
         return json.loads(resp.read().decode("utf-8"))
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Fetch daily OHLCV from Yahoo Finance into a JSON file.")
-    parser.add_argument("--ticker", "-t", required=True, help="Ticker in Yahoo format, e.g. ENGI.PA")
-    parser.add_argument("--range", "-r", default="1y", help="Yahoo range (default 1y)")
-    parser.add_argument("--interval", "-i", default="1d", help="Yahoo interval (default 1d)")
-    parser.add_argument("--out", "-o", default=None, help="Output JSON path (default /tmp/pea_ohlcv_<TICKER>.json)")
-    args = parser.parse_args()
-
-    ticker = args.ticker.upper()
-    out_path = args.out or "/tmp/pea_ohlcv_{}.json".format(ticker.replace(".", "_"))
-
-    url = YAHOO_CHART_URL.format(ticker=ticker) + "?range={}&interval={}".format(args.range, args.interval)
+def fetch_bars(ticker, rng="1y", interval="1d"):
+    """Fetch daily bars for one ticker; return the parallel-array dict
+    (dates/opens/highs/lows/closes/volumes). Raises RuntimeError on any failure."""
+    url = YAHOO_CHART_URL.format(ticker=ticker) + "?range={}&interval={}".format(rng, interval)
     try:
         payload = fetch_json(url)
     except Exception as e:
-        print("ERROR: fetch failed for {}: {}".format(ticker, e), file=sys.stderr)
-        sys.exit(1)
+        raise RuntimeError("fetch failed for {}: {}".format(ticker, e))
 
     chart = payload.get("chart", {})
     error = chart.get("error")
     if error:
-        print("ERROR: Yahoo returned error for {}: {}".format(ticker, error), file=sys.stderr)
-        sys.exit(1)
+        raise RuntimeError("Yahoo returned error for {}: {}".format(ticker, error))
 
     results = chart.get("result") or []
     if not results:
-        print("ERROR: no result for {} (ticker unknown or delisted?)".format(ticker), file=sys.stderr)
-        sys.exit(1)
+        raise RuntimeError("no result for {} (ticker unknown or delisted?)".format(ticker))
 
     result = results[0]
     timestamps = result.get("timestamp") or []
@@ -93,25 +82,34 @@ def main():
         v_out.append(volumes[i] if i < len(volumes) and volumes[i] is not None else 0)
 
     if len(c_out) == 0:
-        print("ERROR: no valid OHLCV bars for {}".format(ticker), file=sys.stderr)
-        sys.exit(1)
+        raise RuntimeError("no valid OHLCV bars for {}".format(ticker))
 
-    data = {
-        "dates": dates,
-        "opens": o_out,
-        "highs": h_out,
-        "lows": l_out,
-        "closes": c_out,
-        "volumes": v_out,
-    }
+    return {"dates": dates, "opens": o_out, "highs": h_out, "lows": l_out,
+            "closes": c_out, "volumes": v_out}
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Fetch daily OHLCV from Yahoo Finance into a JSON file.")
+    parser.add_argument("--ticker", "-t", required=True, help="Ticker in Yahoo format, e.g. ENGI.PA")
+    parser.add_argument("--range", "-r", default="1y", help="Yahoo range (default 1y)")
+    parser.add_argument("--interval", "-i", default="1d", help="Yahoo interval (default 1d)")
+    parser.add_argument("--out", "-o", default=None, help="Output JSON path (default /tmp/pea_ohlcv_<TICKER>.json)")
+    args = parser.parse_args()
+
+    ticker = args.ticker.upper()
+    out_path = args.out or "/tmp/pea_ohlcv_{}.json".format(ticker.replace(".", "_"))
+
+    try:
+        data = fetch_bars(ticker, args.range, args.interval)
+    except RuntimeError as e:
+        print("ERROR: {}".format(e), file=sys.stderr)
+        sys.exit(1)
 
     with open(out_path, "w") as f:
         json.dump(data, f)
 
-    meta = result.get("meta", {})
-    current = meta.get("regularMarketPrice", c_out[-1])
     print("OK {}: {} bars, last close {:.2f} ({}) -> {}".format(
-        ticker, len(c_out), c_out[-1], dates[-1], out_path))
+        ticker, len(data["closes"]), data["closes"][-1], data["dates"][-1], out_path))
 
 
 if __name__ == "__main__":

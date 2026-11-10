@@ -1,0 +1,1213 @@
+[
+{
+"ticker": "AI.PA",
+"name": "Air Liquide",
+"country": "FR",
+"sector": "Chemicals",
+"bucket": "large"
+},
+{
+"ticker": "AIR.PA",
+"name": "Airbus",
+"country": "FR",
+"sector": "Aerospace",
+"bucket": "large"
+},
+{
+"ticker": "ALO.PA",
+"name": "Alstom",
+"country": "FR",
+"sector": "Rail equipment",
+"bucket": "mid"
+},
+{
+"ticker": "MT.AS",
+"name": "ArcelorMittal",
+"country": "LU",
+"sector": "Steel",
+"bucket": "large"
+},
+{
+"ticker": "CS.PA",
+"name": "AXA",
+"country": "FR",
+"sector": "Insurance",
+"bucket": "large"
+},
+{
+"ticker": "BNP.PA",
+"name": "BNP Paribas",
+"country": "FR",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "EN.PA",
+"name": "Bouygues",
+"country": "FR",
+"sector": "Construction/telecom",
+"bucket": "mid"
+},
+{
+"ticker": "CAP.PA",
+"name": "Capgemini",
+"country": "FR",
+"sector": "IT services",
+"bucket": "large"
+},
+{
+"ticker": "CA.PA",
+"name": "Carrefour",
+"country": "FR",
+"sector": "Retail",
+"bucket": "mid"
+},
+{
+"ticker": "ACA.PA",
+"name": "Credit Agricole",
+"country": "FR",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "BN.PA",
+"name": "Danone",
+"country": "FR",
+"sector": "Food",
+"bucket": "large"
+},
+{
+"ticker": "DSY.PA",
+"name": "Dassault Systemes",
+"country": "FR",
+"sector": "Software",
+"bucket": "large"
+},
+{
+"ticker": "EDEN.PA",
+"name": "Edenred",
+"country": "FR",
+"sector": "Payments",
+"bucket": "mid"
+},
+{
+"ticker": "ENGI.PA",
+"name": "Engie",
+"country": "FR",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "EL.PA",
+"name": "EssilorLuxottica",
+"country": "FR",
+"sector": "Healthcare equipment",
+"bucket": "large"
+},
+{
+"ticker": "ERF.PA",
+"name": "Eurofins Scientific",
+"country": "FR",
+"sector": "Lab services",
+"bucket": "mid"
+},
+{
+"ticker": "RMS.PA",
+"name": "Hermes",
+"country": "FR",
+"sector": "Luxury",
+"bucket": "large"
+},
+{
+"ticker": "KER.PA",
+"name": "Kering",
+"country": "FR",
+"sector": "Luxury",
+"bucket": "large"
+},
+{
+"ticker": "OR.PA",
+"name": "L'Oreal",
+"country": "FR",
+"sector": "Beauty",
+"bucket": "large"
+},
+{
+"ticker": "LR.PA",
+"name": "Legrand",
+"country": "FR",
+"sector": "Electrical equipment",
+"bucket": "large"
+},
+{
+"ticker": "MC.PA",
+"name": "LVMH",
+"country": "FR",
+"sector": "Luxury",
+"bucket": "large"
+},
+{
+"ticker": "ML.PA",
+"name": "Michelin",
+"country": "FR",
+"sector": "Auto parts",
+"bucket": "large"
+},
+{
+"ticker": "ORA.PA",
+"name": "Orange",
+"country": "FR",
+"sector": "Telecom",
+"bucket": "large"
+},
+{
+"ticker": "RI.PA",
+"name": "Pernod Ricard",
+"country": "FR",
+"sector": "Spirits",
+"bucket": "large"
+},
+{
+"ticker": "PUB.PA",
+"name": "Publicis",
+"country": "FR",
+"sector": "Advertising",
+"bucket": "large"
+},
+{
+"ticker": "RNO.PA",
+"name": "Renault",
+"country": "FR",
+"sector": "Autos",
+"bucket": "mid"
+},
+{
+"ticker": "SAF.PA",
+"name": "Safran",
+"country": "FR",
+"sector": "Aerospace",
+"bucket": "large"
+},
+{
+"ticker": "SGO.PA",
+"name": "Saint-Gobain",
+"country": "FR",
+"sector": "Building materials",
+"bucket": "large"
+},
+{
+"ticker": "SAN.PA",
+"name": "Sanofi",
+"country": "FR",
+"sector": "Pharma",
+"bucket": "large"
+},
+{
+"ticker": "SU.PA",
+"name": "Schneider Electric",
+"country": "FR",
+"sector": "Electrical equipment",
+"bucket": "large"
+},
+{
+"ticker": "GLE.PA",
+"name": "Societe Generale",
+"country": "FR",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "STLAP.PA",
+"name": "Stellantis",
+"country": "NL",
+"sector": "Autos",
+"bucket": "large"
+},
+{
+"ticker": "STMPA.PA",
+"name": "STMicroelectronics",
+"country": "NL",
+"sector": "Semiconductors",
+"bucket": "large"
+},
+{
+"ticker": "TEP.PA",
+"name": "Teleperformance",
+"country": "FR",
+"sector": "Business services",
+"bucket": "mid"
+},
+{
+"ticker": "HO.PA",
+"name": "Thales",
+"country": "FR",
+"sector": "Defense",
+"bucket": "large"
+},
+{
+"ticker": "TTE.PA",
+"name": "TotalEnergies",
+"country": "FR",
+"sector": "Energy",
+"bucket": "large"
+},
+{
+"ticker": "URW.PA",
+"name": "Unibail-Rodamco-Westfield",
+"country": "FR",
+"sector": "Real estate",
+"bucket": "mid"
+},
+{
+"ticker": "VIE.PA",
+"name": "Veolia",
+"country": "FR",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "DG.PA",
+"name": "Vinci",
+"country": "FR",
+"sector": "Construction",
+"bucket": "large"
+},
+{
+"ticker": "AMUN.PA",
+"name": "Amundi",
+"country": "FR",
+"sector": "Asset management",
+"bucket": "mid"
+},
+{
+"ticker": "ELIS.PA",
+"name": "Elis",
+"country": "FR",
+"sector": "Business services",
+"bucket": "mid"
+},
+{
+"ticker": "RUI.PA",
+"name": "Rubis",
+"country": "FR",
+"sector": "Energy distribution",
+"bucket": "mid"
+},
+{
+"ticker": "VCT.PA",
+"name": "Vicat",
+"country": "FR",
+"sector": "Cement",
+"bucket": "mid"
+},
+{
+"ticker": "SPIE.PA",
+"name": "SPIE",
+"country": "FR",
+"sector": "Engineering services",
+"bucket": "mid"
+},
+{
+"ticker": "TRI.PA",
+"name": "Trigano",
+"country": "FR",
+"sector": "Leisure vehicles",
+"bucket": "mid"
+},
+{
+"ticker": "NK.PA",
+"name": "Imerys",
+"country": "FR",
+"sector": "Minerals",
+"bucket": "mid"
+},
+{
+"ticker": "FGR.PA",
+"name": "Eiffage",
+"country": "FR",
+"sector": "Construction",
+"bucket": "mid"
+},
+{
+"ticker": "SK.PA",
+"name": "SEB",
+"country": "FR",
+"sector": "Appliances",
+"bucket": "mid"
+},
+{
+"ticker": "RXL.PA",
+"name": "Rexel",
+"country": "FR",
+"sector": "Distribution",
+"bucket": "mid"
+},
+{
+"ticker": "NEX.PA",
+"name": "Nexans",
+"country": "FR",
+"sector": "Cables",
+"bucket": "mid"
+},
+{
+"ticker": "IPN.PA",
+"name": "Ipsen",
+"country": "FR",
+"sector": "Pharma",
+"bucket": "mid"
+},
+{
+"ticker": "AM.PA",
+"name": "Dassault Aviation",
+"country": "FR",
+"sector": "Defense",
+"bucket": "mid"
+},
+{
+"ticker": "TKO.PA",
+"name": "Tikehau Capital",
+"country": "FR",
+"sector": "Asset management",
+"bucket": "mid"
+},
+{
+"ticker": "BVI.PA",
+"name": "Bureau Veritas",
+"country": "FR",
+"sector": "Testing/inspection",
+"bucket": "mid"
+},
+{
+"ticker": "ATE.PA",
+"name": "Alten",
+"country": "FR",
+"sector": "Engineering services",
+"bucket": "mid"
+},
+{
+"ticker": "ADP.PA",
+"name": "Aeroports de Paris",
+"country": "FR",
+"sector": "Airports",
+"bucket": "mid"
+},
+{
+"ticker": "COV.PA",
+"name": "Covivio",
+"country": "FR",
+"sector": "Real estate",
+"bucket": "mid"
+},
+{
+"ticker": "LI.PA",
+"name": "Klepierre",
+"country": "FR",
+"sector": "Real estate",
+"bucket": "mid"
+},
+{
+"ticker": "FDJU.PA",
+"name": "FDJ United",
+"country": "FR",
+"sector": "Gaming",
+"bucket": "mid"
+},
+{
+"ticker": "GFC.PA",
+"name": "Gecina",
+"country": "FR",
+"sector": "Real estate",
+"bucket": "mid"
+},
+{
+"ticker": "BOL.PA",
+"name": "Bollore",
+"country": "FR",
+"sector": "Conglomerate",
+"bucket": "mid"
+},
+{
+"ticker": "FRVIA.PA",
+"name": "Forvia",
+"country": "FR",
+"sector": "Auto parts",
+"bucket": "mid"
+},
+{
+"ticker": "ERA.PA",
+"name": "Eramet",
+"country": "FR",
+"sector": "Mining",
+"bucket": "mid"
+},
+{
+"ticker": "MF.PA",
+"name": "Wendel",
+"country": "FR",
+"sector": "Investment",
+"bucket": "mid"
+},
+{
+"ticker": "TFI.PA",
+"name": "TF1",
+"country": "FR",
+"sector": "Media",
+"bucket": "mid"
+},
+{
+"ticker": "UBI.PA",
+"name": "Ubisoft",
+"country": "FR",
+"sector": "Video games",
+"bucket": "mid"
+},
+{
+"ticker": "DIM.PA",
+"name": "Sartorius Stedim",
+"country": "FR",
+"sector": "Biotech equipment",
+"bucket": "mid"
+},
+{
+"ticker": "SW.PA",
+"name": "Sodexo",
+"country": "FR",
+"sector": "Catering",
+"bucket": "mid"
+},
+{
+"ticker": "SCR.PA",
+"name": "SCOR",
+"country": "FR",
+"sector": "Reinsurance",
+"bucket": "mid"
+},
+{
+"ticker": "AYV.PA",
+"name": "Ayvens",
+"country": "FR",
+"sector": "Leasing",
+"bucket": "mid"
+},
+{
+"ticker": "RCO.PA",
+"name": "Remy Cointreau",
+"country": "FR",
+"sector": "Spirits",
+"bucket": "mid"
+},
+{
+"ticker": "GTT.PA",
+"name": "GTT",
+"country": "FR",
+"sector": "LNG equipment",
+"bucket": "mid"
+},
+{
+"ticker": "EXENS.PA",
+"name": "Exosens",
+"country": "FR",
+"sector": "Defense electronics",
+"bucket": "mid"
+},
+{
+"ticker": "PLX.PA",
+"name": "Pluxee",
+"country": "FR",
+"sector": "Payments",
+"bucket": "mid"
+},
+{
+"ticker": "SOI.PA",
+"name": "Soitec",
+"country": "FR",
+"sector": "Semiconductors",
+"bucket": "mid"
+},
+{
+"ticker": "VK.PA",
+"name": "Vallourec",
+"country": "FR",
+"sector": "Steel tubes",
+"bucket": "mid"
+},
+{
+"ticker": "SIE.DE",
+"name": "Siemens",
+"country": "DE",
+"sector": "Industrials",
+"bucket": "large"
+},
+{
+"ticker": "SAP.DE",
+"name": "SAP",
+"country": "DE",
+"sector": "Software",
+"bucket": "large"
+},
+{
+"ticker": "ALV.DE",
+"name": "Allianz",
+"country": "DE",
+"sector": "Insurance",
+"bucket": "large"
+},
+{
+"ticker": "MUV2.DE",
+"name": "Munich Re",
+"country": "DE",
+"sector": "Reinsurance",
+"bucket": "large"
+},
+{
+"ticker": "DTE.DE",
+"name": "Deutsche Telekom",
+"country": "DE",
+"sector": "Telecom",
+"bucket": "large"
+},
+{
+"ticker": "DHL.DE",
+"name": "DHL Group",
+"country": "DE",
+"sector": "Logistics",
+"bucket": "large"
+},
+{
+"ticker": "BAS.DE",
+"name": "BASF",
+"country": "DE",
+"sector": "Chemicals",
+"bucket": "large"
+},
+{
+"ticker": "BAYN.DE",
+"name": "Bayer",
+"country": "DE",
+"sector": "Pharma",
+"bucket": "large"
+},
+{
+"ticker": "BMW.DE",
+"name": "BMW",
+"country": "DE",
+"sector": "Autos",
+"bucket": "large"
+},
+{
+"ticker": "MBG.DE",
+"name": "Mercedes-Benz",
+"country": "DE",
+"sector": "Autos",
+"bucket": "large"
+},
+{
+"ticker": "VOW3.DE",
+"name": "Volkswagen pref",
+"country": "DE",
+"sector": "Autos",
+"bucket": "large"
+},
+{
+"ticker": "IFX.DE",
+"name": "Infineon",
+"country": "DE",
+"sector": "Semiconductors",
+"bucket": "large"
+},
+{
+"ticker": "ADS.DE",
+"name": "Adidas",
+"country": "DE",
+"sector": "Apparel",
+"bucket": "large"
+},
+{
+"ticker": "DB1.DE",
+"name": "Deutsche Boerse",
+"country": "DE",
+"sector": "Exchanges",
+"bucket": "large"
+},
+{
+"ticker": "RHM.DE",
+"name": "Rheinmetall",
+"country": "DE",
+"sector": "Defense",
+"bucket": "large"
+},
+{
+"ticker": "SY1.DE",
+"name": "Symrise",
+"country": "DE",
+"sector": "Flavours",
+"bucket": "mid"
+},
+{
+"ticker": "HEN3.DE",
+"name": "Henkel pref",
+"country": "DE",
+"sector": "Consumer goods",
+"bucket": "large"
+},
+{
+"ticker": "MRK.DE",
+"name": "Merck KGaA",
+"country": "DE",
+"sector": "Pharma",
+"bucket": "large"
+},
+{
+"ticker": "FRE.DE",
+"name": "Fresenius",
+"country": "DE",
+"sector": "Healthcare",
+"bucket": "mid"
+},
+{
+"ticker": "HEI.DE",
+"name": "Heidelberg Materials",
+"country": "DE",
+"sector": "Cement",
+"bucket": "large"
+},
+{
+"ticker": "BNR.DE",
+"name": "Brenntag",
+"country": "DE",
+"sector": "Chemical distribution",
+"bucket": "mid"
+},
+{
+"ticker": "KGX.DE",
+"name": "Kion",
+"country": "DE",
+"sector": "Industrial trucks",
+"bucket": "mid"
+},
+{
+"ticker": "ZAL.DE",
+"name": "Zalando",
+"country": "DE",
+"sector": "E-commerce",
+"bucket": "mid"
+},
+{
+"ticker": "FME.DE",
+"name": "Fresenius Medical Care",
+"country": "DE",
+"sector": "Healthcare",
+"bucket": "mid"
+},
+{
+"ticker": "EOAN.DE",
+"name": "E.ON",
+"country": "DE",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "RWE.DE",
+"name": "RWE",
+"country": "DE",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "DBK.DE",
+"name": "Deutsche Bank",
+"country": "DE",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "CBK.DE",
+"name": "Commerzbank",
+"country": "DE",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "HNR1.DE",
+"name": "Hannover Re",
+"country": "DE",
+"sector": "Reinsurance",
+"bucket": "large"
+},
+{
+"ticker": "EVK.DE",
+"name": "Evonik",
+"country": "DE",
+"sector": "Chemicals",
+"bucket": "mid"
+},
+{
+"ticker": "LXS.DE",
+"name": "Lanxess",
+"country": "DE",
+"sector": "Chemicals",
+"bucket": "mid"
+},
+{
+"ticker": "JUN3.DE",
+"name": "Jungheinrich pref",
+"country": "DE",
+"sector": "Industrial trucks",
+"bucket": "mid"
+},
+{
+"ticker": "TKA.DE",
+"name": "Thyssenkrupp",
+"country": "DE",
+"sector": "Steel",
+"bucket": "mid"
+},
+{
+"ticker": "SHL.DE",
+"name": "Siemens Healthineers",
+"country": "DE",
+"sector": "Medical devices",
+"bucket": "large"
+},
+{
+"ticker": "QIA.DE",
+"name": "Qiagen",
+"country": "NL",
+"sector": "Diagnostics",
+"bucket": "mid"
+},
+{
+"ticker": "ASML.AS",
+"name": "ASML",
+"country": "NL",
+"sector": "Semiconductors",
+"bucket": "large"
+},
+{
+"ticker": "PHIA.AS",
+"name": "Philips",
+"country": "NL",
+"sector": "Medical devices",
+"bucket": "mid"
+},
+{
+"ticker": "INGA.AS",
+"name": "ING Groep",
+"country": "NL",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "HEIA.AS",
+"name": "Heineken",
+"country": "NL",
+"sector": "Beverages",
+"bucket": "large"
+},
+{
+"ticker": "WKL.AS",
+"name": "Wolters Kluwer",
+"country": "NL",
+"sector": "Information services",
+"bucket": "large"
+},
+{
+"ticker": "RAND.AS",
+"name": "Randstad",
+"country": "NL",
+"sector": "Staffing",
+"bucket": "mid"
+},
+{
+"ticker": "IMCD.AS",
+"name": "IMCD",
+"country": "NL",
+"sector": "Chemical distribution",
+"bucket": "mid"
+},
+{
+"ticker": "AALB.AS",
+"name": "Aalberts",
+"country": "NL",
+"sector": "Industrial technology",
+"bucket": "mid"
+},
+{
+"ticker": "APAM.AS",
+"name": "Aperam",
+"country": "LU",
+"sector": "Steel",
+"bucket": "mid"
+},
+{
+"ticker": "SBMO.AS",
+"name": "SBM Offshore",
+"country": "NL",
+"sector": "Oil services",
+"bucket": "mid"
+},
+{
+"ticker": "AKZA.AS",
+"name": "AkzoNobel",
+"country": "NL",
+"sector": "Paints",
+"bucket": "mid"
+},
+{
+"ticker": "DSFIR.AS",
+"name": "dsm-firmenich",
+"country": "NL",
+"sector": "Nutrition/fragrance",
+"bucket": "large"
+},
+{
+"ticker": "UMG.AS",
+"name": "Universal Music",
+"country": "NL",
+"sector": "Media",
+"bucket": "large"
+},
+{
+"ticker": "BESI.AS",
+"name": "BE Semiconductor",
+"country": "NL",
+"sector": "Semiconductors",
+"bucket": "mid"
+},
+{
+"ticker": "ASM.AS",
+"name": "ASM International",
+"country": "NL",
+"sector": "Semiconductors",
+"bucket": "large"
+},
+{
+"ticker": "NN.AS",
+"name": "NN Group",
+"country": "NL",
+"sector": "Insurance",
+"bucket": "mid"
+},
+{
+"ticker": "ABN.AS",
+"name": "ABN Amro",
+"country": "NL",
+"sector": "Banks",
+"bucket": "mid"
+},
+{
+"ticker": "IDR.MC",
+"name": "Indra Sistemas",
+"country": "ES",
+"sector": "Defense/IT",
+"bucket": "mid"
+},
+{
+"ticker": "AMS.MC",
+"name": "Amadeus IT",
+"country": "ES",
+"sector": "Travel tech",
+"bucket": "large"
+},
+{
+"ticker": "SAN.MC",
+"name": "Banco Santander",
+"country": "ES",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "BBVA.MC",
+"name": "BBVA",
+"country": "ES",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "ITX.MC",
+"name": "Inditex",
+"country": "ES",
+"sector": "Apparel",
+"bucket": "large"
+},
+{
+"ticker": "IBE.MC",
+"name": "Iberdrola",
+"country": "ES",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "TEF.MC",
+"name": "Telefonica",
+"country": "ES",
+"sector": "Telecom",
+"bucket": "large"
+},
+{
+"ticker": "REP.MC",
+"name": "Repsol",
+"country": "ES",
+"sector": "Energy",
+"bucket": "mid"
+},
+{
+"ticker": "CLNX.MC",
+"name": "Cellnex",
+"country": "ES",
+"sector": "Telecom towers",
+"bucket": "large"
+},
+{
+"ticker": "AENA.MC",
+"name": "Aena",
+"country": "ES",
+"sector": "Airports",
+"bucket": "large"
+},
+{
+"ticker": "FER.MC",
+"name": "Ferrovial",
+"country": "NL",
+"sector": "Infrastructure",
+"bucket": "large"
+},
+{
+"ticker": "ACS.MC",
+"name": "ACS",
+"country": "ES",
+"sector": "Construction",
+"bucket": "large"
+},
+{
+"ticker": "GRF.MC",
+"name": "Grifols",
+"country": "ES",
+"sector": "Healthcare",
+"bucket": "mid"
+},
+{
+"ticker": "MAP.MC",
+"name": "Mapfre",
+"country": "ES",
+"sector": "Insurance",
+"bucket": "mid"
+},
+{
+"ticker": "ELE.MC",
+"name": "Endesa",
+"country": "ES",
+"sector": "Utilities",
+"bucket": "mid"
+},
+{
+"ticker": "RED.MC",
+"name": "Redeia",
+"country": "ES",
+"sector": "Utilities",
+"bucket": "mid"
+},
+{
+"ticker": "ENEL.MI",
+"name": "Enel",
+"country": "IT",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "ISP.MI",
+"name": "Intesa Sanpaolo",
+"country": "IT",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "UCG.MI",
+"name": "UniCredit",
+"country": "IT",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "RACE.MI",
+"name": "Ferrari",
+"country": "NL",
+"sector": "Autos",
+"bucket": "large"
+},
+{
+"ticker": "PRY.MI",
+"name": "Prysmian",
+"country": "IT",
+"sector": "Cables",
+"bucket": "large"
+},
+{
+"ticker": "AMP.MI",
+"name": "Amplifon",
+"country": "IT",
+"sector": "Hearing care",
+"bucket": "mid"
+},
+{
+"ticker": "LDO.MI",
+"name": "Leonardo",
+"country": "IT",
+"sector": "Defense",
+"bucket": "large"
+},
+{
+"ticker": "TEN.MI",
+"name": "Tenaris",
+"country": "LU",
+"sector": "Energy equipment",
+"bucket": "large"
+},
+{
+"ticker": "G.MI",
+"name": "Generali",
+"country": "IT",
+"sector": "Insurance",
+"bucket": "large"
+},
+{
+"ticker": "MONC.MI",
+"name": "Moncler",
+"country": "IT",
+"sector": "Luxury",
+"bucket": "mid"
+},
+{
+"ticker": "BAMI.MI",
+"name": "Banco BPM",
+"country": "IT",
+"sector": "Banks",
+"bucket": "mid"
+},
+{
+"ticker": "CPR.MI",
+"name": "Campari",
+"country": "IT",
+"sector": "Spirits",
+"bucket": "mid"
+},
+{
+"ticker": "DIA.MI",
+"name": "DiaSorin",
+"country": "IT",
+"sector": "Diagnostics",
+"bucket": "mid"
+},
+{
+"ticker": "REC.MI",
+"name": "Recordati",
+"country": "IT",
+"sector": "Pharma",
+"bucket": "mid"
+},
+{
+"ticker": "ENI.MI",
+"name": "Eni",
+"country": "IT",
+"sector": "Energy",
+"bucket": "large"
+},
+{
+"ticker": "TRN.MI",
+"name": "Terna",
+"country": "IT",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "SRG.MI",
+"name": "Snam",
+"country": "IT",
+"sector": "Utilities",
+"bucket": "large"
+},
+{
+"ticker": "UCB.BR",
+"name": "UCB",
+"country": "BE",
+"sector": "Pharma",
+"bucket": "large"
+},
+{
+"ticker": "SOLB.BR",
+"name": "Solvay",
+"country": "BE",
+"sector": "Chemicals",
+"bucket": "mid"
+},
+{
+"ticker": "KBC.BR",
+"name": "KBC Group",
+"country": "BE",
+"sector": "Banks",
+"bucket": "large"
+},
+{
+"ticker": "ABI.BR",
+"name": "AB InBev",
+"country": "BE",
+"sector": "Beverages",
+"bucket": "large"
+},
+{
+"ticker": "UMI.BR",
+"name": "Umicore",
+"country": "BE",
+"sector": "Materials",
+"bucket": "mid"
+},
+{
+"ticker": "GBLB.BR",
+"name": "GBL",
+"country": "BE",
+"sector": "Investment",
+"bucket": "mid"
+},
+{
+"ticker": "ACKB.BR",
+"name": "Ackermans & van Haaren",
+"country": "BE",
+"sector": "Investment",
+"bucket": "mid"
+},
+{
+"ticker": "NESTE.HE",
+"name": "Neste",
+"country": "FI",
+"sector": "Energy",
+"bucket": "mid"
+},
+{
+"ticker": "KNEBV.HE",
+"name": "Kone",
+"country": "FI",
+"sector": "Elevators",
+"bucket": "large"
+},
+{
+"ticker": "SAMPO.HE",
+"name": "Sampo",
+"country": "FI",
+"sector": "Insurance",
+"bucket": "large"
+},
+{
+"ticker": "UPM.HE",
+"name": "UPM-Kymmene",
+"country": "FI",
+"sector": "Paper",
+"bucket": "mid"
+},
+{
+"ticker": "NOKIA.HE",
+"name": "Nokia",
+"country": "FI",
+"sector": "Telecom equipment",
+"bucket": "mid"
+}
+]
