@@ -48,7 +48,7 @@ If intent is ambiguous: *"Voulez-vous une revue complète (Phase 3), une recherc
 
 **Each subagent returns structured output** — the main agent synthesizes, never the subagent. Agent definitions live in `.claude/agents/`. See [`references/workflow-phases.md`](references/workflow-phases.md) for dispatch recipes and how to invoke each agent.
 
-**Playwright subagents**: the browser has one shared "current tab", so opening your own tab does not isolate you from other agents. When 2+ Playwright agents run at the same time, each works only through `browser_run_code_unsafe` on a private page handle and never calls `browser_close()` — recipe in [`references/news-sources.md`](references/news-sources.md#playwright-concurrency-rule-read-before-dispatching-2-playwright-agents). A lone Playwright agent closes its tab with `browser_tabs(action="close")`.
+**Playwright subagents**: the browser has one shared "current tab", so opening your own tab does not isolate you from other agents. When 2+ Playwright agents run at the same time, each works only through `browser_run_code_unsafe` on a private page handle and never calls `browser_close()` — recipe in [`references/news-sources.md`](references/news-sources.md). A lone Playwright agent closes its tab with `browser_tabs(action="close")`.
 
 **What stays in the main agent:**
 - All user interaction (Phase 1, Phase 2)
