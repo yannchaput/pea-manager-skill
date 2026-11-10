@@ -233,7 +233,7 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 
 ## Watchlist — Candidats court terme
 
-Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attente de confirmation technique pour entrée. Dernière revue complète : 2026-11-10 — aucun candidat ne réunit les conditions d'entrée (Teleperformance est revenue dans la zone 68,50-70,00 € mais la chute n'est pas diagnostiquée). Retirés le 10/11 : Figeac, Soitec, Eramet, ING.
+Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attente de confirmation technique pour entrée. Dernière revue complète : 2026-11-10 (scan Phase 4 le même jour : Renault, Edenred ajoutés) — aucun candidat ne réunit les conditions d'entrée (Teleperformance est revenue dans la zone 68,50-70,00 € mais la chute n'est pas diagnostiquée). Retirés le 10/11 : Figeac, Soitec, Eramet, ING.
 
 > **SPIE** — retirée de la watchlist le 2026-10-08 (décision utilisateur). Cours 41,32 € vs zone d'entrée ~46,50 € (+12,5 %), death cross, fenêtre de 2 mois atteinte.
 > **Hensoldt** — retirée de la watchlist le 2026-10-08 (décision utilisateur). Cours 74,82 € vs zone d'entrée ~87,50 € (+17 %), lower-highs, fenêtre de 2 mois atteinte.
@@ -324,6 +324,30 @@ Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attent
 - **Revue 2026-11-10**: cours 8,65 € (+2,5 % vs 29/10), remonté au-dessus du support 8,52 €, RSI 48,6, MACD bullish crossover le 09/11 (hist +0,01, marginal), 3/4 au script. Mais SMA50 8,96 € non reprise (déclencheur close > 9,01 €), death cross, bilan fragile, **cross-check news non fait** : pas d'entrée.
 - **Décision**: ⏳ **WATCH** — revue 29/10 : cours 8,44 € (−4,1 % vs 8,80 € le 15/10), **passé sous le support 8,52-8,53 €** (plus bas 52 sem. 8,42 €). RSI 44,2, MACD bearish, 1/4 ; le déclencheur d'entrée (close > SMA50 9,01 €) est à +6,7 %. Bilan fragile : pas d'entrée. Alerte théorique 8,45 € dépassée. **Retrait proposé si le plus bas 52 sem. (8,42 €) cède.**
 
+### Renault (RNO.PA) — ISIN FR0000131906 (à confirmer dans le courtier)
+- **Repéré le**: 2026-11-10 (Phase 4-Short, mid-cap ~8,5 Md€, secteur absent du portefeuille : automobile)
+- **Cours actuel**: 29,44 € (+2,2 % le 10/11) — plage 52 sem. 24,38–37,97 €
+- **Thèse**: Rebond d'un constructeur décoté (P/E 9×, forward 4,8×, P/B 0,4), rendement 7,6 % (dividende 2,20 €, payout 67 %), consensus Buy (objectif moyen 38,0 €, +29 %). Cité positivement par un analyste (Boursier.com, 10/11).
+- **Technique (script DD)**: 3/4 — RSI 63,5, MACD bullish crossover le 29/10, prix au-dessus des SMA50 (27,41 €) et SMA200 (28,45 €), ATR 0,96 € (1,5× = 1,45 €, 4,9 % : OK).
+- **Risques**: Cycle auto européen, droits de douane, concurrence chinoise, endettement (D/E élevé, financement inclus). **Cross-check news non fait (obligatoire)** : résultats T3 non relus.
+- **Zone d'entrée cible**: 27,50–28,50 € (retest SMA50/SMA200) ; ⅓ maximum au premier signal confirmé.
+- **Alerte/stop**: ~26,50 € (1,5× ATR sous 28,0 €). Objectif T1 ~31,5 € (+12 %).
+- **Allocation cible**: ~800 € en tiers (≈9 titres par tiers).
+- **Cross-check news 2026-11-10 (TradingView + Investir) : GREEN penchant AMBER.** T3 (29/10) : CA 11,6 Md€ (+1,4 % à change constant) vs consensus 11,4 Md€, volumes −6 % (concurrence chinoise), guidance FY26 confirmée (marge opérationnelle ~5,5 %, FCF auto ~1 Md€), titre +6,9 % ce jour-là. Analystes : Jefferies relève à Buy le 09/11 (objectif 34 €), Bernstein Outperform (36 €), Oddo BHF Outperform (50 €), Citi/UBS positifs. UE-Chine : plafond d'importations de 350 k hybrides chinois annoncé le 12/10 (application possible début décembre). Aucun profit warning ni changement de direction. Risques : rebond de ~13 % en deux semaines (cours proche de l'ancien objectif Jefferies), menace de réduire la production européenne de 300 000 véhicules si les cibles CO2 2030 sont maintenues, guidance seulement confirmée (H2 saisonnier atténué), stocks élevés (532 k), secteur fragile (BMW a abaissé ses objectifs de marge le 10/11). Non lu : notes Investir payantes, rendement ~9 % (Boursier) non vérifié.
+- **Décision**: ⏳ **WATCH — ne pas chasser** : news GREEN/AMBER, entrée seulement sur retest 27,50–28,50 € (⅓ max), stop ~26,50 €. Revue 10/11 : cours 29,44 €.
+
+### Edenred (EDEN.PA) — ISIN FR0010908533 (à confirmer dans le courtier)
+- **Repéré le**: 2026-11-10 (Phase 4-Short, mid-cap ~5,9 Md€, secteur absent : paiements/avantages salariés)
+- **Cours actuel**: 25,89 € (**+6,4 % le 10/11**, cause non diagnostiquée) — plage 52 sem. 15,23–30,85 €
+- **Thèse**: Plateforme de paiement/avantages salariés à revenus récurrents, marge d'exploitation 32 %, P/E 12,6× (forward 10,8×), rendement 5,5 % (1,33 €), consensus Buy (objectif 31,2 €, +21 %).
+- **Technique (script DD)**: 2/4 — RSI 48,8, MACD bearish (hist −0,43, crossover 21/10), sous la SMA50 (27,43 €), golden cross (SMA200 23,47 €), volume ×1,9 la moyenne. ATR 0,93 € (1,5× = 1,40 €, 5,4 % : OK).
+- **Risques**: Régulation (plafonds de commissions, Brésil/Europe), baisse des taux, croissance des bénéfices négative (−6 %), fonds propres négatifs (rachats).
+- **Zone d'entrée cible**: 24,30–25,00 € (comblement du gap) ou close > 27,4 € (SMA50) avec MACD retourné.
+- **Alerte/stop**: ~23,10 € (1,5× ATR sous 24,50 €). Objectif T1 ~28,0 € (+14 %).
+- **Allocation cible**: ~800 € en tiers.
+- **Cross-check news 2026-11-10 (TradingView + Investir) : AMBER (fondamentaux plutôt positifs, hausse du 10/11 non expliquée).** Aucun titre Edenred daté après le 28/10 : le +6,4 % du 10/11 (volume ×2) n'a **aucun catalyseur identifié** (rebond sectoriel/macro, short-covering ou note d'analyste non publiée). Chute 30 → 24,3 € : T3 du 21/10 CA 725 M€ vs 709 M€ consensus mais plat sur un an, Benefits & Engagement −4,5 % (plafonds de commissions Italie/Brésil), guidance 2026 confirmée (EBITDA 1,22-1,26 Md€, en baisse), titre −7,5 % (bat trop peu, « other revenues » de faible qualité selon Jefferies). Positifs : réforme des titres-restaurant votée le 12/10 en 1ʳᵉ lecture **sans plafonnement des commissions en France** (encore Sénat + 2ᵉ lecture), règles brésiliennes suspendues par un juge le 28/10, réélection de Lula favorable, émission obligataire 800 M€ (26/10), Mobilité +10,7 % organique, objectifs 2027-28 maintenus. Surplombs : enquête AGCM (Italie) toujours ouverte, procès de la filiale italienne (fraude présumée sur appels d'offres). Aucun profit warning ni changement de direction ; seule rumeur d'OPA : approche de fonds en juin. Non lu : articles Investir et corps Reuters payants, direction des recos du 28/10.
+- **Décision**: ⏳ **WATCH — entrée technique seulement** : le rebond de +6,4 % sans news peut s'estomper. Attendre un repli vers 24,30–25,00 € ou un close > 27,4 € (SMA50) avec MACD retourné. Revue 10/11 : cours 25,89 €.
+
 ## Watchlist — Candidats long terme
 
 ### JCDecaux (DEC.PA) — ISIN FR0000077919
@@ -385,3 +409,25 @@ Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attent
 
 > **Scan complémentaire Phase 4-Long du 2026-10-15 (Paris, émetteurs français)** — lancé après le constat de non-éligibilité d'Ahold. 7 DD (Danone, Orange, Legrand, L'Oréal, Publicis, Michelin, Safran), cross-check news TradingView + Investir sur les 2 finalistes. 3 retenus ci-dessous. **Écartés** : L'Oréal (au plus haut annuel, P/E 34×, upside consensus +3 %), Legrand (P/E 27×, death cross, MACD bearish aujourd'hui, 1/4 ; à revoir sous ~125 €), Safran (P/E 34×, 1/4, bénéfice −65 % trailing), Michelin (métriques Yahoo non fiables — P/E trailing 3,3× et rendement 13,3 % faussés par un élément exceptionnel —, consensus 33,5 € sous le cours). ISIN de Danone/Publicis/Legrand/L'Oréal/Safran non revérifiés via EODHD (quota épuisé, 402) : confirmer dans le courtier avant ordre.
 
+### Crédit Agricole S.A. (ACA.PA) — ISIN FR0000045072 (à confirmer dans le courtier)
+- **Repéré le**: 2026-11-10 (Phase 4-Long, grande cap ~48 Md€, secteur absent : banques)
+- **Cours actuel**: 15,89 € — plage 52 sem. 14,69–20,40 €
+- **Thèse (« pourquoi détenir 5 ans+ »)**: Première banque de détail française, modèle diversifié (assurance, gestion d'actifs, CIB, LCL), P/E 8,1× (forward 6,4×), P/B 0,60, rendement historique élevé (moyenne 5 ans 7,7 %), ROE 9,3 %, résultats T3 publiés le 30/10, consensus Buy (objectif 20,8 €, +31 %).
+- **Moat**: Réseau des Caisses régionales, base de dépôts, intégration banque-assurance-gestion.
+- **Dividende**: Données Yahoo incohérentes (taux 1,70 € vs 0,00 € trailing, dernier détachement 0,57 € le 13/10) : **historique à vérifier avant entrée**.
+- **Technique (script DD)**: 3/4 — RSI 50,2, MACD bullish crossover le 10/11 (hist +0,03), mais death cross SMA50/SMA200 (16,89/17,43 €), prix 8,8 % sous la SMA200.
+- **Risques**: Risque souverain/politique français, baisse des taux, cycle du crédit, contrôle à 69 % par SAS Rue La Boétie.
+- **Stratégie d'entrée**: Tiers : ⅓ vers 15,50–15,90 € (limite), ⅓ sur close > SMA50 (~16,9 €), ⅓ après tenue du plus bas 52 sem. 14,69 €.
+- **Allocation cible**: ~800–1 000 € en tiers.
+- **Décision**: ⏳ **WATCH** — repéré 10/11. Vérifier dividende pluriannuel et résultats T3 avant le 1ᵉʳ tiers.
+
+### Schneider Electric (SU.PA) — ISIN FR0000121972 (à confirmer dans le courtier)
+- **Repéré le**: 2026-11-10 (Phase 4-Long, grande cap ~138 Md€, secteur absent : automatisation/électrique). Déjà écartée le 15/10 (P/E 31×, « à revoir sous ~250 € ») : seuil franchi.
+- **Cours actuel**: 235,35 € (−24,6 % du plus haut 312,3 €) — plage 52 sem. 220,4–312,3 €
+- **Thèse (« pourquoi détenir 5 ans+ »)**: Leader de la gestion d'énergie et de l'automatisation, tiré par l'électrification et les data centers ; marge d'exploitation 18 %, ROE 18,6 %, croissance CA +9,8 %, résultat +29 %. P/E 28× trailing mais **18,7× forward**, PEG 1,2, consensus Buy (objectif 323 €, +37 %). Dividende 4,20 € (1,8 %, payout 50 %).
+- **Moat**: Base installée, logiciel (AVEVA), prescripteurs, effets d'échelle.
+- **Technique (script DD)**: 1/4 — RSI 39,3, MACD bearish, **death cross le 09/11**, prix 12 % sous les SMA50/SMA200 (≈268 €) : pas de confirmation.
+- **Risques**: Valorisation encore élevée, cycle data centers/IA (cf. baisse du Nasdaq du 05/11), dette 20,8 Md€, couteau qui tombe.
+- **Stratégie d'entrée**: Tiers : ⅓ vers 228–235 € (au-dessus du plus bas 220,4 €), ⅓ sur reprise de 250 €, ⅓ sur close > SMA50. Alternative plus petite : Legrand (LR.PA, 135,60 €, P/E 19× forward, 2/4).
+- **Allocation cible**: ~800–1 000 € en tiers (≈1 titre ≈ 235 €).
+- **Décision**: ⏳ **WATCH** — repéré 10/11, attendre une stabilisation technique ; cross-check news à faire avant le 1ᵉʳ tiers.
