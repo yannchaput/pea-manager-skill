@@ -233,7 +233,7 @@ Positions listées ici sont **exclues des analyses Phase 3 et Phase 4**. Elles a
 
 ## Watchlist — Candidats court terme
 
-Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attente de confirmation technique pour entrée. Dernière revue complète : 2026-11-10 (scan Phase 4 le même jour : Renault, Edenred ajoutés) — aucun candidat ne réunit les conditions d'entrée (Teleperformance est revenue dans la zone 68,50-70,00 € mais la chute n'est pas diagnostiquée). Retirés le 10/11 : Figeac, Soitec, Eramet, ING.
+Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attente de confirmation technique pour entrée. Dernière revue complète : 2026-11-10 (scans Phase 4 le même jour : Renault, Edenred, Rexel ajoutés) — aucun candidat ne réunit les conditions d'entrée (Teleperformance est revenue dans la zone 68,50-70,00 € mais la chute n'est pas diagnostiquée). Retirés le 10/11 : Figeac, Soitec, Eramet, ING.
 
 > **SPIE** — retirée de la watchlist le 2026-10-08 (décision utilisateur). Cours 41,32 € vs zone d'entrée ~46,50 € (+12,5 %), death cross, fenêtre de 2 mois atteinte.
 > **Hensoldt** — retirée de la watchlist le 2026-10-08 (décision utilisateur). Cours 74,82 € vs zone d'entrée ~87,50 € (+17 %), lower-highs, fenêtre de 2 mois atteinte.
@@ -348,6 +348,17 @@ Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attent
 - **Cross-check news 2026-11-10 (TradingView + Investir) : AMBER (fondamentaux plutôt positifs, hausse du 10/11 non expliquée).** Aucun titre Edenred daté après le 28/10 : le +6,4 % du 10/11 (volume ×2) n'a **aucun catalyseur identifié** (rebond sectoriel/macro, short-covering ou note d'analyste non publiée). Chute 30 → 24,3 € : T3 du 21/10 CA 725 M€ vs 709 M€ consensus mais plat sur un an, Benefits & Engagement −4,5 % (plafonds de commissions Italie/Brésil), guidance 2026 confirmée (EBITDA 1,22-1,26 Md€, en baisse), titre −7,5 % (bat trop peu, « other revenues » de faible qualité selon Jefferies). Positifs : réforme des titres-restaurant votée le 12/10 en 1ʳᵉ lecture **sans plafonnement des commissions en France** (encore Sénat + 2ᵉ lecture), règles brésiliennes suspendues par un juge le 28/10, réélection de Lula favorable, émission obligataire 800 M€ (26/10), Mobilité +10,7 % organique, objectifs 2027-28 maintenus. Surplombs : enquête AGCM (Italie) toujours ouverte, procès de la filiale italienne (fraude présumée sur appels d'offres). Aucun profit warning ni changement de direction ; seule rumeur d'OPA : approche de fonds en juin. Non lu : articles Investir et corps Reuters payants, direction des recos du 28/10.
 - **Décision**: ⏳ **WATCH — entrée technique seulement** : le rebond de +6,4 % sans news peut s'estomper. Attendre un repli vers 24,30–25,00 € ou un close > 27,4 € (SMA50) avec MACD retourné. Revue 10/11 : cours 25,89 €.
 
+### Rexel (RXL.PA) — ISIN FR0010451203 (à confirmer dans le courtier)
+- **Repéré le**: 2026-11-10 (2ᵉ scan Phase 4, `scan_universe.py` : PASS 3/4, mid-cap ~11 Md€, distribution de matériel électrique, secteur absent)
+- **Cours actuel**: 36,06 € — plage 52 sem. 29,59–39,80 €
+- **Thèse**: Distributeur européen/nord-américain de matériel électrique, bénéficiaire de l'électrification (bâtiment, data centers). P/E 16× (forward 11,8×), P/B 1,9, rendement 3,4 % (1,20 €, payout 53 %), bénéfice +31 %, consensus Buy (objectif 41,9 €, +16 %).
+- **Technique (script DD)**: 3/4 — RSI 59,3, MACD bullish crossover le 02/11, mais **death cross (13/10)**, prix collé à la SMA200 (36,05 €) et **structure de plus hauts décroissants** : le garde-fou de tendance ne se déclenche que de justesse (+0,01 €). ATR 1,12 € (1,5× = 1,67 €, 4,6 % : OK). Supports 33,85 / 34,99 €, résistances 35,48 / 37,79 €.
+- **Risques**: Cycle construction/industrie, endettement (D/E 107 %), marges faibles (6 %), dépendance au prix du cuivre. **Résultats T3 et cross-check news non vérifiés.**
+- **Condition d'entrée**: close > 37,8 € (résistance) avec MACD haussier, ou retest du support 34,0-35,0 € avec reprise. Pas d'entrée sous la SMA200.
+- **Alerte/stop**: ~33,3 € (1,5× ATR sous 35,0 €). Allocation cible ~800 € en tiers.
+- **Cross-check news 2026-11-10 (TradingView ; Investir sans couverture) : GREEN côté news, technique en désaccord.** T3 (22/10) : CA 5,45 Md€ (+11,4 % same-day, meilleur trimestre depuis 2022), Amérique du Nord +17,4 %, ventes data centers US plus que doublées (~13 % des ventes US), carnet record ; **guidance relevée pour la 2ᵉ fois** (croissance same-day ~7 % vs ~5 %, marge EBITA ajustée ≥ 6,4 % vs ≥ 6,2 %). Acquisition GCG (~1,4 Md$ VE, 25/09) financée en partie par une **augmentation de capital de ~500 M€ (28-29/09)** : dilution qui explique la faiblesse avant le death cross du 13/10, déjà intégrée. Rachats d'actions en cours. Aucun profit warning ni changement de direction. Non lu : articles Reuters payants, transcript, communiqué d'origine ; aucun changement d'objectif de courtier vu ; Investir : aucune donnée Rexel.
+- **Décision**: ⏳ **WATCH — news favorables, entrée seulement sur confirmation technique** (close > 37,8 € avec MACD haussier, ou retest 34-35 € avec reprise). Revue 10/11 : cours 36,06 €.
+
 ## Watchlist — Candidats long terme
 
 ### JCDecaux (DEC.PA) — ISIN FR0000077919
@@ -419,7 +430,9 @@ Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attent
 - **Risques**: Risque souverain/politique français, baisse des taux, cycle du crédit, contrôle à 69 % par SAS Rue La Boétie.
 - **Stratégie d'entrée**: Tiers : ⅓ vers 15,50–15,90 € (limite), ⅓ sur close > SMA50 (~16,9 €), ⅓ après tenue du plus bas 52 sem. 14,69 €.
 - **Allocation cible**: ~800–1 000 € en tiers.
-- **Décision**: ⏳ **WATCH** — repéré 10/11. Vérifier dividende pluriannuel et résultats T3 avant le 1ᵉʳ tiers.
+- **Dividende vérifié 2026-11-10 (Yahoo, historique)** : versé chaque année 2017-2025 sauf 2020 (suspension réglementaire) : 0,58 € (2017), 0,63 (2018), 0,69 (2019), 0,80 (2021), 1,05 (2022-2024), 1,10 (2025) ; 2026 : 1,13 € (26/05) + acompte 0,57 € (13/10) = 1,70 €, soit ~10,7 % du cours.
+- **Cross-check news 2026-11-10 (TradingView + Investir) : AMBER.** T3 (30/10) : RNPG 1,99 Md€ (+17,9 %, +11 % hors éléments), PNB 7,09 Md€ (+7,5 % vs 7,01 consensus), record banque d'investissement (1,75 Md€) et LCL (1,15 Md€), CET1 11,2 % ; coût du risque 585 M€ (~9 % au-dessus de JP Morgan), PDG prudent sur la demande de crédit en France, titre −1,8 %. **Proposition de fusion CA Italia dans Banco BPM (09/11)** : CA passerait de 29,6 % à ~45 % de BPM sans OPA, prime de 20 %, dividende exceptionnel 1 Md€ aux actionnaires BPM, closing visé S2 2027, **conseil de BPM le 12/11 (événement binaire imminent)**. Autres : rachat d'IKB (Allemagne, −20 pb de CET1), programme de rachat de 605,5 M€ terminé le 25/09. **Risque souverain français dominant** (Moody's Aa3 perspective négative le 26/10, OAT 10 ans ~4,9 %, spread ~161 pb). Non lu : articles Dow Jones/Reuters payants, guidance, objectifs de courtiers.
+- **Décision**: ⏳ **WATCH — AMBER** : valorisation très basse (P/E 8×, P/B 0,6) mais prix sous la SMA200, risque souverain français et événement BPM du 12/11. 1ᵉʳ tiers de taille réduite possible (≤ 15,90 €) ou attendre le 12/11.
 
 ### Schneider Electric (SU.PA) — ISIN FR0000121972 (à confirmer dans le courtier)
 - **Repéré le**: 2026-11-10 (Phase 4-Long, grande cap ~138 Md€, secteur absent : automatisation/électrique). Déjà écartée le 15/10 (P/E 31×, « à revoir sous ~250 € ») : seuil franchi.
@@ -431,3 +444,26 @@ Candidats identifiés en Phase 4-Short le 2026-08-10 et le 2026-10-08, en attent
 - **Stratégie d'entrée**: Tiers : ⅓ vers 228–235 € (au-dessus du plus bas 220,4 €), ⅓ sur reprise de 250 €, ⅓ sur close > SMA50. Alternative plus petite : Legrand (LR.PA, 135,60 €, P/E 19× forward, 2/4).
 - **Allocation cible**: ~800–1 000 € en tiers (≈1 titre ≈ 235 €).
 - **Décision**: ⏳ **WATCH** — repéré 10/11, attendre une stabilisation technique ; cross-check news à faire avant le 1ᵉʳ tiers.
+
+### Siemens Healthineers (SHL.DE) — ISIN DE000SHL1006 (à confirmer dans le courtier)
+- **Repéré le**: 2026-11-10 (2ᵉ scan Phase 4, PASS 3/4, grande cap ~48 Md€, équipement médical/diagnostic, secteur absent hors Sanofi)
+- **Cours actuel**: 42,94 € — plage 52 sem. 32,81–47,26 €
+- **Thèse (« pourquoi détenir 5 ans+ »)**: Leader de l'imagerie médicale et du diagnostic (CT/IRM, diagnostic en laboratoire, radiothérapie), base installée et services récurrents, vieillissement démographique. P/E 21,8× (forward 16,3×), P/B 2,4, rendement 2,2 % (1,00 €, payout 51 %), marge d'exploitation 12,5 %, FCF 1,7 Md€, consensus Buy (objectif 46,6 €, +8 %).
+- **Moat**: Base installée, coûts de changement, réglementation, effets d'échelle en R&D.
+- **Technique (script DD)**: 3/4 — **tendance saine** (plus hauts croissants, golden cross le 30/09), RSI 58,2, MACD bullish (14/10), ATR 1,04 € (3,7 %). Supports 42,26 / 38,62 €, résistance 45,00 €.
+- **Risques**: Droits de douane/Chine (diagnostics), croissance du bénéfice nulle (−0,8 %), upside consensus limité, parent Siemens AG (actionnaire).
+- **Stratégie d'entrée**: Tiers : ⅓ sur retest 42,3-42,9 € (support), ⅓ vers 40-41 € (SMA50 40,0 €), ⅓ sur cassure 45 €. Prochains résultats : 04/02/2027 (pas de catalyseur proche).
+- **Allocation cible**: ~800–1 000 € en tiers.
+- **Cross-check news 2026-11-10 (TradingView titres seulement ; Investir sans article) : AMBER.** Résultats T4/FY26 (début novembre, date non confirmée) : CA 6,78 Md€ (+5,9 % comparable, légèrement au-dessus du consensus), mais **EBIT ajusté 1,08 Md€ et résultat net 589 M€ sous le consensus** (1,11 Md€ / 651 M€) ; FY26 conforme à la guidance, croissance de l'imagerie/thérapie de précision compensant la faiblesse du Diagnostic. **Guidance FY27 modeste** : croissance comparable +4-5 %, BPA ajusté 2,20-2,40 €, pesée par la Chine, l'inflation et les coûts de séparation. Séparation du Diagnostic (futur « Olyrian Diagnostics ») jusqu'à mi-2028, rebranding en « Healthineers ». **Siemens AG prévoit de déconsolider Healthineers en 2027 (spin-off soumis aux AG)** : risque de surplomb d'actions. Rachats d'actions en cours. Aucun changement de direction. Non lu : corps d'articles, objectifs de courtiers, termes du spin-off, date exacte des résultats.
+- **Décision**: ⏳ **WATCH — AMBER** : pas d'entrée avant clarté sur le spin-off (AG) et les T1 du 04/02/2027 ; ou ⅓ seulement vers le support 41,85 €. Revue 10/11 : cours 42,94 €.
+
+### Allianz (ALV.DE) — ISIN DE0008404005 (à confirmer dans le courtier)
+- **Repéré le**: 2026-11-10 (2ᵉ scan Phase 4, PASS 3/4, grande cap ~176 Md€, assurance, secteur absent)
+- **Cours actuel**: 463,50 € (≈ plus haut 52 sem. 469,10 €, plus bas 338,80 €)
+- **Thèse (« pourquoi détenir 5 ans+ »)**: Premier assureur européen diversifié (P&C, vie, gestion d'actifs PIMCO/AllianzGI), génération de cash et dividende élevés. P/E 15,2× (forward 13,9×), P/B 2,8, rendement 3,8 % (17,10 €, payout 56 %), croissance CA +12 %, FCF 9,3 Md€.
+- **Moat**: Échelle, marque, réseaux de distribution, discipline de souscription.
+- **Technique (script DD)**: 3/4 — RSI 66,3, MACD bullish (27/10), golden cross, mais cours au plus haut ; supports 440,4 / 424,8 €, SMA50 435 €.
+- **Risques**: Consensus « hold » avec objectif moyen (446 €) **sous le cours**, bénéfice −8 %, cycle catastrophes naturelles/taux, risque PIMCO. **Résultats T3 le 12/11** : ne pas entrer avant.
+- **Stratégie d'entrée**: Tiers après les résultats du 12/11 : ⅓ vers 436–441 € (SMA50/support), ⅓ vers 425 €, ⅓ sur reprise > 470 €.
+- **Allocation cible**: ~800–1 000 € en tiers (≈ 2 titres par tiers).
+- **Décision**: ⏳ **WATCH** — attendre les résultats du 12/11 et un repli ; cross-check news à faire.

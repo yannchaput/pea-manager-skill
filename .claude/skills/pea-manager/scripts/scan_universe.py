@@ -12,7 +12,7 @@ Here the universe is a file (assets/universe.json), the data is the Yahoo chart 
 Usage:
   python3 scan_universe.py [--bucket large|mid|all] [--top 25] [--workers 8]
 
-Output: stocks not already in TRACKER.md, grouped PASS (ENTER, no gate),
+Output: stocks not already in TRACKER.md (by ticker or name, so recently closed or rejected names are skipped too), grouped PASS (ENTER, no gate),
 WATCH (uptrend, partial confirmations) and GATED (downtrend/overbought).
 Survivors still need fundamentals (yfinance info) and the news cross-check.
 
@@ -26,6 +26,7 @@ import json
 import math
 import re
 import sys
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -42,6 +43,15 @@ TICKER_RE = re.compile(r"\b[A-Z0-9]{1,6}\.[A-Z]{2}\b")
 def tracked_tickers(tracker_text):
     """Every Yahoo-style ticker (XXX.PA) mentioned in TRACKER.md."""
     return set(TICKER_RE.findall(tracker_text))
+
+
+def is_tracked(row, tracker_text, tickers):
+    """True if the stock is in TRACKER.md by ticker or by name (accent/case-insensitive,
+    whole word). Needed because several held positions carry no ticker line."""
+    if row["ticker"] in tickers:
+        return True
+    fold = lambda t: unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower()
+    return re.search(r"\b" + re.escape(fold(row["name"])) + r"\b", fold(tracker_text)) is not None
 
 
 def evaluate(bars):
@@ -91,9 +101,10 @@ def main():
     args = ap.parse_args()
 
     universe = json.loads((HERE.parent / "assets" / "universe.json").read_text())
-    held = tracked_tickers(TRACKER.read_text()) if TRACKER.exists() else set()
+    text = TRACKER.read_text() if TRACKER.exists() else ""
+    held = tracked_tickers(text)
     rows = [r for r in universe
-            if r["ticker"] not in held and r["country"] in PEA_COUNTRIES
+            if not is_tracked(r, text, held) and r["country"] in PEA_COUNTRIES
             and args.bucket in ("all", r["bucket"])]
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
