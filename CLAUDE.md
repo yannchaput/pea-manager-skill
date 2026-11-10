@@ -1,5 +1,13 @@
 # PEA Management — Project Instructions
 
+## Scope: skill repo, not a code project
+
+This repo is dedicated to the `pea-manager` skill (`.claude/skills/pea-manager/`), its agents and `TRACKER.md`. It is not a software project, so these global code-writing rules **do not apply here**:
+
+- No code-writing skills or commands: no `ponytail` (`/ponytail:*`, including the pre-commit review), no `/simplify`, no `code-simplifier`, no `superpowers:test-driven-development`.
+- No code quality gate: no `ruff`, no `uv run pytest` (or `pytest --cov`), no `interrogate`, no `uv run` at all.
+- Commit directly when asked; there is no review or gate step before a commit.
+
 ## Parallel subagent safety
 
 - **Shared `/tmp/pea_ohlcv.json` causes silent data corruption** when parallel `pea-price-analyst` agents run — each overwrites the file while others read it. The agent definition now mandates ticker-unique paths (`/tmp/pea_ohlcv_AI.PA.json`). Never revert to a shared path.
