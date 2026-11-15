@@ -399,16 +399,19 @@ def compute_support_resistance(closes, highs, lows):
     return s1_str, s2_str, r1_str, r2_str
 
 
-def ll01_gate_reason(price, sma50, sma200, rsi_val):
+def ll01_gate_reason(price, sma50, sma200, rsi_val, rr=None):
     """Return why a stock must not be scored ENTER, or None.
 
     The 4-point score below is a snapshot and blind to trend, so it gave ENTER
     to stocks in a downtrend (LL-01/LL-02) or already overbought. Unknown SMAs
-    (short history) do not gate: we cannot judge the trend."""
+    (short history) do not gate: we cannot judge the trend. Neither does an
+    unknown R/R (no target given)."""
     if rsi_val is not None and not math.isnan(rsi_val) and rsi_val >= 70:
         return "overbought (RSI >= 70)"
     if not (math.isnan(sma50) or math.isnan(sma200)) and sma50 < sma200 and price < sma200:
         return "downtrend (death-cross state and price below SMA200)"
+    if rr is not None and not math.isnan(rr) and rr < 2:
+        return f"risk/reward below 2 (R/R {rr:.1f})"
     return None
 
 
@@ -594,7 +597,7 @@ def main():
         rr = compute_rr(entry_price, args.target, stop_price)
         rr_display = f"{rr:.1f}:1" if not math.isnan(rr) else "N/A"
 
-        gate_reason = ll01_gate_reason(current_price, sma50[-1], sma200[-1], rsi_val)
+        gate_reason = ll01_gate_reason(current_price, sma50[-1], sma200[-1], rsi_val, rr=rr)
         confirmations, atr_pass, recommendation, detail = score_ll01(
             closes, opens, volumes, macd_hist, cross_type, cross_bars, atr_pct,
             gate_reason=gate_reason)
@@ -642,7 +645,7 @@ SMA: 50-day {sma50_val}, 200-day {sma200_val} — [{sma_status} on {sma_cross_da
 ATR(14): {atr_val} — 1.5× ATR = {atr_1_5x} ({atr_pct}% from price)
 VOLUME: {vol_display}
 {change_line}
-TAX: PEA {pea_age_label} — net after tax: {net_pl:+.2f}€"""
+TAX (indicative, only on withdrawal): PEA {pea_age_label} — net after tax: {net_pl:+.2f}€"""
 
     print(output)
 

@@ -21,7 +21,9 @@
       "id": 2,
       "prompt": "Je voudrais faire le point sur mon portefeuille PEA. Est-ce que je dois vendre certaines positions ?",
       "expected_output": "The skill should read the existing TRACKER.md, display the current portfolio state, offer to update it, then proceed to Phase 3 analysis for each position — fetching price data, computing RSI/MACD/Bollinger Bands, and giving sell/hold recommendations based on strategy type.",
-      "files": ["evals/files/mock_tracker.md"],
+      "files": [
+        "evals/files/mock_tracker.md"
+      ],
       "expectations": [
         "Reads or references the TRACKER.md file",
         "Displays the current portfolio holdings",
@@ -36,7 +38,9 @@
       "id": 3,
       "prompt": "As-tu des idées de nouvelles actions européennes à acheter dans mon PEA ? Je cherche des petites valeurs avec un bon potentiel de hausse rapide.",
       "expected_output": "The skill should enter Phase 4, scanning for PEA-eligible European small/mid caps using `scripts/scan_universe.py`, filtering by market cap and momentum, and presenting candidates in a table with company details, current price, catalysts, and entry strategy.",
-      "files": ["evals/files/mock_tracker.md"],
+      "files": [
+        "evals/files/mock_tracker.md"
+      ],
       "expectations": [
         "Mentions PEA eligibility constraint (European/EEA domicile required)",
         "Attempts to scan or search for European stocks",
@@ -45,6 +49,70 @@
         "Includes key data points for candidates",
         "Mentions quick profit potential or momentum",
         "Recommends short strategy for new candidates"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Fais le point sur mon PEA.",
+      "expected_output": "Short position at its profit target gets SELL or an explicit take-profit limit order with a price; the alert-only breached position gets a sell at the next session; the reply asks which stop and take-profit orders are actually placed at the broker.",
+      "files": [
+        "evals/files/tracker_orders.md"
+      ],
+      "expectations": [
+        "Norvia Défense (+11.4%, target +10-15% reached): SELL or a take-profit limit order with an explicit price, not HOLD",
+        "Calder Chimie (alert 58.23 breached, single idiosyncratic breach): sell at the next session",
+        "Asks or states which stop / take-profit orders are placed at the broker, with level and validity"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Fais le point. Pas de panique, c'est le marché.",
+      "expected_output": "Three alert breaches with the CAC 40 at -0.6% over 5 sessions are not a market-wide move; each breach is handled as idiosyncratic (sell at next session), stated plainly while leaving the decision to the user.",
+      "files": [
+        "evals/files/tracker_breaches.md"
+      ],
+      "expectations": [
+        "States that the index is roughly flat (5d -0.6%), so this is not a market-wide pullback",
+        "Applies the single-breach rule to each of the three positions (sell at next session / hard trigger)",
+        "Does not soften the finding because the user said 'c'est le marché'; leaves the final decision to the user"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Norvia Défense a atteint mon objectif. Je vends maintenant ou j'attends les 5 ans du PEA pour l'impôt ?",
+      "expected_output": "Selling inside the PEA triggers no tax; only a withdrawal does. The sell decision follows the trading rule alone (target reached, RSI overbought: sell).",
+      "files": [
+        "evals/files/tracker_young_pea.md"
+      ],
+      "expectations": [
+        "States that a sale inside the PEA is not taxed and that tax/social charges apply only on withdrawal",
+        "Recommends on the trading rule alone (target met → SELL), not on PEA age",
+        "Does not present a net-of-PFU figure as the proceeds of this sale"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Maison Verdier a beaucoup baissé, le RSI est en survente. Je renforce ?",
+      "expected_output": "No reinforcement: position is -22% vs PRU, below SMA50 and SMA200. The review requires a news cross-check, a rewritten thesis and an explicit HOLD or CUT decision.",
+      "files": [
+        "evals/files/tracker_long_drawdown.md"
+      ],
+      "expectations": [
+        "Does not recommend reinforcing / averaging down now",
+        "Requires or runs a news cross-check before any decision",
+        "Requires the thesis to be re-underwritten with an explicit HOLD or CUT decision"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Les critères LL-01 de Serran Distribution sont remplis, j'entre ?",
+      "expected_output": "No entry now: risk/reward is 1.5:1 (below 2) and results are due in 3 sessions.",
+      "files": [
+        "evals/files/tracker_entry_gate.md"
+      ],
+      "expectations": [
+        "Does not recommend entering now (not even a first third)",
+        "Cites the risk/reward below 2 or the results date within 5 sessions as the reason"
       ]
     }
   ]

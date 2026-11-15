@@ -47,4 +47,11 @@ if __name__ == "__main__":
     assert abs(ci.change_pct([100.0] * 5 + [110.0], 5) - 10.0) < 1e-9
     assert math.isnan(ci.change_pct([1.0, 2.0], 5))
 
+    # Entry gate: risk/reward below 2 caps ENTER at WATCH; unknown R/R does not gate.
+    nan = float("nan")
+    assert "risk/reward" in ci.ll01_gate_reason(10, nan, nan, 50, rr=1.5)
+    assert ci.ll01_gate_reason(10, nan, nan, 50, rr=2.0) is None
+    assert ci.ll01_gate_reason(10, nan, nan, 50, rr=nan) is None
+    assert "overbought" in ci.ll01_gate_reason(10, nan, nan, 75, rr=1.5)  # existing reasons keep priority
+
     print("OK")

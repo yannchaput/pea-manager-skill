@@ -15,7 +15,7 @@
 - **UK-domiciled** stocks/ETFs: not eligible post-Brexit unless a specific bilateral agreement applies
 - **Verify with ISIN**: the first two characters of the ISIN identify the country of domicile (FR = France, IE = Ireland, LU = Luxembourg, etc.)
 - **ISIN prefix is a first-pass filter only**: eligibility also depends on the issuer's registered office and tax status. A few EU-ISIN stocks are *not* eligible (e.g. Ahold Delhaize NL0011794037 was flagged non-eligible by the user's broker on 2026-10-15). **Always confirm in the broker's PEA-eligible flag before recommending a buy** — prefer French (FR) issuers when eligibility is unverified.
-- **PEA tax benefit**: gains are tax-free after 5 years (social charges at 18.6% still apply)
+- **PEA tax**: nothing is due on a sale inside the plan. On a withdrawal the plan's net gain (value minus contributions) is charged: after 5 years, 18.6% social charges and no income tax (rate since 2026-01-01, LFSS 2026); before 5 years, 31.4% PFU (12.8% + 18.6%) and the withdrawal closes the plan, save legal exceptions. Rates checked 2026-11-15 on secondary sources and service-public.gouv.fr F2385 (closure rule)
 - **Contribution limit**: €150,000 per plan
 
 ## Quick Eligibility Check

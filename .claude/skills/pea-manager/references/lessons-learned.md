@@ -97,7 +97,7 @@ These rules extend the LL-01 checklist. They apply specifically to **dividend-ca
    - [ ] Price closes above EMA12
    - [ ] RSI > 50 (momentum has shifted from bearish to bullish territory)
 4. **Price alert = mandatory sell, not a suggestion; better, place a stop.** Fortuneo does offer trigger orders (*ordre à seuil de déclenchement*, *à plage de déclenchement*), so a stop at the alert level removes the dependence on acting by hand (a stop still sells at market on a gap). Where only an alert exists, when it is breached the user must sell at the next market session — the recovery might not come next time. The GTT stop breach on June 26 was survived only by luck (rebound from 176.80 € to 189.70 €). Next time the stock may not recover. Tag breached positions as 🔴 CRITICAL and remind the user explicitly: *"L'alerte à X € a été franchie. Vous devez vendre au prochain marché."*
-5. **No entry without a catalyst within 2 weeks.** "H1 results in 6 weeks" is not a catalyst. Earnings, product launches, contract wins, analyst days — something concrete and imminent.
+5. **No entry without a catalyst within 2 weeks.** "H1 results in 6 weeks" is not a catalyst. Product launches, contract wins, analyst days — something concrete and imminent. An earnings release is a gap risk, not a catalyst to buy ahead of: no new short entry within 5 sessions before results (Exosens and Teleperformance both gapped down on theirs).
 
 ### Red Flags — Cancel the Entry If You See These
 
@@ -120,8 +120,8 @@ LL-02's "hard trigger" rule was written for a **single-position** breach (GTT), 
 ### Corrective Rule (Qualifies LL-02, Does Not Replace It)
 
 1. **Single-position, idiosyncratic breach** (alert-only position) → LL-02 still applies in full: treat the price alert as a hard trigger, tag 🔴 CRITICAL WATCH, tell the user to sell at the next session.
-2. **Multiple simultaneous breaches across uncorrelated positions/sectors, with no idiosyncratic news on any of them** → treat as a market-wide signal, not a portfolio-wide sell trigger:
+2. **Market-wide breach = the CAC 40 is down 3 % or more over 5 sessions AND the breaches are in ≥ 3 different sectors** (both measured, see step 3.3 in SKILL.md) → treat as a market-wide signal, not a portfolio-wide sell trigger:
    - Report every breach clearly and keep the alert active for the next review — do not drop or soften the reporting.
    - Do NOT frame it as requiring an immediate decision or escalate the language to "action required."
    - Explicitly name the pattern to the user (e.g. *"4 positions sur des secteurs différents ont franchi leur alerte le même jour — probable mouvement de marché, pas de signal spécifique à chaque titre"*) and defer to the user's read of macro conditions when given.
-3. When in doubt whether a breach is idiosyncratic or market-wide, check if ≥3 positions across different sectors breached on the same session — if yes, default to the market-wide framing above.
+3. Several breaches with the index flat are several idiosyncratic breaches: rule 1 applies to each. On 2026-10-29 three cyclical names breached while the market had already rebounded, and the market-wide framing was applied anyway; the index test exists to stop that.

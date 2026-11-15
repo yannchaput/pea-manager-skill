@@ -10,7 +10,7 @@ Triggered when no `TRACKER.md` exists at the project root.
 2. **Ask for account-level information**:
    - Available cash (uninvested euros inside the PEA envelope)
    - PEA opening date. Ask: *"Quand avez-vous ouvert votre PEA ?"*
-   - Compute PEA age: *"Votre PEA a [X] ans — les plus-values sont [exonérées d'impôt / encore soumises au PFU de 31,4%]"*
+   - Compute PEA age: *"Votre PEA a [X] ans — en cas de retrait, le gain net du plan [ne supporte que les prélèvements sociaux de 18,6 % / est soumis au PFU de 31,4 % et le plan est clôturé]. Vendre un titre sans sortir l'argent du PEA n'est pas imposé."*
 3. **Ask for portfolio composition**: For each holding — company name, ISIN (or ticker), number of shares, PRU (€), strategy (`short` or `long`)
 4. **Compute totals**: Ask for broker's Unrealized P&L and Portfolio market value. Derive Capital Deployed = Portfolio Market Value − Unrealized P&L. Total PEA Value = Available Cash + Portfolio Market Value.
 5. **Present full TRACKER.md** — Account Information table + Portfolio Composition table — for user confirmation
@@ -59,6 +59,14 @@ Agent(subagent_type="pea-price-analyst", prompt="Analyze {NAME} ({TICKER from th
 
 The agent definition (`.claude/agents/pea-price-analyst.md`) contains the full procedure, tools, and output schema. Pass all position parameters in the prompt.
 
+**Index check, once per review** (main agent, Bash, alongside the dispatches):
+
+```
+python3 .claude/skills/pea-manager/scripts/compute_indicators.py --mode dd --fetch --name "CAC 40" --ticker ^FCHI
+```
+
+Keep its `CHANGE: 5d` and `SMA` lines: step 3.3 uses the 5-day change to classify alert breaches.
+
 **Main agent collects all results**, then proceeds to step 3.3 for cross-position synthesis. Exception positions are silently omitted from all synthesis tables and decision outputs — do not mention them unless the user asks.
 
 **Rate limit awareness**: EODHD free plan allows 20 calls/day total across all subagents. Each agent uses `compute_indicators.py --fetch` (free Yahoo chart API, no quota, no temp file) first and only falls back to EODHD when that fails — so Phase 3 rarely touches the EODHD quota. If the limit is near, flag data gaps explicitly.
@@ -77,6 +85,7 @@ The decision rules live in one place: `SKILL.md`, section "3.3 Decision by strat
 - Ask user for broker's updated Portfolio market value and Unrealized P&L
 - Recompute Capital deployed and Total PEA value
 - For each position: append the dated review (price, indicators, verdict) to its section of `HISTORY.md` (create the file or the section if absent), then replace the position's single `Last reviewed` line in the Thesis with today's date and verdict
+- **MANDATORY: Benchmark row.** Append to the `## Benchmark` table in `HISTORY.md`: date, Total PEA value, net deposits or withdrawals since the last row (ask the user), MSCI World ETF price (`fetch_ohlcv.py -t WPEA.PA -r 5d`). Comparing the two columns over time shows whether the active book beats simply holding the ETF.
 - **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both `## Watchlist — Candidats court terme` and `## Watchlist — Candidats long terme`). Replace each candidate's `Décision` line; the previous one goes to `HISTORY.md`. For each candidate:
   - **Short-term**: re-evaluate every LL-01 checklist item against current data. If ≥2 confirmations now met → flag as 🟡 TRÈS PROCHE or ✅ ENTRÉE. If thesis broken → 🔴 REFUSÉE.
   - **Long-term**: re-evaluate thesis, valuation, and entry strategy vs current price. Update Décision status.

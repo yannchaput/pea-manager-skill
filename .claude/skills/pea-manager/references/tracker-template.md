@@ -30,9 +30,10 @@ Positions listed here are **excluded from Phase 3 and Phase 4 analysis**. They r
 
 ## Portfolio Composition
 
-| Name | ISIN | Ticker | Nb Shares | PRU (€) | Strategy |
-|------|------|--------|-----------|---------|----------|
-| Company Name | XX0000000000 | XXX.PA | N | XX.XX | long/short |
+| Name | ISIN | Ticker | Nb Shares | PRU (€) | Strategy | Stop | Take-profit |
+|------|------|--------|-----------|---------|----------|------|-------------|
+| Company Name | XX0000000000 | XXX.PA | N | XX.XX | short | XX,XX € — ordre placé (jusqu'à révocation) | XX,XX € — alerte seule |
+| Company Name | XX0000000000 | XXX.PA | N | XX.XX | long | — | — |
 
 ## Closed Positions
 
@@ -58,7 +59,7 @@ Positions listed here are **excluded from Phase 3 and Phase 4 analysis**. They r
 - **Unrealized P&L**: `Portfolio market value − Capital deployed`. Broker figure is most reliable.
 - **Total PEA value**: `Available cash + Portfolio market value`
 - **PEA opened**: Date the PEA plan was opened — determines the 5-year tax clock.
-- **PEA > 5 years**: Derived from opening date. `Yes` → gains tax-free (only 18.6% social charges). `No` → 31.4% flat tax (PFU).
+- **PEA > 5 years**: Derived from opening date. Matters for withdrawals only: `Yes` → 18.6% social charges on the plan's net gain; `No` → 31.4% flat tax (PFU) and the plan closes. A sale inside the plan is never taxed.
 - **Last review**: Most recent portfolio analysis date. Updated after each Phase 3 run.
 
 ## Portfolio Columns
@@ -69,6 +70,7 @@ Positions listed here are **excluded from Phase 3 and Phase 4 analysis**. They r
 - **Nb Shares**: Quantity held
 - **PRU (Prix de Revient Unitaire)**: Average cost basis per share in euros — mandatory for P&L calculation
 - **Strategy**: `short` (trading, weeks-to-months) or `long` (buy and hold, years)
+- **Stop** / **Take-profit**: the order as it stands at the broker, in one of four forms: `{level} € — ordre placé ({validité})`, `{level} € — alerte seule`, `{level} € — à confirmer`, `—`. A `short` row with anything other than `ordre placé` makes the next review open with the order to place.
 
 ## PRU Update Formula
 
@@ -100,7 +102,8 @@ Candidats identifiés en Phase 4, en attente de confirmation technique pour entr
 - **Thèse**: 1-2 phrases expliquant pourquoi c'est une opportunité court terme
 - **Consensus**: Rating, objectif XX € (+XX %)
 - **Point de vigilance**: Risque principal ou point noir à surveiller
-- **Catalyseur**: Résultats/événement le YYYY-MM-DD
+- **Catalyseur**: événement le YYYY-MM-DD (hors résultats)
+- **Résultats**: YYYY-MM-DD (obligatoire ; source `yfinance_get_ticker_info` ; pas d'entrée dans les 5 séances qui précèdent)
 - **Critères d'entrée LL-01**:
   - [ ] RSI(14) repasse au-dessus de 30 (ou autre seuil pertinent)
   - [ ] MACD bullish crossover

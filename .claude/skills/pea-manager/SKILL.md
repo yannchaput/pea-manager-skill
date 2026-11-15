@@ -17,7 +17,7 @@ You manage a French "Plan d'Épargne en Actions" (PEA) portfolio. Your role: tra
 - **Eligible**: Stocks/ETFs domiciled in EU, EEA, or French overseas territories. ISIN first two chars = country code.
 - **Ineligible**: US, UK (post-Brexit), CH, JP, CN, CA, AU, HK, SG domiciled stocks.
 - **Synthetic swap ETFs** (domiciled IE/LU tracking US indices) are eligible — they use derivatives, not direct holdings.
-- **Tax**: gains tax-free after 5 years (18.6% social charges only). Before 5 years: 31.4% PFU. Limit: €150,000.
+- **Tax applies to withdrawals, never to a sale inside the plan.** Selling a position and keeping the cash in the PEA triggers no tax and no social charges. On a withdrawal, the plan's overall net gain is charged: 18.6% social charges after 5 years, 31.4% PFU before 5 years (and a withdrawal before 5 years closes the plan). Contribution limit: €150,000.
 - Full country table: [`references/pea-eligibility.md`](references/pea-eligibility.md)
 
 ## Quick Commands
@@ -79,12 +79,14 @@ Three files at the project root, each small enough to Read whole. Full templates
 | **Unrealized P&L** | Broker figure — most reliable |
 | **Total PEA value** | `Available cash + Portfolio market value` |
 | **PEA opened** | User; drives 5-year tax clock |
-| **PEA > 5 years** | Derived; `Yes` = gains tax-free, `No` = 31.4% PFU |
+| **PEA > 5 years** | Derived; matters for withdrawals only (`Yes` = 18.6% social charges on the plan's net gain, `No` = 31.4% PFU and the plan closes) |
 | **Last review** | Updated after each Phase 3 |
 
 ### Portfolio Columns
 
-**Name**, **ISIN** (12-char, critical for eligibility), **Ticker** (Yahoo symbol such as `AI.PA`, passed to the scripts; `—` for a holding with none, e.g. an unlisted fund), **Nb Shares**, **PRU** (average cost basis in € — mandatory), **Strategy** (`short` = trading weeks-months, `long` = buy-and-hold years).
+**Name**, **ISIN** (12-char, critical for eligibility), **Ticker** (Yahoo symbol such as `AI.PA`, passed to the scripts; `—` for a holding with none, e.g. an unlisted fund), **Nb Shares**, **PRU** (average cost basis in € — mandatory), **Strategy** (`short` = trading weeks-months, `long` = buy-and-hold years), **Stop** and **Take-profit** (the protective and profit orders as they stand at the broker).
+
+Stop and Take-profit cells take one of four forms: `{level} € — ordre placé ({validité})`, `{level} € — alerte seule`, `{level} € — à confirmer`, or `—` (none; the default for `long`). Update the cell whenever the user reports placing, changing or cancelling an order.
 
 ### Thesis
 
@@ -117,15 +119,11 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 **Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker from the Ticker column, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent runs one command, `compute_indicators.py --fetch` (Yahoo chart, EODHD fallback), which computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
 
-**3.3 Decision by strategy** — always check `PEA > 5 years` first:
-
-| PEA age | Tax on gains | Net formula |
-|---------|-------------|-------------|
-| < 5 years | 31.4% PFU | `Gross × 0.686` |
-| ≥ 5 years | 18.6% PS only | `Gross × 0.814` |
+**3.3 Decision by strategy.** Sell and hold decisions follow the trading rules below and nothing else: a sale inside the PEA is not taxed, so PEA age is not an input. Report P&L gross. The script's `TAX (indicative, only on withdrawal)` line is what the gain would net if that money left the plan; quote it only when the user asks about withdrawing.
 
 **Short positions:**
-- Profit target met (default +10-15%) → **SELL**, show gross/net
+- If the row's Stop or Take-profit cell is anything other than `ordre placé`, the review of that position opens with the order to place at Fortuneo: type (*ordre à seuil de déclenchement* for the stop, sell limit for the take-profit), level, validity. Ask the user to confirm once placed, then write it in the cell.
+- Profit target met (default +10-15%) → **SELL**, show the gross gain
 - RSI > 70 + near upper Bollinger → strong sell
 - RSI < 30 + near lower Bollinger → hold (unless fundamentals broken)
 - MACD bearish crossover → tighten the stop/alert level
@@ -136,12 +134,18 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 - RSI < 30 → potential buying opportunity
 - RSI > 80 → flag even for long holds
 - Fundamental deterioration → gradual exit (thirds over weeks) unless thesis clearly broken
-- PEA < 5 years → lean toward holding (tax benefit of waiting)
 - Update Thesis section
 
-**Alert-breach discipline** (applies to positions protected only by an alert; a position with a stop placed exits automatically): if ≥3 uncorrelated positions (different sectors, no shared idiosyncratic news) breach their price alert in the same review, treat it as a market-wide pullback, not a portfolio-wide sell signal — report each breach without escalating to "action required." See LL-03 in [`references/lessons-learned.md`](references/lessons-learned.md).
+**Alert-breach discipline** (positions protected only by an alert; a position with a stop placed exits automatically). Classify breaches with the index check run in step 3.1 (`compute_indicators.py --mode dd --fetch --name "CAC 40" --ticker ^FCHI`, line `CHANGE: 5d`):
 
-**3.4 Update the state files**: update Last review, ask for broker's current figures, recompute totals; for each position append the dated review to `HISTORY.md` and replace its `Last reviewed` line in `TRACKER.md`. **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal. A removed candidate's entry moves to `HISTORY.md`.
+| Observed | Case | Do |
+|----------|------|----|
+| CAC 40 5-day change ≤ −3 % **and** breaches in ≥ 3 different sectors | Market-wide | Report each breach, keep the alerts active, no "action required" (LL-03) |
+| Anything else (index above −3 %, or fewer than 3 sectors) | Idiosyncratic, each breach on its own | 🔴 CRITICAL WATCH, sell at the next session (LL-02) |
+
+The classification comes from these two numbers. When the user reads the market differently, state the 5-day index change and which case it gives, then leave the decision to them. See [`references/lessons-learned.md`](references/lessons-learned.md).
+
+**3.4 Update the state files**: update Last review, ask for broker's current figures, recompute totals; for each position append the dated review to `HISTORY.md` and replace its `Last reviewed` line in `TRACKER.md`. **MANDATORY: append one row to the `## Benchmark` table of `HISTORY.md`** (date, Total PEA value, net deposits since the last row — ask the user — and the MSCI World ETF price, `WPEA.PA`). **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal. A removed candidate's entry moves to `HISTORY.md`.
 
 ### Phase 4: New Opportunities
 
@@ -189,6 +193,8 @@ Main agent filters (PEA eligibility → large cap → moat → dividend consiste
 - [ ] **Diagnose the drop**: Why is it falling? Check both TradingView AND Investir Les Echos for profit warnings, guidance cuts, management departures, or sector shocks. If structural → NOT a buying opportunity.
 - [ ] **≥2 technical confirmations** (as scored by `compute_indicators.py --mode dd`): RSI back above 30 after being ≤ 30 within the last 10 bars, MACD bullish crossover (daily) within the last 10 bars with the histogram still positive, a green candle with volume >1.5× its prior 20-day avg among the last 3 bars, or last close above the 5-day EMA. Never enter on "it looks cheap" alone.
 - [ ] **ATR check**: Compute 14-day ATR. Price alert distance ≥ 1.5× ATR. If 1.5× ATR > 10% of entry price → reduce size or skip.
+- [ ] **Risk/reward ≥ 2** at the planned entry, target and stop (the `R/R:` line of the DD output). Below 2 the script caps the recommendation at WATCH: no entry, not even a first third.
+- [ ] **Results date known and more than 5 sessions away.** If the company reports within 5 sessions, no new `short` entry until after the release; a results date is a gap risk, not a catalyst to buy ahead of.
 - [ ] **Scale in**: ⅓ at first confirmation, ⅓ after support holds 3+ days, ⅓ on breakout above key MA.
 - [ ] **News cross-check**: TradingView (English Reuters/Quartr) + Investir (French AFP/Agefi/Reuters) — both mandatory. See News Sources below.
 - [ ] **Stop placed** (*ordre à seuil de déclenchement*) at ≥ 1.5× ATR below entry as soon as the buy fills, plus a price alert at the same level. Tag the position as ⚠️ WATCH and review daily while it is active.
@@ -224,11 +230,11 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 
 - **PRU is foundational**: never proceed without cost basis for every position
 - **PEA eligibility is a hard constraint**: verify domicile via ISIN before any recommendation
-- **PEA age drives tax**: always compute net P&L after tax in sell recommendations. Never let tax override a price alert, but use age to calibrate.
+- **PEA age matters for withdrawals, not for trades**: a sale inside the plan is untaxed, so never delay or bring forward a sale because of the 5-year mark. If the user asks about taking money out, give the charge on the plan's net gain and say that a withdrawal before 5 years closes the plan.
 - **Data fallback: `compute_indicators.py --fetch` (Yahoo chart) first, EODHD second**: never skip a holding because the fetcher can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
 - **Batch EODHD price lookups**: use `get_live_price_data` with `additional_symbols` (up to 20 tickers in one call) — never one call per ticker.
 - **Currency awareness**: most PEA stocks trade EUR, but CHF/GBP/NOK/SEK positions have FX impact on EUR P&L. Flag when significant.
 - **Technical indicators are signals, not guarantees**: always qualify recommendations with confidence levels.
-- **Fortuneo supports trigger orders** (confirmed by the user on 2026-10-30): the *ordre à seuil de déclenchement* (stop: becomes a market order once the threshold is touched) and the *ordre à plage de déclenchement* (becomes a limit order once the threshold is touched). **For every `short` position, recommend a stop at the alert level** (≥ 1.5× ATR below the reference price) instead of relying on the user to sell by hand; the price alert stays as a secondary notification. Always state the limits: a stop sells at the market price, so a gap down executes below the threshold; it can fire on an intraday wick; validity varies: the user's TotalEnergies stop was set *jusqu'à révocation* (no expiry, 2026-10-30), but pick that validity explicitly and never assume it; if a shorter one is chosen, the order must be renewed (check the exact labels and validity in the Fortuneo order ticket). A plain **sell limit order is not a stop**: set below the market it executes immediately, so never offer it as downside protection. It is the right tool for a *take-profit* above the market. `long` positions get no stop by default (thesis decides); an alert is enough. When a position has an alert but no stop placed, fall back to the manual rule: ⚠️ CRITICAL WATCH and a manual sell at the next session for a single idiosyncratic breach; for ≥3 uncorrelated breaches treat it as a market-wide move and don't push toward immediate action (LL-03 in [`references/lessons-learned.md`](references/lessons-learned.md)).
+- **Fortuneo supports trigger orders** (confirmed by the user on 2026-10-30): the *ordre à seuil de déclenchement* (stop: becomes a market order once the threshold is touched) and the *ordre à plage de déclenchement* (becomes a limit order once the threshold is touched). **For every `short` position, recommend a stop at the alert level** (≥ 1.5× ATR below the reference price) instead of relying on the user to sell by hand; the price alert stays as a secondary notification. Always state the limits: a stop sells at the market price, so a gap down executes below the threshold; it can fire on an intraday wick; validity varies: the user's TotalEnergies stop was set *jusqu'à révocation* (no expiry, 2026-10-30), but pick that validity explicitly and never assume it; if a shorter one is chosen, the order must be renewed (check the exact labels and validity in the Fortuneo order ticket). A plain **sell limit order is not a stop**: set below the market it executes immediately, so never offer it as downside protection. It is the right tool for a *take-profit* above the market. `long` positions get no stop by default (thesis decides); an alert is enough. When a position has an alert but no stop placed, fall back to the manual rule: the alert-breach table in step 3.3 decides between a manual sell at the next session and the market-wide case.
 - **Thesis is the anchor**: for long positions, thesis determines hold-through-volatility vs exit. Every long must have documented thesis.
 - **European market hours**: Paris/Frankfurt 9:00-17:30 CET. Data may be delayed outside these hours.
