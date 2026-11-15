@@ -68,14 +68,21 @@ def index_line():
     return f"CAC 40 (^FCHI): {closes[-1]:.0f}, {side} SMA200, 5d {ci.change_pct(closes, 5):+.1f}%"
 
 
+def untickered_lines(text):
+    """Lines of the active text that carry no ticker (e.g. an unlisted fund row, or a
+    tracker without a Ticker column): the only place where name matching is needed."""
+    return "\n".join(l for l in text.splitlines() if not TICKER_RE.search(l))
+
+
 def tracked_tickers(tracker_text):
     """Every Yahoo-style ticker (XXX.PA) mentioned in the given tracker text."""
     return set(TICKER_RE.findall(tracker_text))
 
 
 def is_tracked(row, tracker_text, tickers):
-    """True if the stock is in TRACKER.md by ticker or by name (accent/case-insensitive,
-    whole word). Needed because several held positions carry no ticker line."""
+    """True if the stock's ticker is in `tickers`, or its name appears (accent/case-
+    insensitive, whole word) in `tracker_text`. Pass untickered_lines() as the text:
+    matching names against tickered rows hid Amundi behind the Amundi ETFs."""
     if row["ticker"] in tickers:
         return True
     fold = lambda t: unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower()
@@ -128,6 +135,7 @@ def main():
     universe = json.loads((HERE.parent / "assets" / "universe.json").read_text())
     text = active_text("\n".join(f.read_text() for f in STATE_FILES if f.exists()))
     held = tracked_tickers(text)
+    text = untickered_lines(text)  # name matching only where no ticker identifies the row
     rows = [r for r in universe
             if not is_tracked(r, text, held) and r["country"] in PEA_COUNTRIES
             and args.bucket in ("all", r["bucket"])]

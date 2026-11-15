@@ -67,7 +67,7 @@ Three files at the project root, each small enough to Read whole. Full templates
 | `WATCHLIST.md` | `## Watchlist — Candidats court terme` and `## Watchlist — Candidats long terme` | Overwritten in place |
 | `HISTORY.md` | Dated reviews, performance snapshots, older news cross-checks, sold positions, removed candidates | Append-only; create it if absent |
 
-**Every review writes its dated detail to `HISTORY.md`** and leaves in `TRACKER.md` / `WATCHLIST.md` one current line per entry (`Last reviewed` for a position, `Décision` for a candidate), replacing the previous one. Read `HISTORY.md` only when a past review is needed.
+**Every review writes its dated detail to `HISTORY.md`** and leaves in `TRACKER.md` / `WATCHLIST.md` one current line per entry (`Last reviewed` for a position, `Décision` for a candidate), replacing the previous one. An older entry may still carry a `Revue YYYY-MM-DD` line instead: that is the line to replace, with a `Last reviewed` line. Read `HISTORY.md` only when a past review is needed.
 
 ### Account Information (key fields)
 
@@ -117,12 +117,12 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 ### Phase 3: Portfolio Analysis (Core)
 
-**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker from the Ticker column, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent runs one command, `compute_indicators.py --fetch` (Yahoo chart, EODHD fallback), which computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
+**Skip positions listed in `## Exceptions` and positions whose Ticker is `—`** (no price series: ask the user for the latest value) — do not dispatch an agent for them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker from the Ticker column, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent runs one command, `compute_indicators.py --fetch` (Yahoo chart, EODHD fallback), which computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
 
 **3.3 Decision by strategy.** Sell and hold decisions follow the trading rules below and nothing else: a sale inside the PEA is not taxed, so PEA age is not an input. Report P&L gross. The script's `TAX (indicative, only on withdrawal)` line is what the gain would net if that money left the plan; quote it only when the user asks about withdrawing.
 
 **Short positions:**
-- If the row's Stop or Take-profit cell is anything other than `ordre placé`, the review of that position opens with the order to place at Fortuneo: type (*ordre à seuil de déclenchement* for the stop, sell limit for the take-profit), level, validity. Ask the user to confirm once placed, then write it in the cell.
+- For a row with a ticker, if its Stop or Take-profit cell is anything other than `ordre placé`, the review of that position opens with the order to place at Fortuneo: type (*ordre à seuil de déclenchement* for the stop, sell limit for the take-profit), level, validity. Ask the user to confirm once placed, then write it in the cell.
 - Profit target met (default +10-15%) → **SELL**, show the gross gain
 - RSI > 70 + near upper Bollinger → strong sell
 - RSI < 30 + near lower Bollinger → hold (unless fundamentals broken)
@@ -145,7 +145,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 The classification comes from these two numbers. When the user reads the market differently, state the 5-day index change and which case it gives, then leave the decision to them. See [`references/lessons-learned.md`](references/lessons-learned.md).
 
-**3.4 Update the state files**: update Last review, ask for broker's current figures, recompute totals; for each position append the dated review to `HISTORY.md` and replace its `Last reviewed` line in `TRACKER.md`. **MANDATORY: append one row to the `## Benchmark` table of `HISTORY.md`** (date, Total PEA value, net deposits since the last row — ask the user — and the MSCI World ETF price, `WPEA.PA`). **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal. A removed candidate's entry moves to `HISTORY.md`.
+**3.4 Update the state files**: update Last review, ask for broker's current figures, recompute totals; for each position append the dated review to `HISTORY.md` and replace its single `Last reviewed` (or older `Revue YYYY-MM-DD`) line in `TRACKER.md` with one `Last reviewed` line. **MANDATORY: append one row to the `## Benchmark` table of `HISTORY.md`** (date, Total PEA value, net deposits since the last row — ask the user — and the MSCI World ETF price, `WPEA.PA`). **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — every item met (≥2 confirmations, ATR, R/R ≥ 2, results more than 5 sessions away, news) → ✅ ENTRÉE; ≥2 confirmations with any other item open → 🟡 TRÈS PROCHE, naming the open item. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal. A removed candidate's entry moves to `HISTORY.md`.
 
 ### Phase 4: New Opportunities
 
@@ -231,7 +231,7 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 - **PRU is foundational**: never proceed without cost basis for every position
 - **PEA eligibility is a hard constraint**: verify domicile via ISIN before any recommendation
 - **PEA age matters for withdrawals, not for trades**: a sale inside the plan is untaxed, so never delay or bring forward a sale because of the 5-year mark. If the user asks about taking money out, give the charge on the plan's net gain and say that a withdrawal before 5 years closes the plan.
-- **Data fallback: `compute_indicators.py --fetch` (Yahoo chart) first, EODHD second**: never skip a holding because the fetcher can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
+- **Data fallback: `compute_indicators.py --fetch` (Yahoo chart) first, EODHD second**: never skip a holding that has a ticker because the fetcher can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
 - **Batch EODHD price lookups**: use `get_live_price_data` with `additional_symbols` (up to 20 tickers in one call) — never one call per ticker.
 - **Currency awareness**: most PEA stocks trade EUR, but CHF/GBP/NOK/SEK positions have FX impact on EUR P&L. Flag when significant.
 - **Technical indicators are signals, not guarantees**: always qualify recommendations with confidence levels.

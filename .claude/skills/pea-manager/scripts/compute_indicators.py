@@ -334,10 +334,10 @@ def analyze_trend(closes):
 
 def compute_support_resistance(closes, highs, lows):
     """Identify top 2 support and resistance zones from swing points.
-    Returns (s1, s1_label, s2, s2_label, r1, r1_label, r2, r2_label).
-    Labels describe zone strength: 'strong' | 'moderate' | 'weak'."""
+    Returns (s1, s2, r1, r2) as display strings "€x.xx (strength)" or "N/A";
+    strength is 'strong' | 'moderate' | 'weak'."""
     if len(closes) < 20:
-        return "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"
+        return "N/A", "N/A", "N/A", "N/A"
 
     # Find swing lows (support) and swing highs (resistance)
     def find_swings(prices, find_highs=True):

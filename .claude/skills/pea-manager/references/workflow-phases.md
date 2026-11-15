@@ -84,10 +84,10 @@ The decision rules live in one place: `SKILL.md`, section "3.3 Decision by strat
 - Update `Last review` date
 - Ask user for broker's updated Portfolio market value and Unrealized P&L
 - Recompute Capital deployed and Total PEA value
-- For each position: append the dated review (price, indicators, verdict) to its section of `HISTORY.md` (create the file or the section if absent), then replace the position's single `Last reviewed` line in the Thesis with today's date and verdict
+- For each position: append the dated review (price, indicators, verdict) to its section of `HISTORY.md` (create the file or the section if absent), then replace the position's single `Last reviewed` line in the Thesis (or its older `Revue YYYY-MM-DD` line) with one `Last reviewed` line carrying today's date and verdict
 - **MANDATORY: Benchmark row.** Append to the `## Benchmark` table in `HISTORY.md`: date, Total PEA value, net deposits or withdrawals since the last row (ask the user), MSCI World ETF price (`fetch_ohlcv.py -t WPEA.PA -r 5d`). Comparing the two columns over time shows whether the active book beats simply holding the ETF.
 - **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both `## Watchlist — Candidats court terme` and `## Watchlist — Candidats long terme`). Replace each candidate's `Décision` line; the previous one goes to `HISTORY.md`. For each candidate:
-  - **Short-term**: re-evaluate every LL-01 checklist item against current data. If ≥2 confirmations now met → flag as 🟡 TRÈS PROCHE or ✅ ENTRÉE. If thesis broken → 🔴 REFUSÉE.
+  - **Short-term**: re-evaluate every LL-01 checklist item against current data. Every item met (≥2 confirmations, ATR, R/R ≥ 2, results more than 5 sessions away, news cross-check) → ✅ ENTRÉE. ≥2 confirmations with any other item still open → 🟡 TRÈS PROCHE, naming the open item. If thesis broken → 🔴 REFUSÉE.
   - **Long-term**: re-evaluate thesis, valuation, and entry strategy vs current price. Update Décision status.
   - **If ENTRÉE**: tell user and offer to proceed to Phase 2 (update) → Portfolio Composition.
   - **Stale cleanup**: WATCH > 2 months (short-term) or > 3 months (long-term) without trigger → propose removal or thesis refresh.

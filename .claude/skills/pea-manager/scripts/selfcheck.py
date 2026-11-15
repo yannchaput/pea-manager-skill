@@ -44,6 +44,17 @@ if __name__ == "__main__":
     assert "Orange" in a and "Rexel" in a
     assert all(x not in a for x in ("Airbus", "Vinci", "SPIE", "Legrand"))
     assert su.tracked_tickers(a) == {"ORA.PA", "RXL.PA"}  # the tickerless fund row is harmless
+    # Name matching is only a fallback for rows without a ticker: a held "Amundi ... ETF"
+    # must not hide the stock Amundi, nor "Siemens Healthineers" hide Siemens.
+    a2 = su.active_text("## Portfolio Composition\n| Amundi PEA Nasdaq-100 UCITS ETF | FR0011871110 | PUST.PA | 58 |\n"
+                        "| Fonds X | LU1 | — | 5 |\n## Watchlist — Candidats long terme\n### Siemens Healthineers (SHL.DE) — ISIN DE000SHL1006\n")
+    held, names = su.tracked_tickers(a2), su.untickered_lines(a2)
+    assert not su.is_tracked({"ticker": "AMUN.PA", "name": "Amundi"}, names, held)
+    assert not su.is_tracked({"ticker": "SIE.DE", "name": "Siemens"}, names, held)
+    assert su.is_tracked({"ticker": "SHL.DE", "name": "Siemens Healthineers"}, names, held)
+    assert su.is_tracked({"ticker": "FX.PA", "name": "Fonds X"}, names, held)
+    # Recent IPO (< 20 bars): support/resistance returns the 4 values its caller unpacks.
+    assert len(ci.compute_support_resistance(up[:15], up[:15], up[:15])) == 4
     assert abs(ci.change_pct([100.0] * 5 + [110.0], 5) - 10.0) < 1e-9
     assert math.isnan(ci.change_pct([1.0, 2.0], 5))
 
