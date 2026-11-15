@@ -3,7 +3,10 @@
 
 Run: python3 .claude/skills/pea-manager/scripts/selfcheck.py  -> prints OK
 """
+import math
+
 import compute_indicators as ci
+import scan_universe as su
 
 if __name__ == "__main__":
     # MACD: a linear ramp seeded with an SMA sits at the standard EMA's steady-state
@@ -31,5 +34,17 @@ if __name__ == "__main__":
     assert ci.score_ll01(up, o, v, 0.5, "bullish", 11, 5.0)[3]["macd_cross"] is False   # stale crossover
     # short history (recent IPO): no raise
     assert ci.score_ll01(up[:10], up[:10], [100] * 10, float("nan"), "none", None, float("nan"))[0:3] == (1, False, "WATCH")
+
+    # Scan exclusion: only open positions and active watchlist headings count as tracked.
+    t = ("## Portfolio Composition\n| Orange | FR0000133308 | ORA.PA | 25 |\n| Fonds X | LU1 | — | 5 |\n"
+         "## Closed Positions\n| Airbus | 5 |\n## Thesis\n### Vinci — SOLD\n"
+         "## Watchlist — Candidats court terme\n> **SPIE** — retirée\n"
+         "### Rexel (RXL.PA) — ISIN FR0010451203\n- Thèse: comme Legrand\n")
+    a = su.active_text(t)
+    assert "Orange" in a and "Rexel" in a
+    assert all(x not in a for x in ("Airbus", "Vinci", "SPIE", "Legrand"))
+    assert su.tracked_tickers(a) == {"ORA.PA", "RXL.PA"}  # the tickerless fund row is harmless
+    assert abs(ci.change_pct([100.0] * 5 + [110.0], 5) - 10.0) < 1e-9
+    assert math.isnan(ci.change_pct([1.0, 2.0], 5))
 
     print("OK")

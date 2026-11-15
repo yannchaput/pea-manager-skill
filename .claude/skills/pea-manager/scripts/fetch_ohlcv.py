@@ -24,6 +24,7 @@ import argparse
 import datetime
 import json
 import sys
+import urllib.parse
 import urllib.request
 
 YAHOO_CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
@@ -39,7 +40,7 @@ def fetch_json(url):
 def fetch_bars(ticker, rng="1y", interval="1d"):
     """Fetch daily bars for one ticker; return the parallel-array dict
     (dates/opens/highs/lows/closes/volumes). Raises RuntimeError on any failure."""
-    url = YAHOO_CHART_URL.format(ticker=ticker) + "?range={}&interval={}".format(rng, interval)
+    url = YAHOO_CHART_URL.format(ticker=urllib.parse.quote(ticker)) + "?range={}&interval={}".format(rng, interval)
     try:
         payload = fetch_json(url)
     except Exception as e:

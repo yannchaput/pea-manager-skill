@@ -264,6 +264,13 @@ def compute_volume(volumes):
     return int(recent_avg), int(avg20_avg), round(pct_diff, 1), label
 
 
+def change_pct(closes, n):
+    """Percent change of the last close vs n bars earlier. NaN if history is too short."""
+    if len(closes) <= n:
+        return float("nan")
+    return (closes[-1] / closes[-1 - n] - 1) * 100
+
+
 def compute_rr(entry, target, stop):
     """Risk/Reward ratio. Returns float or NaN if any input missing."""
     if entry is None or target is None or stop is None:
@@ -557,6 +564,8 @@ def main():
     else:
         vol_display = "N/A"
 
+    change_line = f"CHANGE: 5d {change_pct(closes, 5):+.1f}%, 3m {change_pct(closes, 63):+.1f}%"
+
     # --- Mode dispatch ---
     if args.mode == "dd":
         # DD-specific: support/resistance, trend, R/R, LL-01
@@ -587,6 +596,7 @@ BOLLINGER: upper {bb_upper}, middle {bb_middle}, lower {bb_lower} — price at {
 SMA: 50-day {sma50_val}, 200-day {sma200_val} — [{sma_status} on {sma_cross_date}]
 ATR(14): {atr_val} — 1.5× ATR = {atr_1_5x} ({atr_pct}% of price)
 VOLUME: {vol_display}
+{change_line}
 SUPPORT: {s1}, {s2}
 RESISTANCE: {r1}, {r2}
 TREND: {trend_label} — {trend_sentence}
@@ -617,6 +627,7 @@ BOLLINGER: upper {bb_upper}, middle {bb_middle}, lower {bb_lower} — price at {
 SMA: 50-day {sma50_val}, 200-day {sma200_val} — [{sma_status} on {sma_cross_date}]
 ATR(14): {atr_val} — 1.5× ATR = {atr_1_5x} ({atr_pct}% from price)
 VOLUME: {vol_display}
+{change_line}
 TAX: PEA {pea_age_label} — net after tax: {net_pl:+.2f}€"""
 
     print(output)

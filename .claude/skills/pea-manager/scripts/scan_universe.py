@@ -12,7 +12,8 @@ Here the universe is a file (assets/universe.json), the data is the Yahoo chart 
 Usage:
   python3 scan_universe.py [--bucket large|mid|all] [--top 25] [--workers 8]
 
-Output: stocks not already in TRACKER.md (by ticker or name, so recently closed or rejected names are skipped too), grouped PASS (ENTER, no gate),
+Output: stocks that are neither an open position nor an active watchlist
+candidate in TRACKER.md (by ticker or name), grouped PASS (ENTER, no gate),
 WATCH (uptrend, partial confirmations) and GATED (downtrend/overbought).
 Survivors still need fundamentals (yfinance info) and the news cross-check.
 
@@ -40,8 +41,34 @@ PEA_COUNTRIES = set("AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL
 TICKER_RE = re.compile(r"\b[A-Z0-9]{1,6}\.[A-Z]{2}\b")
 
 
+def active_text(tracker_text):
+    """The parts of TRACKER.md that name open positions and active watchlist
+    candidates: the Portfolio Composition section and the `### ` headings of the
+    Watchlist sections. Closed, sold and removed names are left out, so they
+    come back into the scan."""
+    keep, section = [], ""
+    for line in tracker_text.splitlines():
+        if line.startswith("## "):
+            section = line[3:]
+        elif section.startswith("Portfolio Composition") or (
+                section.startswith("Watchlist") and line.startswith("### ")):
+            keep.append(line)
+    return "\n".join(keep)
+
+
+def index_line():
+    """One-line market context: CAC 40 vs its SMA200 and 5-day change."""
+    try:
+        closes = fetch_bars("^FCHI")["closes"]
+    except RuntimeError:
+        return "CAC 40: unavailable"
+    sma200 = ci.sma(closes, 200)[-1]
+    side = "n/a vs" if math.isnan(sma200) else ("above" if closes[-1] > sma200 else "below")
+    return f"CAC 40 (^FCHI): {closes[-1]:.0f}, {side} SMA200, 5d {ci.change_pct(closes, 5):+.1f}%"
+
+
 def tracked_tickers(tracker_text):
-    """Every Yahoo-style ticker (XXX.PA) mentioned in TRACKER.md."""
+    """Every Yahoo-style ticker (XXX.PA) mentioned in the given tracker text."""
     return set(TICKER_RE.findall(tracker_text))
 
 
@@ -69,7 +96,7 @@ def evaluate(bars):
     gate = ci.ll01_gate_reason(price, sma50, sma200, rsi)
     conf, atr_pass, rec, _ = ci.score_ll01(
         closes, bars["opens"], vols, macd_hist, cross_type, cross_bars, atr_pct, gate_reason=gate)
-    ret_3m = (price / closes[-64] - 1) * 100 if len(closes) > 64 else float("nan")
+    ret_3m = ci.change_pct(closes, 63)
     return dict(price=price, rsi=rsi, conf=conf, atr_pass=atr_pass, rec=rec, gate=gate,
                 ret_3m=ret_3m, off_high=(price / max(closes) - 1) * 100,
                 above_sma200=None if math.isnan(sma200) else price > sma200)
@@ -98,7 +125,7 @@ def main():
     args = ap.parse_args()
 
     universe = json.loads((HERE.parent / "assets" / "universe.json").read_text())
-    text = TRACKER.read_text() if TRACKER.exists() else ""
+    text = active_text(TRACKER.read_text()) if TRACKER.exists() else ""
     held = tracked_tickers(text)
     rows = [r for r in universe
             if not is_tracked(r, text, held) and r["country"] in PEA_COUNTRIES
@@ -110,11 +137,13 @@ def main():
     scored = [(r, res) for r, res, err in out if res]
     failed = [r["ticker"] + ": " + err for r, res, err in out if err]
     short = [r["ticker"] for r, res, err in out if not res and not err]
-    print(f"Scanned {len(scored)}/{len(rows)} (excluded {len(universe) - len(rows)} held/tracked/ineligible)")
+    print(f"Scanned {len(scored)}/{len(rows)} (excluded {len(universe) - len(rows)} held/watched/ineligible/other bucket)")
+    print(index_line())
 
     for g in ("PASS", "WATCH", "GATED"):
         items = sorted((x for x in scored if group(x[1]) == g),
-                       key=lambda x: (-x[1]["conf"], x[1]["ret_3m"]))
+                       key=lambda x: (-x[1]["conf"],  # strongest 3-month return first, NaN last
+                                      math.inf if math.isnan(x[1]["ret_3m"]) else -x[1]["ret_3m"]))
         print(f"\n== {g} ({len(items)}) ==")
         print(f"{'ticker':<10} {'name':<24} {'bkt':<5} {'price':>8} {'RSI':>5} {'ll01':>4} {'3m%':>6} {'vs high':>8}  note")
         for r, res in items[:args.top]:
