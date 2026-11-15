@@ -3,10 +3,12 @@
 Compute technical indicators from OHLCV data for PEA portfolio positions.
 
 Usage:
-  python3 compute_indicators.py \
+  python3 compute_indicators.py --fetch \
     --name "Air Liquide" --ticker "AI.PA" \
-    --shares 44 --pru 139.755 --pea-years 6.83 --source "yfinance" \
-    < ohlcv.json
+    --shares 44 --pru 139.755 --pea-years 6.83
+
+--fetch pulls 1y of daily bars from Yahoo in-process. Without it, bars are read
+from --input FILE or stdin (see "Input" below), e.g. after an EODHD fallback.
 
 --pea-years takes a plain number (age of the PEA in years since opening).
 Tax rate is derived automatically (>=5 years -> 18.6% PS only, <5 years -> 31.4%
@@ -17,7 +19,7 @@ argument has repeatedly dropped the leading ">" silently, which flips every
 position's net P&L to the wrong tax rate without erroring. A plain float
 sidesteps both failure modes.
 
-Input (stdin): JSON object with parallel arrays:
+Input (--input or stdin): JSON object with parallel arrays:
   {"dates": [...], "opens": [...], "highs": [...], "lows": [...],
    "closes": [...], "volumes": [...]}
 
@@ -485,7 +487,12 @@ def main():
     parser.add_argument("--stop", type=float, default=None,
                         help="Stop loss price in EUR (dd mode, auto-computed from ATR if omitted)")
     parser.add_argument("--input", "-i", default=None, help="Path to JSON input file (default: stdin)")
+    parser.add_argument("--fetch", action="store_true",
+                        help="Fetch 1y of daily bars for --ticker from Yahoo in-process "
+                             "(no temp file, safe for parallel runs)")
     args = parser.parse_args()
+    if args.fetch and args.input:
+        parser.error("--fetch and --input are mutually exclusive")
 
     # Validate mode-specific requirements
     if args.mode == "phase3":
@@ -502,7 +509,14 @@ def main():
             sys.exit(1)
 
     # Read input
-    if args.input:
+    if args.fetch:
+        from fetch_ohlcv import fetch_bars
+        try:
+            data = fetch_bars(args.ticker, "1y")
+        except RuntimeError as e:
+            print("ERROR: {}".format(e), file=sys.stderr)
+            sys.exit(1)
+    elif args.input:
         with open(args.input, "r") as f:
             data = json.load(f)
     else:
@@ -544,8 +558,8 @@ def main():
     sma50 = sma(closes, 50)
     sma200 = sma(closes, 200)
     sma_status, sma_cross_date = compute_sma_cross(sma50, sma200, dates)
-    sma50_val = sma50[-1] if not math.isnan(sma50[-1]) else "N/A"
-    sma200_val = sma200[-1] if not math.isnan(sma200[-1]) else "N/A"
+    sma50_val = round(sma50[-1], 2) if not math.isnan(sma50[-1]) else "N/A"
+    sma200_val = round(sma200[-1], 2) if not math.isnan(sma200[-1]) else "N/A"
 
     atr_val, atr_1_5x, atr_pct = compute_atr(highs, lows, closes)
     vol_recent, vol_avg20, vol_pct_diff, vol_label = compute_volume(volumes)

@@ -17,28 +17,17 @@ You perform technical due diligence on a single PEA candidate stock — fetch it
 
 ## Procedure
 
-**1. Fetch OHLCV data**
-
-- Primary: run the pre-built fetcher — **do NOT generate any script**:
-  ```bash
-  python3 .claude/skills/pea-manager/scripts/fetch_ohlcv.py --ticker {TICKER} --range 1y
-  ```
-  It writes `/tmp/pea_ohlcv_{TICKER}.json` (ticker-unique — safe for parallel agents). Use `--range 1y` so SMA200 is valid.
-- Fallback (fetch_ohlcv.py fails): EODHD `resolve_ticker` → `get_historical_stock_prices(period="d")`, then write the same parallel-array JSON to `/tmp/pea_ohlcv_{TICKER}.json`.
-- **Never skip** — if both fail, report `PRICE: UNAVAILABLE`.
-
-**2. Run the DD computation script**
+**1. Run the shared script in DD mode: one command fetches the bars and computes everything**
 
 ```bash
-python3 .claude/skills/pea-manager/scripts/compute_indicators.py \
-  --mode dd \
+python3 .claude/skills/pea-manager/scripts/compute_indicators.py --mode dd --fetch \
   --name "{NAME}" --ticker "{TICKER}" \
-  --entry-price {ENTRY_PRICE} --target {TARGET} --stop {STOP} \
-  --source "{yfinance/eodhd}" \
-  -i /tmp/pea_ohlcv_{TICKER}.json
+  --entry-price {ENTRY_PRICE} --target {TARGET} --stop {STOP}
 ```
 
-All three optional flags (`--entry-price`, `--target`, `--stop`) should be passed when available from the dispatch prompt. The script auto-computes the stop from 1.5× ATR if `--stop` is omitted.
+`--fetch` pulls 1 year of daily bars from Yahoo's chart API in-process and writes no file. **Do NOT generate any script.** Pass `--entry-price`, `--target` and `--stop` when the dispatch prompt gives them; the script derives the stop from 1.5× ATR if `--stop` is omitted.
+
+**2. Fallback, only if the command exits with `ERROR: fetch failed` or `no result`**: EODHD `resolve_ticker` → `get_historical_stock_prices(period="d")`, write the parallel-array JSON (`dates/opens/highs/lows/closes/volumes`) to `/tmp/pea_ohlcv_{TICKER with dots replaced by underscores}.json` (example: `/tmp/pea_ohlcv_AI_PA.json`), then rerun the command with `-i <that file> --source eodhd` in place of `--fetch`. **Never skip** — if both fail, report `PRICE: UNAVAILABLE`.
 
 **3. Return output verbatim**
 
@@ -56,11 +45,12 @@ BOLLINGER: ...
 SMA: ...
 ATR(14): ...
 VOLUME: ...
+CHANGE: 5d ...%, 3m ...%
 SUPPORT: {S1}, {S2}
 RESISTANCE: {R1}, {R2}
 TREND: {label} — {sentence}
 R/R: {X.X}:1 (entry ... → target ... / stop ...)
-LL-01: [{X}/4 confirmations] — ATR [{PASS|FAIL}] — recommendation [{ENTER|WATCH|SKIP}]
+LL-01: [{X}/4: rsi_recovery ✓|✗, macd_cross ✓|✗, volume_candle ✓|✗, above_ema5 ✓|✗] — ATR [{PASS|FAIL}] — recommendation [{ENTER|WATCH|SKIP}]
 ```
 
 If the script fails (non-zero exit), report the error. If price is UNAVAILABLE, skip the script and report the error.

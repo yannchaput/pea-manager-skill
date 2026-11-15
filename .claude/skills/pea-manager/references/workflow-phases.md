@@ -61,7 +61,7 @@ The agent definition (`.claude/agents/pea-price-analyst.md`) contains the full p
 
 **Main agent collects all results**, then proceeds to step 3.3 for cross-position synthesis. Exception positions are silently omitted from all synthesis tables and decision outputs — do not mention them unless the user asks.
 
-**Rate limit awareness**: EODHD free plan allows 20 calls/day total across all subagents. Each agent uses `fetch_ohlcv.py` (free Yahoo chart API, no quota) first and only falls back to EODHD when that fails — so Phase 3 rarely touches the EODHD quota. If the limit is near, flag data gaps explicitly.
+**Rate limit awareness**: EODHD free plan allows 20 calls/day total across all subagents. Each agent uses `compute_indicators.py --fetch` (free Yahoo chart API, no quota, no temp file) first and only falls back to EODHD when that fails — so Phase 3 rarely touches the EODHD quota. If the limit is near, flag data gaps explicitly.
 
 ### Step 3.2: Technical Indicators (computed by pea-price-analyst agent)
 

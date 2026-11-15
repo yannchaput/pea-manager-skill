@@ -107,7 +107,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 ### Phase 3: Portfolio Analysis (Core)
 
-**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent fetches prices (`fetch_ohlcv.py` → EODHD fallback) and computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
+**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent runs one command, `compute_indicators.py --fetch` (Yahoo chart, EODHD fallback), which computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
 
 **3.3 Decision by strategy** — always check `PEA > 5 years` first:
 
@@ -205,7 +205,7 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 ## Data Sources
 
 - **yfinance (yfmcp)**: Phase 3 only — price history, ticker info, news. Do NOT use for Phase 4 opportunity discovery (screener/search are US-centric and return near-zero European results).
-- **Yahoo chart API (free, no key)**: `scripts/fetch_ohlcv.py` hits `query1.finance.yahoo.com/v8/finance/chart/{TICKER}?range=1y&interval=1d` over plain HTTP and returns clean JSON OHLCV for European tickers — the primary free source for indicator data (Phase 3 and Phase 4 candidate enrichment). No daily quota. Use it instead of generating throwaway parsers.
+- **Yahoo chart API (free, no key)**: `compute_indicators.py --fetch` and `scan_universe.py` go through `scripts/fetch_ohlcv.py`, which hits `query1.finance.yahoo.com/v8/finance/chart/{TICKER}?range=1y&interval=1d` over plain HTTP and returns clean JSON OHLCV for European tickers — the primary free source for indicator data (Phase 3 and Phase 4 candidate enrichment). No daily quota. Use it instead of generating throwaway parsers.
 - **EODHD (eodhd-mcp)**: Free plan = **20 calls/day shared across ALL agents**. Free tools: `resolve_ticker`, `get_live_price_data`, `get_historical_stock_prices`, `get_company_news`, `get_stocks_from_search`, `get_exchange_tickers`. **Paid (403 on free plan — do NOT call): `stock_screener`, `get_fundamentals_data`, `get_technical_indicators`, `get_bulk_fundamentals`.** Compute indicators via `scripts/compute_indicators.py` instead.
 - **Playwright**: Phase 4 — French market research via Boursier.com (sector rotations, analyst recos, fil info). Also used for entry checklist (TradingView + Investir). Each check: 15-35s.
 - **Stooq**: Do NOT use — now gated behind a JavaScript proof-of-work challenge; returns HTML instead of CSV to plain `curl`/`urllib`.
@@ -217,7 +217,7 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 - **PRU is foundational**: never proceed without cost basis for every position
 - **PEA eligibility is a hard constraint**: verify domicile via ISIN before any recommendation
 - **PEA age drives tax**: always compute net P&L after tax in sell recommendations. Never let tax override a price alert, but use age to calibrate.
-- **Data fallback: `fetch_ohlcv.py` (Yahoo chart) first, EODHD second**: never skip a holding because the fetcher can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
+- **Data fallback: `compute_indicators.py --fetch` (Yahoo chart) first, EODHD second**: never skip a holding because the fetcher can't find it. EODHD requires `SYMBOL.EXCHANGE` format — use `resolve_ticker`.
 - **Batch EODHD price lookups**: use `get_live_price_data` with `additional_symbols` (up to 20 tickers in one call) — never one call per ticker.
 - **Currency awareness**: most PEA stocks trade EUR, but CHF/GBP/NOK/SEK positions have FX impact on EUR P&L. Flag when significant.
 - **Technical indicators are signals, not guarantees**: always qualify recommendations with confidence levels.
