@@ -29,7 +29,7 @@ async (page) => {
 }
 ```
 
-**`investir`** — Euronext Paris stocks only; URL slug = name in lowercase with hyphens, symbol and ISIN in lowercase (Alten: `alten-ate-fr0000071946-xpar`). For a non-Paris stock, skip the call and report it under NOT READ.
+**`investir`** — Euronext Paris stocks only; URL slug = name in lowercase with hyphens, symbol and ISIN in lowercase (Alten: `alten-ate-fr0000071946-xpar`). For a non-Paris stock, skip the call and report it under NOT READ. The function reads the links behind the cookie banner and clicks no consent button: the click is not needed, and calls containing it have been denied by the permission classifier (2 of 3 runs on 2026-11-15).
 
 ```js
 async (page) => {
@@ -37,7 +37,6 @@ async (page) => {
   try {
     await p.goto('https://investir.lesechos.fr/cours/actions/{slug}-{symbol}-{isin}-xpar/actualites-conseils', { waitUntil: 'domcontentloaded' });
     await p.waitForTimeout(2000);
-    await p.getByRole('button', { name: /accepter/i }).click({ timeout: 3000 }).catch(() => {});
     return await p.evaluate(() => Array.from(document.querySelectorAll('a'))
       .filter(l => l.textContent.length > 25 && l.href.includes('investir.lesechos.fr'))
       .map(l => l.textContent.trim().slice(0, 200)).slice(0, 40).join('\n'));

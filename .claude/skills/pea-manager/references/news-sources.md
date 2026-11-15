@@ -25,7 +25,7 @@ async (page) => {
 }
 ```
 
-Adapt the goto/click/evaluate lines to the site (Investir: cookie banner + headline extraction, see below).
+Adapt the goto/click/evaluate lines to the site (Investir: headline extraction with no click on the cookie banner, see below).
 
 ---
 
@@ -93,7 +93,7 @@ Investir (Les Echos group) is the most comprehensive French-language source for 
 
 1. Navigate to the stock page: `https://investir.lesechos.fr/cours/actions/{name}-{symbol}-{isin}-xpar`
 2. Wait for page load: `waitForTimeout(2000)`
-3. If cookie wall appears, click "Accepter" or navigate past it (the page content is visible behind it)
+3. If the cookie wall appears, leave it alone: the page content is readable behind it. Do not click "Accepter": it is not needed, and `browser_run_code_unsafe` calls containing a consent click have been denied by the permission classifier (2 of 3 runs on 2026-11-15)
 4. Extract headlines from "Dernières actualités" section:
    ```js
    const articles = await page.evaluate(() => {
@@ -163,7 +163,7 @@ Use these for quick English-language checks via API (no Playwright needed). They
 ## Known Limitations
 
 - **French financial sites block automation**: Boursorama, Zonebourse block direct `WebFetch` (403 Forbidden). Playwright works around this. Investir and Boursier.com work with Playwright.
-- **Investir**: Cookie consent wall (Didomi) on first visit. "Conseil de la rédaction" articles require paid subscription (3.49€/month). Wire articles (AFP, Reuters, Agefi-Dow Jones) require free registration for full text — but headlines + first paragraphs are visible without any account.
+- **Investir**: Cookie consent wall (Didomi) on first visit; read behind it, never click it (not needed; calls with a consent click have been denied). "Conseil de la rédaction" articles require paid subscription (3.49€/month). Wire articles (AFP, Reuters, Agefi-Dow Jones) require free registration for full text — but headlines + first paragraphs are visible without any account.
 - **Boursier.com**: Per-ticker content is limited (AJAX lazy-load, JS template rendering). Best used for market-level sentiment, not individual stock news.
 - **TradingView**: English-only. No French-language context.
 - **Playwright adds latency**: Each check takes ~15-25 seconds. For a full portfolio review, budget ~5 minutes extra if checking all positions. Investir check with actualités sub-page takes ~25-35 seconds.
