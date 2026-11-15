@@ -2,14 +2,25 @@
 
 ## Scope: skill repo, not a code project
 
-This repo is dedicated to the `pea-manager` skill (`.claude/skills/pea-manager/`), its agents and `TRACKER.md`. It is not a software project, so these global code-writing rules **do not apply here**:
+This repo holds the `pea-manager` skill (`.claude/skills/pea-manager/`), its agents (`.claude/agents/pea-*.md`) and the private state files. These global code-writing rules **do not apply here**:
 
-- No code-writing skills or commands: no `ponytail` (`/ponytail:*`, including the pre-commit review), no `/simplify`, no `code-simplifier`, no `superpowers:test-driven-development`.
-- No code quality gate: no `ruff`, no `uv run pytest` (or `pytest --cov`), no `interrogate`, no `uv run` at all.
-- Commit directly when asked; there is no review or gate step before a commit.
+- No `ponytail` (`/ponytail:*`, including the pre-commit review), no `/simplify`, no `code-simplifier`, no `superpowers:test-driven-development`.
+- No quality gate: no `ruff`, no `pytest`, no `interrogate`, no `uv run` at all.
+- Commit directly when asked; no review or gate step before a commit.
+
+## Editing the skill
+
+- **Any edit to the skill, its references, evals or agents: load `superpowers:writing-skills` first.**
+- Script change: add an assert to `scripts/selfcheck.py`, watch it fail, then fix. `python3 .claude/skills/pea-manager/scripts/selfcheck.py` must print `OK`.
+- Decision rules live only in `SKILL.md` section 3.3; do not copy them into `references/`.
+
+## State files (git-ignored, with `docs/`)
+
+- `TRACKER.md` (account, portfolio, thesis), `WATCHLIST.md` (candidates), `HISTORY.md` (append-only: past reviews, sold positions, benchmark).
+- Keep each under ~50 KB so one Read returns the whole file; move old material to `HISTORY.md`, never delete it.
 
 ## Parallel subagent safety
 
-- **Shared `/tmp/pea_ohlcv.json` causes silent data corruption** when parallel `pea-price-analyst` agents run — each overwrites the file while others read it. The normal path now writes no file at all: `compute_indicators.py --fetch` pulls the bars in-process. Only the EODHD fallback writes one, at a ticker-unique path with dots replaced by underscores (`/tmp/pea_ohlcv_AI_PA.json`). Never revert to a shared path.
-- `--fetch` always pulls 1y of daily data (~255 bars), enough for SMA200. With `-i <path>` the caller supplies the bars; 6mo (~127 bars) is insufficient for SMA200.
-- **PEA age must be passed to `compute_indicators.py` as a plain number of years (`--pea-years 6.83`), never as qualitative text like `">5 years"`.** The old `--pea-age` string-matching logic silently fell back to the 30% PFU tax rate for every position when a parallel `pea-price-analyst` agent reformatted the free text and dropped the `>` in transit (it's also a shell redirection character, an extra footgun if ever unquoted) — every net P&L in a Phase 3 review was wrong with no error raised. `--pea-age` still exists but is cosmetic-only now (display label); it has zero effect on the tax rate. If the dispatch prompt only states a qualitative age, convert it to a number before dispatching.
+- Never use a shared `/tmp/pea_ohlcv.json`: parallel agents overwrite it and corrupt each other's data. Use `compute_indicators.py --fetch` (no file, 1y of bars). The EODHD fallback writes a per-ticker path (`/tmp/pea_ohlcv_AI_PA.json`).
+- With `-i <path>`, supply 1y of bars; 6mo is too short for SMA200.
+- Pass PEA age as a number (`--pea-years 6.83`), never as text like `">5 years"`: reformatted text once silently applied the wrong tax rate to every position. `--pea-age` is a display label only.
