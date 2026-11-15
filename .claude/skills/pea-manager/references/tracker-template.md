@@ -104,7 +104,7 @@ Candidats identifiés en Phase 4, en attente de confirmation technique pour entr
   - [ ] RSI(14) repasse au-dessus de 30 (ou autre seuil pertinent)
   - [ ] MACD bullish crossover
   - [ ] Bougie verte avec volume >1,5× moyenne
-  - [ ] Prix repasse au-dessus de la SMA5
+  - [ ] Prix repasse au-dessus de la EMA5
 - **Alerte**: XX.XX € (1,5× ATR sous le point d'entrée)
 - **Allocation cible**: ~XXX € (N actions)
 - **Décision**: ⏳ WATCH / 🟡 TRÈS PROCHE / 🔴 REFUSÉE — justification courte
@@ -113,7 +113,7 @@ Candidats identifiés en Phase 4, en attente de confirmation technique pour entr
 ### Watchlist Entry Format Rules
 
 - **ISIN is mandatory** — it validates PEA eligibility; first 2 chars must be EU/EEA
-- **Critères d'entrée LL-01**: always a checklist of ≥4 items. At minimum: RSI crossing signal, MACD crossover, green candle + volume, price vs SMA5. Adapt thresholds to the specific setup (e.g., "RSI repasse au-dessus de 30" vs "RSI quitte la zone de survente").
+- **Critères d'entrée LL-01**: always a checklist of ≥4 items. At minimum: RSI crossing signal, MACD crossover, green candle + volume, price vs EMA5. Adapt thresholds to the specific setup (e.g., "RSI repasse au-dessus de 30" vs "RSI quitte la zone de survente").
 - **Alerte**: computed as `entry_price − 1.5× ATR(14)`. Must be explicit. If ATR not yet computed, mark as "À calculer avant entrée".
 - **Allocation cible**: absolute € amount + share count. Must fit within available cash.
 - **Décision**: one of:

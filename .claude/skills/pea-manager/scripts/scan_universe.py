@@ -64,13 +64,11 @@ def evaluate(bars):
     price = closes[-1]
     rsi, _ = ci.compute_rsi(closes)
     _, _, macd_hist, _, cross_type, cross_bars = ci.compute_macd(closes)
-    _, _, _, bb_pct = ci.compute_bollinger(closes)
     _, _, atr_pct = ci.compute_atr(highs, lows, closes)
-    _, _, vol_pct, _ = ci.compute_volume(vols)
     sma50, sma200 = ci.sma(closes, 50)[-1], ci.sma(closes, 200)[-1]
     gate = ci.ll01_gate_reason(price, sma50, sma200, rsi)
-    conf, atr_pass, rec = ci.score_ll01(
-        rsi, macd_hist, 0 if math.isnan(vol_pct) else vol_pct, bb_pct, atr_pct, price, gate_reason=gate)
+    conf, atr_pass, rec, _ = ci.score_ll01(
+        closes, bars["opens"], vols, macd_hist, cross_type, cross_bars, atr_pct, gate_reason=gate)
     ret_3m = (price / closes[-64] - 1) * 100 if len(closes) > 64 else float("nan")
     return dict(price=price, rsi=rsi, conf=conf, atr_pass=atr_pass, rec=rec, gate=gate,
                 ret_3m=ret_3m, off_high=(price / max(closes) - 1) * 100,

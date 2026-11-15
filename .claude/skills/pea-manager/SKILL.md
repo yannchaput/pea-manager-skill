@@ -179,7 +179,7 @@ Main agent filters (PEA eligibility → large cap → moat → dividend consiste
 **Before recommending ANY `short` strategy buy, verify ALL of:**
 
 - [ ] **Diagnose the drop**: Why is it falling? Check both TradingView AND Investir Les Echos for profit warnings, guidance cuts, management departures, or sector shocks. If structural → NOT a buying opportunity.
-- [ ] **≥2 technical confirmations**: RSI crossing back above 30, MACD bullish crossover (daily), green candle with volume >1.5× 20-day avg, or price closing above 5-day EMA. Never enter on "it looks cheap" alone.
+- [ ] **≥2 technical confirmations** (as scored by `compute_indicators.py --mode dd`): RSI back above 30 after being ≤ 30 within the last 10 bars, MACD bullish crossover (daily) within the last 10 bars with the histogram still positive, a green candle with volume >1.5× its prior 20-day avg among the last 3 bars, or last close above the 5-day EMA. Never enter on "it looks cheap" alone.
 - [ ] **ATR check**: Compute 14-day ATR. Price alert distance ≥ 1.5× ATR. If 1.5× ATR > 10% of entry price → reduce size or skip.
 - [ ] **Scale in**: ⅓ at first confirmation, ⅓ after support holds 3+ days, ⅓ on breakout above key MA.
 - [ ] **News cross-check**: TradingView (English Reuters/Quartr) + Investir (French AFP/Agefi/Reuters) — both mandatory. See News Sources below.

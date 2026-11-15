@@ -81,52 +81,38 @@ def ema_standard(values, period):
 # Technical indicators
 # ---------------------------------------------------------------------------
 
-def compute_rsi(closes, period=14):
-    """Wilder's smoothed RSI. Returns (rsi_value, trend).
-
-    trend is 'rising' | 'falling' | 'stable' based on last 5 RSI values.
-    """
+def rsi_series(closes, period=14):
+    """Wilder's smoothed RSI, one value per bar from index `period`. [] if too short."""
     if len(closes) < period + 1:
-        return float("nan"), "stable"
-
+        return []
     deltas = [closes[i] - closes[i - 1] for i in range(1, len(closes))]
     gains = [max(d, 0) for d in deltas]
-    losses = [abs(min(d, 0)) for d in deltas]
-
-    # Seed: simple average of first `period` gains/losses
-    avg_gain = sum(gains[:period]) / period
+    losses = [max(-d, 0) for d in deltas]
+    avg_gain = sum(gains[:period]) / period  # seed: simple average
     avg_loss = sum(losses[:period]) / period
+    out = []
+    for i in range(period - 1, len(gains)):
+        if i >= period:
+            avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+            avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+        out.append(100.0 if avg_loss == 0 else 100.0 - 100.0 / (1.0 + avg_gain / avg_loss))
+    return out
 
-    rsi_values = []
-    if avg_loss == 0:
-        rsi_values.append(100.0)
-    else:
-        rs = avg_gain / avg_loss
-        rsi_values.append(100.0 - (100.0 / (1.0 + rs)))
 
-    # Wilder's smoothing for remaining values
-    for i in range(period, len(gains)):
-        avg_gain = (avg_gain * (period - 1) + gains[i]) / period
-        avg_loss = (avg_loss * (period - 1) + losses[i]) / period
-        if avg_loss == 0:
-            rsi_values.append(100.0)
-        else:
-            rs = avg_gain / avg_loss
-            rsi_values.append(100.0 - (100.0 / (1.0 + rs)))
-
-    # Determine trend from last 5 RSI values (or fewer if not enough)
-    recent = rsi_values[-min(5, len(rsi_values)):]
-    if len(recent) >= 2:
-        if recent[-1] > recent[0] + 2:
-            trend = "rising"
-        elif recent[-1] < recent[0] - 2:
-            trend = "falling"
-        else:
-            trend = "stable"
+def compute_rsi(closes, period=14):
+    """Latest RSI. Returns (rsi_value, trend); trend is 'rising' | 'falling' |
+    'stable' from the last 5 RSI values (a move of more than 2 points)."""
+    values = rsi_series(closes, period)
+    if not values:
+        return float("nan"), "stable"
+    recent = values[-5:]
+    if recent[-1] > recent[0] + 2:
+        trend = "rising"
+    elif recent[-1] < recent[0] - 2:
+        trend = "falling"
     else:
         trend = "stable"
-
-    return round(rsi_values[-1], 1), trend
+    return round(values[-1], 1), trend
 
 
 def compute_macd(closes, dates=None, fast=12, slow=26, signal=9):
@@ -417,50 +403,50 @@ def ll01_gate_reason(price, sma50, sma200, rsi_val):
     return None
 
 
-def score_ll01(rsi_val, macd_hist, vol_ratio, bb_pct, atr_pct, entry_price, gate_reason=None):
-    """Automate LL-01 technical confirmation scoring.
-    Returns (confirmations, atr_pass, recommendation).
-    confirmation is int 0-4, atr_pass is bool, recommendation is
-    'ENTER' | 'WATCH' | 'SKIP'. A gate_reason (see ll01_gate_reason) caps
-    ENTER at WATCH."""
-    confirmations = 0
+LL01_WINDOW = 10  # bars: how recent an RSI recovery or MACD crossover must be
 
-    # 1. RSI crossing above 30 (or already above 30 and rising)
-    if rsi_val is None or math.isnan(rsi_val):
-        pass  # can't score
-    elif rsi_val >= 35:  # conservative: above oversold
-        confirmations += 1
 
-    # 2. MACD bullish (histogram positive = line above signal)
-    if macd_hist is None or math.isnan(macd_hist):
-        pass
-    elif macd_hist > 0:
-        confirmations += 1
+def score_ll01(closes, opens, volumes, macd_hist, macd_cross_type, macd_bars_since,
+               atr_pct, gate_reason=None):
+    """Score the four LL-01 technical confirmations as the checklist words them.
 
-    # 3. Volume > 1.5x 20d avg
-    if vol_ratio is None or math.isnan(vol_ratio):
-        pass
-    elif vol_ratio > 50:  # 50% above average
-        confirmations += 1
+    Returns (confirmations, atr_pass, recommendation, detail). detail maps each
+    confirmation to a bool:
+      rsi_recovery   RSI was <= 30 within LL01_WINDOW bars and is now > 30
+      macd_cross     bullish MACD crossover within LL01_WINDOW bars, histogram still > 0
+      volume_candle  one of the last 3 bars is green with volume > 1.5x the mean of
+                     the 20 bars before it
+      above_ema5     last close above the 5-day EMA
+    recommendation is 'ENTER' (>= 2 confirmations, ATR pass, no gate) | 'WATCH'
+    (>= 1) | 'SKIP'. A gate_reason (see ll01_gate_reason) caps ENTER at WATCH.
+    Missing data (short history, NaN) scores the item False; it never raises."""
+    rsi = rsi_series(closes)
+    ema5 = ema_standard(closes, 5)[-1] if closes else float("nan")
 
-    # 4. Price closing above SMA5 (approximated by BB middle for now)
-    if bb_pct is None or math.isnan(bb_pct):
-        pass
-    elif bb_pct >= 40:  # above lower-middle of BB
-        confirmations += 1
+    def green_volume_bar(i):
+        prior = volumes[max(0, i - 20):i]
+        return (len(prior) == 20 and closes[i] > opens[i]
+                and volumes[i] > 1.5 * sum(prior) / 20)
+
+    detail = {
+        "rsi_recovery": bool(rsi) and min(rsi[-LL01_WINDOW:]) <= 30 < rsi[-1],
+        "macd_cross": (macd_cross_type == "bullish" and macd_bars_since is not None
+                       and macd_bars_since <= LL01_WINDOW and macd_hist > 0),
+        "volume_candle": any(green_volume_bar(i) for i in range(max(0, len(closes) - 3), len(closes))),
+        "above_ema5": bool(closes) and closes[-1] > ema5,  # NaN compares False
+    }
+    confirmations = sum(detail.values())
 
     # ATR check: 1.5x ATR must be <= 10% of entry price
     atr_pass = atr_pct is not None and not math.isnan(atr_pct) and atr_pct <= 10.0
 
-    # Recommendation tier
-    if confirmations >= 3 and atr_pass and not gate_reason:
+    if confirmations >= 2 and atr_pass and not gate_reason:
         recommendation = "ENTER"
     elif confirmations >= 1:
         recommendation = "WATCH"
     else:
         recommendation = "SKIP"
-
-    return confirmations, atr_pass, recommendation
+    return confirmations, atr_pass, recommendation, detail
 
 
 # ---------------------------------------------------------------------------
@@ -585,17 +571,11 @@ def main():
         rr = compute_rr(entry_price, args.target, stop_price)
         rr_display = f"{rr:.1f}:1" if not math.isnan(rr) else "N/A"
 
-        # LL-01 scoring
-        # vol_ratio for LL-01: use vol_pct_diff which is recent vs 20d % change
-        vol_ratio_for_ll01 = vol_pct_diff if not math.isnan(vol_pct_diff) else 0
-        gate_reason = ll01_gate_reason(
-            current_price,
-            sma50[-1], sma200[-1], rsi_val
-        )
-        confirmations, atr_pass, recommendation = score_ll01(
-            rsi_val, macd_hist, vol_ratio_for_ll01, bb_pct, atr_pct, entry_price,
-            gate_reason=gate_reason
-        )
+        gate_reason = ll01_gate_reason(current_price, sma50[-1], sma200[-1], rsi_val)
+        confirmations, atr_pass, recommendation, detail = score_ll01(
+            closes, opens, volumes, macd_hist, cross_type, cross_bars, atr_pct,
+            gate_reason=gate_reason)
+        detail_str = ", ".join(f"{k} {'✓' if v else '✗'}" for k, v in detail.items())
         atr_status = "PASS" if atr_pass else "FAIL"
         gate_line = f"\nLL-01 GATE: {gate_reason} — ENTER capped at WATCH" if gate_reason else ""
 
@@ -611,7 +591,7 @@ SUPPORT: {s1}, {s2}
 RESISTANCE: {r1}, {r2}
 TREND: {trend_label} — {trend_sentence}
 R/R: {rr_display} (entry {entry_price:.2f} → target {args.target if args.target else 'N/A'} / stop {stop_price if stop_price else 'N/A'})
-LL-01: [{confirmations}/4 confirmations] — ATR [{atr_status}] — recommendation [{recommendation}]{gate_line}"""
+LL-01: [{confirmations}/4: {detail_str}] — ATR [{atr_status}] — recommendation [{recommendation}]{gate_line}"""
     else:
         # Phase 3: existing P&L + tax computation
         gross_pl = (current_price - args.pru) * args.shares
