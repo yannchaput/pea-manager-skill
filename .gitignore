@@ -240,3 +240,6 @@ page-societe.yml
 
 # skill-creator eval workspace
 pea-manager-workspace/
+/TRACKER.backup-*.md
+/HISTORY.md
+/WATCHLIST.md

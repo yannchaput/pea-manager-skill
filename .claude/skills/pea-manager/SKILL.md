@@ -55,11 +55,19 @@ If intent is ambiguous: *"Voulez-vous une revue complète (Phase 3), une recherc
 - Decision synthesis (Phase 3.3) — needs cross-position context
 - TRACKER.md updates (Phase 3.4) — single writer prevents conflicts
 - Candidate filtering and ranking (Phase 4.2, 4.3) — needs full scan results
-- **Watchlist registration (Phase 4.4) — MANDATORY: every Phase 4 ends with watchlist entries in TRACKER.md**
+- **Watchlist registration (Phase 4.4) — MANDATORY: every Phase 4 ends with watchlist entries in `WATCHLIST.md`**
 
-## State File: TRACKER.md
+## State Files: TRACKER.md, WATCHLIST.md, HISTORY.md
 
-The portfolio lives in `TRACKER.md` at the project root — single source of truth. Full template and column specs: [`references/tracker-template.md`](references/tracker-template.md).
+Three files at the project root, each small enough to Read whole. Full templates and column specs: [`references/tracker-template.md`](references/tracker-template.md).
+
+| File | Holds | Written |
+|------|-------|---------|
+| `TRACKER.md` | Account, Exceptions, Portfolio Composition, Closed Positions, Thesis: the current state of open positions, single source of truth | Overwritten in place |
+| `WATCHLIST.md` | `## Watchlist — Candidats court terme` and `## Watchlist — Candidats long terme` | Overwritten in place |
+| `HISTORY.md` | Dated reviews, performance snapshots, older news cross-checks, sold positions, removed candidates | Append-only; create it if absent |
+
+**Every review writes its dated detail to `HISTORY.md`** and leaves in `TRACKER.md` / `WATCHLIST.md` one current line per entry (`Last reviewed` for a position, `Décision` for a candidate), replacing the previous one. Read `HISTORY.md` only when a past review is needed.
 
 ### Account Information (key fields)
 
@@ -76,7 +84,7 @@ The portfolio lives in `TRACKER.md` at the project root — single source of tru
 
 ### Portfolio Columns
 
-**Name**, **ISIN** (12-char, critical for eligibility), **Nb Shares**, **PRU** (average cost basis in € — mandatory), **Strategy** (`short` = trading weeks-months, `long` = buy-and-hold years).
+**Name**, **ISIN** (12-char, critical for eligibility), **Ticker** (Yahoo symbol such as `AI.PA`, passed to the scripts; `—` for a holding with none, e.g. an unlisted fund), **Nb Shares**, **PRU** (average cost basis in € — mandatory), **Strategy** (`short` = trading weeks-months, `long` = buy-and-hold years).
 
 ### Thesis
 
@@ -107,7 +115,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 ### Phase 3: Portfolio Analysis (Core)
 
-**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent runs one command, `compute_indicators.py --fetch` (Yahoo chart, EODHD fallback), which computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
+**Skip positions listed in `## Exceptions`** — do not analyze them. **Dispatch one `pea-price-analyst` agent per remaining position** for steps 3.1+3.2 (price fetch + technical indicators). Pass position details (name, ticker from the Ticker column, ISIN, shares, PRU, strategy, PEA age) in each agent's prompt — see [`references/workflow-phases.md`](references/workflow-phases.md) for the dispatch recipe. Each agent runs one command, `compute_indicators.py --fetch` (Yahoo chart, EODHD fallback), which computes RSI, MACD, Bollinger, SMA 50/200, ATR, Volume, and P&L per the agent definition (`.claude/agents/pea-price-analyst.md`). Main agent synthesizes all results for step 3.3 (decisions) and step 3.4 (TRACKER.md update). Single stock → run inline, no subagent needed.
 
 **3.3 Decision by strategy** — always check `PEA > 5 years` first:
 
@@ -133,7 +141,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 **Alert-breach discipline** (applies to positions protected only by an alert; a position with a stop placed exits automatically): if ≥3 uncorrelated positions (different sectors, no shared idiosyncratic news) breach their price alert in the same review, treat it as a market-wide pullback, not a portfolio-wide sell signal — report each breach without escalating to "action required." See LL-03 in [`references/lessons-learned.md`](references/lessons-learned.md).
 
-**3.4 Update TRACKER.md**: update Last review, ask for broker's current figures, recompute totals, update position review dates. **MANDATORY: review ALL watchlist candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal.
+**3.4 Update the state files**: update Last review, ask for broker's current figures, recompute totals; for each position append the dated review to `HISTORY.md` and replace its `Last reviewed` line in `TRACKER.md`. **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both short-term and long-term sections). For short-term: re-evaluate each LL-01 checklist item — if ≥2 confirmations now met, flag for entry. For long-term: re-evaluate thesis and valuation vs current price. Update each candidate's Décision status (⏳ WATCH / 🟡 TRÈS PROCHE / ✅ ENTRÉE / 🔴 REFUSÉE). If ENTRÉE → proceed to Phase 2 then Portfolio Composition. If WATCH > 2 months (short) or > 3 months (long) without trigger → propose removal. A removed candidate's entry moves to `HISTORY.md`.
 
 ### Phase 4: New Opportunities
 
@@ -155,7 +163,7 @@ If the user already specified, route directly to 4-Short or 4-Long.
 
 Main agent merges, deduplicates, filters (PEA eligibility → mid-cap → momentum → diversification). **Exclude positions in `## Exceptions` from the diversification filter** — exception positions do not count toward sector over-concentration checks. Then rank and present (step 4-Short.2-3).
 
-**Step 4-Short.4**: Register surviving candidates in `## Watchlist — Candidats court terme` with LL-01 checklist.
+**Step 4-Short.4**: Register surviving candidates in `WATCHLIST.md`, section `## Watchlist — Candidats court terme`, with LL-01 checklist.
 
 #### Phase 4-Long: Long-Term Scan
 
@@ -168,7 +176,7 @@ Main agent merges, deduplicates, filters (PEA eligibility → mid-cap → moment
 
 Main agent filters (PEA eligibility → large cap → moat → dividend consistency → valuation → diversification). **Exclude positions in `## Exceptions` from the diversification filter.** Then rank and present (steps 4-Long.2-3). For each candidate: explicitly state *"Why hold this for 5+ years?"*
 
-**Step 4-Long.4**: Register surviving candidates in `## Watchlist — Candidats long terme`. No LL-01 checklist needed for long-term — instead document: moat, dividend trajectory, valuation vs sector, entry strategy (lump sum / thirds / limit order).
+**Step 4-Long.4**: Register surviving candidates in `WATCHLIST.md`, section `## Watchlist — Candidats long terme`. No LL-01 checklist needed for long-term — instead document: moat, dividend trajectory, valuation vs sector, entry strategy (lump sum / thirds / limit order).
 
 **Full procedures**: [`references/workflow-phases.md`](references/workflow-phases.md).
 

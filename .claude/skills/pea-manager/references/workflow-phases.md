@@ -45,14 +45,14 @@ Core analysis phase. Run after setup, after updates, or on user request.
 
 ### Step 3.1+3.2: Per-Position Agent Dispatch
 
-**First, filter out positions listed in `## Exceptions`** — these positions are skipped entirely. No agent is dispatched, no price is fetched, no P&L is computed for them.
+**First, filter out positions listed in `## Exceptions` and positions whose Ticker is `—`** (no price series; ask the user for the latest value) — these positions are skipped entirely. No agent is dispatched, no price is fetched, no P&L is computed for them.
 
 For the remaining N positions, dispatch N `pea-price-analyst` agents. Each agent fetches current price, fetches OHLCV data, computes all technical indicators, and returns structured results per the agent's output schema.
 
 **Dispatch recipe** (one call per non-exception position):
 
 ```
-Agent(subagent_type="pea-price-analyst", prompt="Analyze {NAME} ({TICKER}, ISIN: {ISIN}) for PEA portfolio review. Position: {SHARES} shares, PRU {PRU}€, strategy: {STRATEGY}. PEA age: {PEA_YEARS} years (opened {PEA_OPENED_DATE}).")
+Agent(subagent_type="pea-price-analyst", prompt="Analyze {NAME} ({TICKER from the Ticker column}, ISIN: {ISIN}) for PEA portfolio review. Position: {SHARES} shares, PRU {PRU}€, strategy: {STRATEGY}. PEA age: {PEA_YEARS} years (opened {PEA_OPENED_DATE}).")
 ```
 
 **Always pass PEA age as a plain number of years** (e.g. `6.83`, computed from the `PEA opened` date in TRACKER.md), not as qualitative text like ">5 years". The agent forwards this straight to `compute_indicators.py --pea-years`, which derives the tax rate itself — qualitative text has repeatedly gotten reformatted or lost its `>` character in transit (a shell redirection character), silently flipping the tax rate for every position in the review. See `.claude/agents/pea-price-analyst.md` for the exact CLI contract.
@@ -76,9 +76,8 @@ The decision rules live in one place: `SKILL.md`, section "3.3 Decision by strat
 - Update `Last review` date
 - Ask user for broker's updated Portfolio market value and Unrealized P&L
 - Recompute Capital deployed and Total PEA value
-- Update each position's `Last reviewed` date in Thesis
-- Add brief analysis note with date and key findings
-- **MANDATORY: Review ALL watchlist candidates** (both `## Watchlist — Candidats court terme` and `## Watchlist — Candidats long terme`). For each candidate:
+- For each position: append the dated review (price, indicators, verdict) to its section of `HISTORY.md` (create the file or the section if absent), then replace the position's single `Last reviewed` line in the Thesis with today's date and verdict
+- **MANDATORY: Read `WATCHLIST.md` and review ALL candidates** (both `## Watchlist — Candidats court terme` and `## Watchlist — Candidats long terme`). Replace each candidate's `Décision` line; the previous one goes to `HISTORY.md`. For each candidate:
   - **Short-term**: re-evaluate every LL-01 checklist item against current data. If ≥2 confirmations now met → flag as 🟡 TRÈS PROCHE or ✅ ENTRÉE. If thesis broken → 🔴 REFUSÉE.
   - **Long-term**: re-evaluate thesis, valuation, and entry strategy vs current price. Update Décision status.
   - **If ENTRÉE**: tell user and offer to proceed to Phase 2 (update) → Portfolio Composition.
@@ -139,7 +138,7 @@ For each candidate: name, ISIN, sector, market cap, current price, 1-3M performa
 
 #### Step 4-Short.4: Register in Watchlist (AUTOMATIC)
 
-Register candidates in `## Watchlist — Candidats court terme` in TRACKER.md. Follow the same LL-01 checklist procedure as before. Full template: [`references/tracker-template.md`](tracker-template.md).
+Register candidates in `## Watchlist — Candidats court terme` in `WATCHLIST.md`. Follow the same LL-01 checklist procedure as before. Full template: [`references/tracker-template.md`](tracker-template.md).
 
 ---
 
@@ -184,7 +183,7 @@ For each candidate: name, ISIN, sector, market cap, current price, dividend yiel
 
 #### Step 4-Long.4: Register in Watchlist (AUTOMATIC)
 
-Register candidates in `## Watchlist — Candidats long terme` in TRACKER.md. Use the long-term watchlist template from [`references/tracker-template.md`](tracker-template.md).
+Register candidates in `## Watchlist — Candidats long terme` in `WATCHLIST.md`. Use the long-term watchlist template from [`references/tracker-template.md`](tracker-template.md).
 
 Each long-term watchlist entry includes:
 - Date spotted, current price

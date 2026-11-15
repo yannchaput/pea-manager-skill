@@ -1,6 +1,6 @@
-# TRACKER.md Format Reference
+# State File Format Reference
 
-This is the full template and column specification for the portfolio tracker.
+Templates and column specifications for the three state files at the project root: `TRACKER.md` (open positions), `WATCHLIST.md` (the two watchlist sections) and `HISTORY.md` (append-only journal: one `## {Position or candidate name}` section each, dated lines added at the end, never edited).
 
 ## Full Template
 
@@ -30,9 +30,9 @@ Positions listed here are **excluded from Phase 3 and Phase 4 analysis**. They r
 
 ## Portfolio Composition
 
-| Name | ISIN | Nb Shares | PRU (€) | Strategy |
-|------|------|-----------|---------|----------|
-| Company Name | XX0000000000 | N | XX.XX | long/short |
+| Name | ISIN | Ticker | Nb Shares | PRU (€) | Strategy |
+|------|------|--------|-----------|---------|----------|
+| Company Name | XX0000000000 | XXX.PA | N | XX.XX | long/short |
 
 ## Closed Positions
 
@@ -47,7 +47,7 @@ Positions listed here are **excluded from Phase 3 and Phase 4 analysis**. They r
 - **Date entered**: YYYY-MM-DD
 - **Thesis**: One sentence on why this position exists
 - **Exit conditions**: Specific, measurable conditions
-- **Last reviewed**: YYYY-MM-DD
+- **Last reviewed**: YYYY-MM-DD — verdict in one line (replaced at each review; the dated detail goes to HISTORY.md)
 ```
 
 ## Account Information Fields
@@ -65,6 +65,7 @@ Positions listed here are **excluded from Phase 3 and Phase 4 analysis**. They r
 
 - **Name**: Company name (not just ticker)
 - **ISIN**: 12-character International Securities Identification Number — critical for PEA eligibility
+- **Ticker**: Yahoo symbol (`AI.PA`, `IDR.MC`), the value passed to `compute_indicators.py --ticker`; `—` when the holding has no listed ticker
 - **Nb Shares**: Quantity held
 - **PRU (Prix de Revient Unitaire)**: Average cost basis per share in euros — mandatory for P&L calculation
 - **Strategy**: `short` (trading, weeks-to-months) or `long` (buy and hold, years)
@@ -84,7 +85,7 @@ New PRU = ((Old_Shares × Old_PRU) + (New_Shares × New_Purchase_Price)) / (Old_
 - **P&L %**: `(Sell Price − PRU) / PRU × 100`
 - Keep the **Total row** updated
 
-## Watchlist — Candidats court terme
+## Watchlist — Candidats court terme (in `WATCHLIST.md`)
 
 Candidates identified during Phase 4, awaiting technical confirmation before entry. Each candidate has a mini-thesis with LL-01 entry criteria — the next portfolio review MUST re-evaluate each one.
 
@@ -124,7 +125,7 @@ Candidats identifiés en Phase 4, en attente de confirmation technique pour entr
 - **Cleanup rule**: if a candidate has been WATCH for >2 months without triggering, remove it (stale thesis). If REFUSÉE, keep for 1 month then remove.
 - **At each Phase 3 review**: the main agent must also re-check all watchlist candidates against their LL-01 criteria. If a candidate triggers entry → move to Phase 2 (update) then Portfolio Composition.
 
-## Watchlist — Candidats long terme
+## Watchlist — Candidats long terme (in `WATCHLIST.md`)
 
 Long-term buy-and-hold candidates identified during Phase 4-Long. These are evaluated on fundamentals, not technical timing. No LL-01 checklist — use a thesis-and-valuation framework instead.
 

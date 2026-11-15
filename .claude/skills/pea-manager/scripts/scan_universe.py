@@ -13,7 +13,7 @@ Usage:
   python3 scan_universe.py [--bucket large|mid|all] [--top 25] [--workers 8]
 
 Output: stocks that are neither an open position nor an active watchlist
-candidate in TRACKER.md (by ticker or name), grouped PASS (ENTER, no gate),
+candidate in TRACKER.md / WATCHLIST.md (by ticker or name), grouped PASS (ENTER, no gate),
 WATCH (uptrend, partial confirmations) and GATED (downtrend/overbought).
 Survivors still need fundamentals (yfinance info) and the news cross-check.
 
@@ -35,14 +35,15 @@ import compute_indicators as ci
 from fetch_ohlcv import fetch_bars
 
 HERE = Path(__file__).resolve().parent
-TRACKER = HERE.parents[3] / "TRACKER.md"  # scripts/ -> pea-manager -> skills -> .claude -> repo root
+ROOT = HERE.parents[3]  # scripts/ -> pea-manager -> skills -> .claude -> repo root
+STATE_FILES = (ROOT / "TRACKER.md", ROOT / "WATCHLIST.md")  # open positions, watchlist candidates
 # Same list as references/pea-eligibility.md (EU + EEA)
 PEA_COUNTRIES = set("AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE IS LI NO".split())
 TICKER_RE = re.compile(r"\b[A-Z0-9]{1,6}\.[A-Z]{2}\b")
 
 
 def active_text(tracker_text):
-    """The parts of TRACKER.md that name open positions and active watchlist
+    """The parts of TRACKER.md + WATCHLIST.md that name open positions and active watchlist
     candidates: the Portfolio Composition section and the `### ` headings of the
     Watchlist sections. Closed, sold and removed names are left out, so they
     come back into the scan."""
@@ -125,7 +126,7 @@ def main():
     args = ap.parse_args()
 
     universe = json.loads((HERE.parent / "assets" / "universe.json").read_text())
-    text = active_text(TRACKER.read_text()) if TRACKER.exists() else ""
+    text = active_text("\n".join(f.read_text() for f in STATE_FILES if f.exists()))
     held = tracked_tickers(text)
     rows = [r for r in universe
             if not is_tracked(r, text, held) and r["country"] in PEA_COUNTRIES
