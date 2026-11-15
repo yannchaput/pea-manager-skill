@@ -61,10 +61,9 @@ def evaluate(bars):
     closes, highs, lows, vols = bars["closes"], bars["highs"], bars["lows"], bars["volumes"]
     if len(closes) < 60:
         return None
-    ci.dates = bars["dates"]  # compute_macd reads this module global for crossover dates
     price = closes[-1]
     rsi, _ = ci.compute_rsi(closes)
-    _, _, macd_hist, _, _ = ci.compute_macd(closes)
+    _, _, macd_hist, _, cross_type, cross_bars = ci.compute_macd(closes)
     _, _, _, bb_pct = ci.compute_bollinger(closes)
     _, _, atr_pct = ci.compute_atr(highs, lows, closes)
     _, _, vol_pct, _ = ci.compute_volume(vols)

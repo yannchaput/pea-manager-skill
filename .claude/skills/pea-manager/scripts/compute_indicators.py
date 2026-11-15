@@ -129,64 +129,39 @@ def compute_rsi(closes, period=14):
     return round(rsi_values[-1], 1), trend
 
 
-def compute_macd(closes, fast=12, slow=26, signal=9):
-    """MACD: EMA_fast - EMA_slow, signal line, histogram.
+def compute_macd(closes, dates=None, fast=12, slow=26, signal=9):
+    """Standard MACD (EMA alpha = 2/(n+1)): fast EMA - slow EMA, signal line, histogram.
 
-    Returns (macd_line, signal_line, histogram, crossover_date, crossover_type).
+    Returns (macd_line, signal_line, histogram, crossover_date, crossover_type,
+    bars_since_cross) for the most recent crossover.
 
-    crossover_type is 'bullish' | 'bearish' | 'none'.
-    crossover_date is the date string or 'N/A'.
+    crossover_type is 'bullish' | 'bearish' | 'none'; crossover_date is the date
+    string or 'N/A' (always 'N/A' without `dates`); bars_since_cross is an int
+    (0 = crossover on the last bar) or None when there is no crossover.
     """
+    nan = float("nan")
     if len(closes) < slow + signal:
-        return float("nan"), float("nan"), float("nan"), "N/A", "none"
+        return nan, nan, nan, "N/A", "none", None
 
-    ema_fast = ema(closes, fast)
-    ema_slow = ema(closes, slow)
+    ema_fast = ema_standard(closes, fast)
+    ema_slow = ema_standard(closes, slow)
+    start = slow - 1  # first bar where both EMAs exist
+    macd = [f - s for f, s in zip(ema_fast[start:], ema_slow[start:])]
+    sig = ema_standard(macd, signal)
 
-    # MACD line = fast EMA - slow EMA
-    macd_line_series = []
-    for i in range(len(closes)):
-        if math.isnan(ema_fast[i]) or math.isnan(ema_slow[i]):
-            macd_line_series.append(float("nan"))
-        else:
-            macd_line_series.append(ema_fast[i] - ema_slow[i])
-
-    # Signal line = EMA(signal) of MACD line
-    # Find first valid MACD index
-    valid_start = next((i for i, v in enumerate(macd_line_series) if not math.isnan(v)), 0)
-    valid_macd = macd_line_series[valid_start:]
-    signal_series_raw = ema(valid_macd, signal)
-
-    # Re-align: pad with NaN at the beginning
-    signal_series = [float("nan")] * (valid_start + signal - 1)
-    signal_series += signal_series_raw[signal - 1:]
-
-    # Find most recent crossover
-    crossover_date = "N/A"
-    crossover_type = "none"
-    for i in range(1, len(closes)):
-        prev_m = macd_line_series[i - 1]
-        prev_s = signal_series[i - 1] if i - 1 < len(signal_series) else float("nan")
-        curr_m = macd_line_series[i]
-        curr_s = signal_series[i] if i < len(signal_series) else float("nan")
-        if math.isnan(prev_m) or math.isnan(prev_s) or math.isnan(curr_m) or math.isnan(curr_s):
-            continue
-        if prev_m <= prev_s and curr_m > curr_s:
+    crossover_date, crossover_type, bars_since = "N/A", "none", None
+    for i in range(signal, len(macd)):  # sig[i-1] is valid from i = signal
+        if macd[i - 1] <= sig[i - 1] and macd[i] > sig[i]:
             crossover_type = "bullish"
-            crossover_date = dates[i] if i < len(dates) else "N/A"
-        elif prev_m >= prev_s and curr_m < curr_s:
+        elif macd[i - 1] >= sig[i - 1] and macd[i] < sig[i]:
             crossover_type = "bearish"
-            crossover_date = dates[i] if i < len(dates) else "N/A"
+        else:
+            continue
+        bars_since = len(macd) - 1 - i
+        crossover_date = dates[start + i] if dates and start + i < len(dates) else "N/A"
 
-    current_macd = macd_line_series[-1] if not math.isnan(macd_line_series[-1]) else float("nan")
-    current_signal = signal_series[-1] if len(signal_series) > 0 and not (math.isnan(signal_series[-1]) if len(signal_series) > 0 else True) else float("nan")
-    histogram = (current_macd - current_signal) if not (math.isnan(current_macd) or math.isnan(current_signal)) else float("nan")
-
-    return (round(current_macd, 2) if not math.isnan(current_macd) else float("nan"),
-            round(current_signal, 2) if not (math.isnan(current_signal)) else float("nan"),
-            round(histogram, 2) if not (math.isnan(histogram) if isinstance(histogram, float) else False) else float("nan"),
-            crossover_date,
-            crossover_type)
+    return (round(macd[-1], 2), round(sig[-1], 2), round(macd[-1] - sig[-1], 2),
+            crossover_date, crossover_type, bars_since)
 
 
 def compute_bollinger(closes, period=20, num_std=2):
@@ -541,7 +516,6 @@ def main():
         data = json.load(sys.stdin)
 
     # Unpack OHLCV arrays
-    global dates  # used by macd crossover detection
     dates = data.get("dates", [])
     opens = data.get("opens", [])
     highs = data.get("highs", [])
@@ -559,7 +533,7 @@ def main():
     # Compute all indicators
     rsi_val, rsi_trend = compute_rsi(closes)
 
-    macd_line, macd_signal, macd_hist, cross_date, cross_type = compute_macd(closes)
+    macd_line, macd_signal, macd_hist, cross_date, cross_type, cross_bars = compute_macd(closes, dates)
     cross_label = f"{cross_type} crossover on {cross_date}" if cross_type != "none" else "none"
 
     bb_upper, bb_middle, bb_lower, bb_pct = compute_bollinger(closes)
