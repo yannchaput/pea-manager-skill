@@ -1,7 +1,7 @@
 ---
 name: pea-manager
 description: Use when the user asks about their PEA portfolio, wants a portfolio review or trade decision, seeks new European stock opportunities, or mentions PEA-eligible French/European stocks. Triggered by phrases like "Fais le point sur mon PEA", "Gérer mon portefeuille PEA", "Dois-je vendre ?", "Des idées d'achat ?".
-allowed-tools: [mcp__yfmcp__yfinance_get_ticker_info, mcp__yfmcp__yfinance_search, mcp__eodhd-mcp__get_historical_stock_prices, mcp__eodhd-mcp__get_live_price_data, mcp__eodhd-mcp__get_stocks_from_search, mcp__eodhd-mcp__resolve_ticker, mcp__eodhd-mcp__get_company_news, mcp__eodhd-mcp__get_exchange_tickers, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_close, mcp__plugin_playwright_playwright__browser_wait_for, Read, Edit, Write, Skill, Skill(skill="finance-trading-expert")]
+allowed-tools: [mcp__yfmcp__yfinance_get_ticker_info, mcp__yfmcp__yfinance_search, mcp__eodhd-mcp__get_historical_stock_prices, mcp__eodhd-mcp__get_live_price_data, mcp__eodhd-mcp__get_stocks_from_search, mcp__eodhd-mcp__resolve_ticker, mcp__eodhd-mcp__get_company_news, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_close, mcp__plugin_playwright_playwright__browser_wait_for, mcp__plugin_playwright_playwright__browser_run_code_unsafe, mcp__plugin_playwright_playwright__browser_tabs, Bash, Agent, Read, Edit, Write, Skill, Skill(skill="finance-trading-expert")]
 metadata:
   author: yannchaput
   version: "2.0"
@@ -44,7 +44,7 @@ If intent is ambiguous: *"Voulez-vous une revue complète (Phase 3), une recherc
 | **3.1+3.2** | Price fetch + technical indicators | One `pea-price-analyst` agent per position |
 | **4-Short.1** | `scripts/scan_universe.py` (Bash, no agent) + `pea-french-market-research` | Script for discovery, one agent for French themes |
 | **4-Long.1** | `scripts/scan_universe.py` (Bash, no agent) + `pea-french-market-research` | Script for discovery, one agent for French themes |
-| **Entry checklist** | TradingView news + Investir news + `pea-dd-analyst` | One agent per source, dd-analyst per ticker |
+| **Entry checklist** | TradingView news + Investir news + `pea-dd-analyst` | One `pea-news-check` agent per source, dd-analyst per ticker |
 
 **Each subagent returns structured output** — the main agent synthesizes, never the subagent. Agent definitions live in `.claude/agents/`. See [`references/workflow-phases.md`](references/workflow-phases.md) for dispatch recipes and how to invoke each agent.
 
@@ -137,7 +137,7 @@ Trigger: user wants to modify holdings. Read current TRACKER.md, ask about chang
 
 ### Phase 4: New Opportunities
 
-**Do NOT use yfinance screeners/search for Phase 4 discovery.** Yahoo's `yfinance_screen`, `yfinance_get_top`, `yfinance_search` are US-centric — they return zero or near-zero European-domiciled results. Use EODHD + Playwright for discovery. **For candidate price/OHLCV enrichment, `scripts/fetch_ohlcv.py` (Yahoo chart API) is allowed** — it's free, no quota, and returns clean JSON.
+**Do NOT use yfinance screeners/search for Phase 4 discovery.** Yahoo's `yfinance_screen`, `yfinance_get_top`, `yfinance_search` are US-centric — they return zero or near-zero European-domiciled results. Use `scripts/scan_universe.py` + Playwright for discovery. **For candidate price/OHLCV enrichment, `scripts/fetch_ohlcv.py` (Yahoo chart API) is allowed** — it's free, no quota, and returns clean JSON.
 
 **Step 4.0 — Strategy routing (MANDATORY):** If the user hasn't specified short or long, ask:
 > *"Quel type d'opportunités recherchez-vous ? Court terme (trading swing, semaines à mois) ou long terme (buy & hold, années) ?"*
@@ -146,7 +146,7 @@ If the user already specified, route directly to 4-Short or 4-Long.
 
 #### Phase 4-Short: Short-Term Scan
 
-**Discovery = script + one agent** (step 4-Short.1). Run `python3 scripts/scan_universe.py --bucket mid` (about 2 s, Yahoo, no quota) and dispatch `pea-french-market-research` in parallel. The script ranks a fixed universe (`assets/universe.json`) with the trend-aware LL-01 score (downtrend or RSI ≥ 70 caps ENTER at WATCH). Do not use the EODHD exchange browse: it has no market-cap filter and returns whole exchanges (see Step A in `references/workflow-phases.md`).
+**Discovery = script + one agent** (step 4-Short.1). Run `python3 scripts/scan_universe.py --bucket mid` (about 2 s, Yahoo, no quota) and dispatch `pea-french-market-research` in parallel. The script ranks a fixed universe (`assets/universe.json`) with the trend-aware LL-01 score (downtrend or RSI ≥ 70 caps ENTER at WATCH). Do not browse EODHD exchange listings: no market-cap filter, whole exchanges returned (see Step A in `references/workflow-phases.md`).
 
 | Agent | File | Role | Budget |
 |-------|------|------|--------|
@@ -172,7 +172,7 @@ Main agent filters (PEA eligibility → large cap → moat → dividend consiste
 
 **Full procedures**: [`references/workflow-phases.md`](references/workflow-phases.md).
 
-**For the mandatory entry checklist** (LL-01), dispatch TradingView and Investir checks as parallel subagents for the target ticker before the main agent synthesizes the buy/skip decision.
+**For the mandatory entry checklist** (LL-01), dispatch two `pea-news-check` agents in parallel for the target ticker, one with source `tradingview` and one with source `investir` (`.claude/agents/pea-news-check.md`), before the main agent synthesizes the buy/skip decision.
 
 ## Mandatory Entry Checklist (LL-01)
 
@@ -206,7 +206,7 @@ Key constraints: French sites (Fortuneo, Zonebourse) block WebFetch — use Play
 
 - **yfinance (yfmcp)**: Phase 3 only — price history, ticker info, news. Do NOT use for Phase 4 opportunity discovery (screener/search are US-centric and return near-zero European results).
 - **Yahoo chart API (free, no key)**: `compute_indicators.py --fetch` and `scan_universe.py` go through `scripts/fetch_ohlcv.py`, which hits `query1.finance.yahoo.com/v8/finance/chart/{TICKER}?range=1y&interval=1d` over plain HTTP and returns clean JSON OHLCV for European tickers — the primary free source for indicator data (Phase 3 and Phase 4 candidate enrichment). No daily quota. Use it instead of generating throwaway parsers.
-- **EODHD (eodhd-mcp)**: Free plan = **20 calls/day shared across ALL agents**. Free tools: `resolve_ticker`, `get_live_price_data`, `get_historical_stock_prices`, `get_company_news`, `get_stocks_from_search`, `get_exchange_tickers`. **Paid (403 on free plan — do NOT call): `stock_screener`, `get_fundamentals_data`, `get_technical_indicators`, `get_bulk_fundamentals`.** Compute indicators via `scripts/compute_indicators.py` instead.
+- **EODHD (eodhd-mcp)**: Free plan = **20 calls/day shared across ALL agents**. Free tools: `resolve_ticker`, `get_live_price_data`, `get_historical_stock_prices`, `get_company_news`, `get_stocks_from_search`. **Paid (403 on free plan — do NOT call): `stock_screener`, `get_fundamentals_data`, `get_technical_indicators`, `get_bulk_fundamentals`.** Compute indicators via `scripts/compute_indicators.py` instead.
 - **Playwright**: Phase 4 — French market research via Boursier.com (sector rotations, analyst recos, fil info). Also used for entry checklist (TradingView + Investir). Each check: 15-35s.
 - **Stooq**: Do NOT use — now gated behind a JavaScript proof-of-work challenge; returns HTML instead of CSV to plain `curl`/`urllib`.
 - **finance-trading-expert skill**: Always invoke via `Skill(skill="finance-trading-expert")` for indicator formulas and interpretation frameworks.

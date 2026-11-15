@@ -35,7 +35,7 @@
     {
       "id": 3,
       "prompt": "As-tu des idées de nouvelles actions européennes à acheter dans mon PEA ? Je cherche des petites valeurs avec un bon potentiel de hausse rapide.",
-      "expected_output": "The skill should enter Phase 4, scanning for PEA-eligible European small/mid caps using yfinance screening, filtering by market cap and momentum, and presenting candidates in a table with company details, current price, catalysts, and entry strategy.",
+      "expected_output": "The skill should enter Phase 4, scanning for PEA-eligible European small/mid caps using `scripts/scan_universe.py`, filtering by market cap and momentum, and presenting candidates in a table with company details, current price, catalysts, and entry strategy.",
       "files": ["evals/files/mock_tracker.md"],
       "expectations": [
         "Mentions PEA eligibility constraint (European/EEA domicile required)",

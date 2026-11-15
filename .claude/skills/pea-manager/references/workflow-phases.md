@@ -4,7 +4,7 @@ This file contains the detailed step-by-step procedures for each phase. The SKIL
 
 ## Phase 1: First-Time Setup
 
-Triggered when no `TRACKER.md` exists in the skill directory.
+Triggered when no `TRACKER.md` exists at the project root.
 
 1. **Explain the purpose**: Briefly tell the user this skill tracks and analyzes a PEA portfolio
 2. **Ask for account-level information**:
@@ -69,28 +69,7 @@ The agent returns RSI(14), MACD(12,26,9), Bollinger(20,2σ), SMA 50/200, ATR(14)
 
 ### Step 3.3: Decision by Strategy
 
-**Tax context check** (before every sell recommendation):
-- **PEA < 5 years**: 31.4% PFU. Compute net: *"Gain brut: +X€. Après PFU (31,4%): +Y€ net."*
-- **PEA ≥ 5 years**: only 18.6% social charges. *"Gain brut: +X€. PS (18,6%): Y€. Net: +Z€."*
-- Never let tax override a price alert, but use PEA age to calibrate recommendations
-
-**Short strategy:**
-- Profit target met (default +10-15%) → **SELL**, show gross/net
-- RSI > 70 AND near upper Bollinger → strong sell signal
-- RSI < 30 AND near lower Bollinger → hold for recovery (unless fundamentals broken)
-- MACD bearish crossover → tighten the stop/alert level
-- Output: **SELL NOW** / **CONSIDER SELLING** / **HOLD** / **ACCUMULATE** with tax-adjusted return
-
-**Long strategy:**
-- Focus on trend, not short-term noise
-- Price below PRU → evaluate if thesis still holds
-- RSI < 30 → potential buying opportunity to average down
-- RSI > 80 → flag even for long holds
-- Fundamental deterioration → propose exit strategy (gradual: sell in thirds; immediate: only if thesis broken)
-- PEA < 5 years → lean toward holding (tax benefit of waiting is significant)
-- Update Thesis section with new observations
-
-**Alert-breach discipline** (LL-03, [`references/lessons-learned.md`](lessons-learned.md)): this covers positions protected only by an alert; a position with a Fortuneo stop (*ordre à seuil de déclenchement*) placed exits automatically and the review just reports the execution. A price alert breach is normally a hard sell trigger (LL-02) — but only for a single, idiosyncratic breach. If ≥3 uncorrelated positions across different sectors breach simultaneously with no shared company-specific news, it's a market-wide pullback, not a portfolio-wide sell signal. Report every breach clearly and keep the alert active, but do not escalate the framing to "action required" — name the pattern to the user and defer to their read of macro conditions.
+The decision rules live in one place: `SKILL.md`, section "3.3 Decision by strategy" (tax context, short and long rules, alert-breach discipline). Apply them from there.
 
 ### Step 3.4: Update TRACKER.md
 
@@ -107,7 +86,7 @@ The agent returns RSI(14), MACD(12,26,9), Bollinger(20,2σ), SMA 50/200, ATR(14)
 
 ## Phase 4: New Opportunities
 
-**Do NOT use yfinance screeners/search for Phase 4 discovery.** Yahoo's `yfinance_screen`, `yfinance_get_top`, `yfinance_search` are US-centric — they return zero or near-zero European-domiciled results. Use EODHD + Playwright for discovery. **For candidate price/OHLCV enrichment, `scripts/fetch_ohlcv.py` (Yahoo chart API) is allowed** — it's free, no quota, and returns clean JSON.
+**Do NOT use yfinance screeners/search for Phase 4 discovery.** Yahoo's `yfinance_screen`, `yfinance_get_top`, `yfinance_search` are US-centric — they return zero or near-zero European-domiciled results. Use `scripts/scan_universe.py` + Playwright for discovery. **For candidate price/OHLCV enrichment, `scripts/fetch_ohlcv.py` (Yahoo chart API) is allowed** — it's free, no quota, and returns clean JSON.
 
 ### Step 4.0: Strategy Routing (MANDATORY)
 
@@ -145,18 +124,18 @@ Agent(subagent_type="pea-french-market-research", prompt="Research current Frenc
 
 #### Step 4-Short.2: Filters
 
-**First, merge and deduplicate** all candidate lists from Agents A and B. Normalize ticker formats (`.PA` vs `.DE` etc.) and remove duplicates by ticker or company name.
+**First, merge and deduplicate** the script's list and the research agent's list. Normalize ticker formats (`.PA` vs `.DE` etc.) and remove duplicates by ticker or company name.
 
 **Then apply filters** in order:
 1. **PEA eligibility**: verify domicile via ISIN country code (first 2 chars). Cross-check with [`references/pea-eligibility.md`](references/pea-eligibility.md).
-2. **Preference for small/mid caps**: €500M–€10B market cap
+2. **Preference for small/mid caps**: the `mid` bucket of `assets/universe.json` (an index-membership proxy, not a live market cap)
 3. **Diversification**: avoid sector over-concentration vs existing portfolio. Prioritize absent/underweight sectors. **Exclude positions in `## Exceptions` from the sector concentration check** — they do not count toward existing allocation.
 4. **Momentum signals**: positive price trend, pullback to key MA, high relative volume, analyst upgrades, upcoming catalyst (earnings, product launch)
-5. **Cross-source confirmation**: candidates found by ≥2 agents get higher confidence
+5. **Cross-source confirmation**: candidates found by both the script and the Boursier.com research get higher confidence
 
 #### Step 4-Short.3: Present
 
-For each candidate: name, ISIN, sector, market cap, current price, 1-3M performance trend, catalyst/risks, suggested strategy (short), entry price, profit target. Rank by attractiveness in a table. Ask user before adding to TRACKER.md.
+For each candidate: name, ISIN, sector, market cap, current price, 1-3M performance trend, catalyst/risks, suggested strategy (short), entry price, profit target. Rank by attractiveness in a table.
 
 #### Step 4-Short.4: Register in Watchlist (AUTOMATIC)
 
@@ -226,7 +205,7 @@ When the main agent needs technical due diligence on a candidate before entry, d
 Agent(subagent_type="pea-dd-analyst", prompt="Due diligence on {TICKER} for PEA {short/long} entry. Entry ~{€X}, target {€Y}, stop {€Z}.")
 ```
 
-The DD agent returns a `DUE DILIGENCE:` block with support/resistance, trend analysis, R/R ratio, and automated LL-01 scoring. The main agent combines this with news cross-check (TradingView + Investir) to make the final buy/skip decision.
+The DD agent returns a `DUE DILIGENCE:` block with support/resistance, trend analysis, R/R ratio, and automated LL-01 scoring. The main agent combines this with the news cross-check (two `pea-news-check` agents, sources `tradingview` and `investir`) to make the final buy/skip decision.
 
 **Key differences from `pea-price-analyst`:**
 - No P&L or tax computation (no position yet)
@@ -238,4 +217,3 @@ The DD agent returns a `DUE DILIGENCE:` block with support/resistance, trend ana
 
 - **Phase 3 (next review)**: the main agent MUST check all watchlist candidates from both sections. For short-term candidates: re-evaluate LL-01 criteria. For long-term candidates: re-evaluate thesis and valuation.
 - **Phase 4 (new scan)**: cross-check new candidates against existing watchlists to avoid duplicates.
-- **Budget conflicts**: if both short and long scans are requested in the same session, run them sequentially (short first, then long) to stay within the 20-call daily EODHD limit. If the budget is already partially consumed, run only the requested scan type.
